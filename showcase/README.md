@@ -31,3 +31,9 @@ Agent 思想对照与实现范围见 [架构映射文档](../docs/agent_module_m
 如首次启用时工作流已经运行失败，在 Actions 中重新运行 Deploy showcase to GitHub Pages。
 
 静态资源和数据使用相对路径，适配仓库子路径；GitHub Pages 无需服务器或 API Key。
+
+## 视觉设计
+
+采用统一的蓝白主色、浅紫点缀、细网格工作流画布与深色代码面板。参考 [Teamily](https://teamily.ai/) 的留白和产品展示层次、[Kiro](https://kiro.dev/) 的开发者工具表达与紫色点缀、[Dify](https://dify.ai/zh) 的蓝色节点画布；图形与 UI 为本项目独立实现，未使用参考站点的品牌素材或产品截图。
+
+`theme.css` 统一视觉变量与各模块外观。首屏 Agent Workspace 为静态示例示意，不是在线执行控制台；具体证据来自下方运行回放。

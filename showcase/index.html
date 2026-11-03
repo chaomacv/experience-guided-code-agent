@@ -3,27 +3,37 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#f7f8f2">
+<meta name="theme-color" content="#ffffff">
 <meta name="description" content="可下载、可复现的 Algorithm Upgrade RAG Agent 实操项目：从 Agent 架构映射到混合检索、规划、代码执行、独立验证、重试与回滚。">
 <title>Algorithm Upgrade RAG Agent — 从架构到可复现的工程闭环</title>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="guide.css">
+<link rel="stylesheet" href="theme.css">
 </head>
 <body>
 <a class="skip" href="#main">跳到内容</a>
-<header class="nav"><a class="brand" href="#main"><span class="mark" aria-hidden="true">↗</span> RAG Planning<span class="lab">Lab</span></a><nav aria-label="主导航"><a href="#agent-framework">Agent 架构</a><a href="#workflow">项目实现</a><a href="#replay">运行证据</a><a href="#start">下载复现</a></nav><a class="nav-github" href="https://github.com/chaomacv/algorithm-upgrade-rag-agent-demo-zh" target="_blank" rel="noopener">GitHub <span>↗</span></a></header>
+<header class="nav"><a class="brand" href="#main"><span class="mark" aria-hidden="true"><svg viewBox="0 0 28 28"><path d="M5 8h7v7H5zM16 4h7v7h-7zM16 18h7v7h-7z"/><path class="mark-edge" d="M12 11.5h4M19.5 11v7M8.5 15v6.5H16"/></svg></span> RAG Agent<span class="lab">LAB</span></a><nav aria-label="主导航"><a href="#agent-framework">Agent 架构</a><a href="#workflow">项目实现</a><a href="#replay">运行证据</a><a href="#start">下载复现</a></nav><a class="nav-github" href="https://github.com/chaomacv/algorithm-upgrade-rag-agent-demo-zh" target="_blank" rel="noopener">GitHub <span>↗</span></a></header>
 <main id="main">
 <section class="hero">
-<div class="eyebrow"><span class="live-dot"></span> ALGORITHM UPGRADE RAG AGENT · 开源实操项目</div>
-<h1>从 Agent 架构，<br>走到<span class="handline">可复现的工程闭环<svg viewBox="0 0 600 20" aria-hidden="true"><path d="M5 13Q290-5 592 10" /></svg></span>。</h1>
+<div class="eyebrow"><span class="live-dot"></span> <span class="eyebrow-badge">OPEN SOURCE</span> ALGORITHM UPGRADE RAG AGENT</div>
+<h1>让工程经验，<br>成为 Agent 的<span class="handline">行动依据</span>。</h1>
 <p class="hero-copy">把历史工程经验接入检索与规划，让代码修改经过执行、验证、重试与回滚。<br>沿着架构读懂实现，下载源码，在自己的项目中复现。</p>
-<div class="hero-actions"><a class="button dark" href="#agent-framework">从 Agent 架构开始 <span>↘</span></a><a class="button quiet" href="#start">下载并运行 <span>↓</span></a></div>
+<div class="hero-actions"><a class="button dark" href="#agent-framework">探索 Agent 架构 <span>→</span></a><a class="button quiet" href="#start">下载源码复现 <span>↗</span></a></div>
 <div class="hero-note"><span>DeepSeek / 可替换 LLM</span><i></i><span>BGE-M3 + BM25</span><i></i><span>Python · FAISS</span></div>
-<div class="hero-visual">
-<div class="visual-caption"><span><span class="tiny-mark">↗</span> 从一次失败，到一次有依据的修复</span><span>SCENARIO REPLAY / 01</span></div>
-<div class="mini-flow"><div><span>01 / EXPERIENCE</span><strong>历史工程经验</strong><p>接口兼容 · 配置切换 · 回退策略</p><div class="file-pill">▧ EngineeringCase.json</div></div><b aria-hidden="true">→</b><div class="flow-main"><span>02 / REASON & ACT</span><strong>检索、规划与执行</strong><p>历史依据 + 当前仓库事实 + Skill</p><div class="stack-lines"><span>Dense</span><span>BM25</span><span class="accent">RRF → Plan</span></div></div><b aria-hidden="true">→</b><div><span>03 / VERIFY</span><strong>让测试给出答案</strong><p>通过交付，失败检索、修复或回滚</p><div class="pass-pill">✓ interface · runtime · regression</div></div></div>
-<div class="feedback-line"><span>↶</span> VALIDATION FAILURE → ERROR-AWARE RETRIEVAL → REPAIR</div>
+<div class="hero-visual product-stage">
+<div class="studio-toolbar"><div class="studio-name"><span class="studio-emblem">⌘</span> Agent Workspace <span class="studio-slash">/</span><strong>algorithm-upgrade</strong></div><span class="studio-status"><i></i> 离线演示 · 第 2 轮</span></div>
+<div class="studio-body">
+<aside class="studio-sidebar"><div class="studio-side-label">PROJECT EXPLORER</div><div class="studio-side-item"><span>▧</span> EngineeringCase</div><div class="studio-side-item"><span>≡</span> Repository Facts</div><div class="studio-side-item"><span>◇</span> Skill</div><div class="studio-side-label side-space">RUN ARTIFACTS</div><div class="studio-side-item"><span>↳</span> retrieval.json</div><div class="studio-side-item selected"><span>↳</span> plan.json</div><div class="studio-side-item"><span>↳</span> validation.json</div><div class="studio-side-note">Historical experience.<br>Executable actions.<br>Verifiable outcomes.</div></aside>
+<div class="studio-canvas"><div class="canvas-task"><span class="task-icon">↗</span><div><small>USER TASK</small><strong>升级算法，保留接口与回退能力</strong></div></div><div class="canvas-route" aria-hidden="true"></div><div class="canvas-node"><span class="canvas-icon blue-icon">⌕</span><div><strong>RAG Retriever</strong><small>BGE-M3 + BM25 → RRF</small></div><span class="node-count">TOP 5</span></div><div class="canvas-route" aria-hidden="true"></div><div class="canvas-node planner-node"><span class="canvas-icon purple-icon">✧</span><div><strong>LLM Planner</strong><small>Experience + Facts + Skill</small></div><span class="node-count">JSON</span></div><div class="canvas-route" aria-hidden="true"></div><div class="canvas-node"><span class="canvas-icon teal-icon">✓</span><div><strong>Execute &amp; Validate</strong><small>实际文件修改 · 独立测试</small></div><span class="node-count valid-count">PASS</span></div><div class="canvas-caption">失败证据 ↶ 再检索、再规划；重试耗尽后回滚</div></div>
+<aside class="studio-inspector"><div class="inspector-tabs"><span>plan.json</span><span>⋯</span></div><pre><span class="code-dim">// Structured action · 摘要</span>
+{
+  <span class="code-key">"tool"</span>: <span class="code-value">"write_file"</span>,
+  <span class="code-key">"path"</span>: <span class="code-value">"ranking.py"</span>,
+  <span class="code-key">"content"</span>: <span class="code-value">"…"</span>
+}</pre><div class="inspector-checks"><div><span>✓</span> Interface contract <b>PASS</b></div><div><span>✓</span> Runtime activation <b>PASS</b></div><div><span>✓</span> Regression test <b>PASS</b></div><div><span>✓</span> Legacy fallback <b>PASS</b></div></div><a href="#replay" class="inspector-link">查看真实运行记录 <span>↗</span></a></aside>
+</div><div class="studio-foot"><span><i></i> 示例记录回放 · 非在线执行控制台</span><span>RETRIEVE → PLAN → EXECUTE → VERIFY</span></div>
 </div>
+<div class="hero-proof"><span><b>12</b> 项 Agent 能力映射</span><i></i><span><b>2</b> 条复现路线</span><i></i><span><b>4</b> 组检索对照</span><a href="https://github.com/chaomacv/algorithm-upgrade-rag-agent-demo-zh" target="_blank" rel="noopener">Python 3.10+ · MIT ↗</a></div>
 </section>
 <div class="principles"><span>经验可追溯</span><span>规划有依据</span><span>结果可验证</span><span>失败可恢复</span></div>
 <section class="section framework" id="agent-framework">
@@ -100,7 +110,7 @@ python -m venv .venv
 python -m pip install -r requirements-core.txt
 python scripts/offline_demo.py outputs/my-first-run</pre><p id="track-note">预设 Planner + Mock embedding；文件修改、验证与回滚实际执行。</p></div><div class="next-links"><a href="source.zip" download><span>01 / SOURCE</span><strong>下载升级源码 <b>↓</b></strong><small>完整 Python 实现、案例、测试与复现文档</small></a><a href="https://github.com/chaomacv/algorithm-upgrade-rag-agent-demo-zh" target="_blank" rel="noopener"><span>02 / GITHUB</span><strong>查看 GitHub 仓库 <b>↗</b></strong><small>浏览源码、评测与运行文档</small></a><a href="demo-repair.html" target="_blank"><span>03 / EVIDENCE</span><strong>打开运行报告 <b>↗</b></strong><small>追溯检索、计划、执行与验证</small></a></div></div></section>
 <section class="section adapt-project"><div class="adapt-grid"><div><span class="section-label">NEXT / BRING YOUR OWN PROJECT</span><h3>把算法示例，换成你的工程任务。</h3></div><ol><li><strong>准备经验</strong><span>历史对话抽取为 Case，或直接提供符合 Schema 的案例。</span></li><li><strong>定义边界</strong><span>配置 template_dir、allowed_files、validation_commands 与 Skill。</span></li><li><strong>运行并查证据</strong><span>接入 Provider；查看每轮产物与 report.html，继续调整经验和测试。</span></li></ol></div><a class="source-link" href="https://github.com/chaomacv/algorithm-upgrade-rag-agent-demo-zh/blob/main/docs/execution_validation.md" target="_blank" rel="noopener">查看 ProjectAdapter 接入指南 ↗</a></section><section class="end-note"><span class="end-mark">↗</span><p>让经验留下来。<br><strong>让下一次修改，更有依据。</strong></p><a class="button dark" href="#workflow">回到工作流 <span>↑</span></a></section>
-</main><footer><a class="brand" href="#main"><span class="mark">↗</span> RAG Planning <span class="lab">Lab</span></a><span>基于开源 RAG Planning Pipeline 的扩展展示 · MIT</span><a href="https://github.com/chaomacv/algorithm-upgrade-rag-agent-demo-zh" target="_blank" rel="noopener">Explore the source ↗</a></footer>
+</main><footer><a class="brand" href="#main"><span class="mark">↗</span> RAG Agent <span class="lab">LAB</span></a><span>基于开源 RAG Planning Pipeline 的扩展展示 · MIT</span><a href="https://github.com/chaomacv/algorithm-upgrade-rag-agent-demo-zh" target="_blank" rel="noopener">Explore the source ↗</a></footer>
 <script src="app.js"></script>
 <script src="guide.js"></script>
 </body></html>
