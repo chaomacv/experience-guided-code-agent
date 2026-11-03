@@ -1,0 +1,366 @@
+{
+  "concepts": {
+    "input": [
+      "User Interface / Input",
+      "把工程目标与当前约束交给 Agent。",
+      "任务文本、Repository Facts、Skill 与执行配置共同构成输入。当前提供 CLI 入口，展示页是说明与运行记录回放。",
+      [
+        "读取 task.txt 与 repository_facts.txt",
+        "从项目副本读取当前可编辑文件",
+        "由配置确定工具、验证命令和重试次数"
+      ],
+      "algo_rag_demo/cli.py",
+      "Task + Facts + Skill"
+    ],
+    "orchestration": [
+      "Agent Orchestrator",
+      "用显式控制流，把各模块组成闭环。",
+      "run_agent() 先创建检查点，再调度检索、规划、执行和验证。是否通过、继续重试或回滚，由实际结果决定。",
+      [
+        "逐轮保存 query、prompt、plan 和验证结果",
+        "验证通过才返回 success",
+        "重试耗尽后恢复检查点并校验"
+      ],
+      "algo_rag_demo/agent/workflow.py",
+      "run_agent()"
+    ],
+    "perception": [
+      "01 / Perception",
+      "先理解任务，再整理可用的工程事实。",
+      "历史对话可由 LLMCaseExtractor 转成 EngineeringCase，并通过 Schema 校验；当前任务侧读取文本、仓库事实和 Skill。这里的感知以文本和代码为主。",
+      [
+        "原始对话 → 结构化工程案例",
+        "保留任务、约束、问题、方案及来源",
+        "当前未提供视觉或音频感知管线"
+      ],
+      "algo_rag_demo/case_pipeline/parser.py",
+      "EngineeringCase / CLI"
+    ],
+    "planning": [
+      "02 / Planning",
+      "让 LLM 产出可执行的计划与动作。",
+      "LLMPlanner 通过 OpenAI-compatible Provider 调用模型，接收任务、检索证据和仓库事实，返回一个结构化 JSON 计划。",
+      [
+        "plan / validation_plan / rollback_plan",
+        "actions 中包含完整文件内容",
+        "JSON 解析与字段整理后交给执行器"
+      ],
+      "algo_rag_demo/agent/planner.py",
+      "LLMPlanner"
+    ],
+    "reasoning": [
+      "03 / Reasoning",
+      "把历史依据放进当前工程问题中推理。",
+      "推理发生在模型规划过程中。prompt_builder.py 分开呈现当前任务、当前仓库事实和历史经验，要求模型对照当前事实做决定。",
+      [
+        "历史经验是参考数据，不是执行指令",
+        "DeepSeek 或其他 OpenAI-compatible 模型",
+        "没有另外实现符号推理引擎"
+      ],
+      "algo_rag_demo/rag/prompt_builder.py",
+      "LLM + Prompt + RAG"
+    ],
+    "memory": [
+      "04 / Memory",
+      "把历史经验作为可检索的长期参考。",
+      "EngineeringCase 经分块和索引后成为外部经验库；单次运行的失败信息也会带入下一轮上下文。Memory 当前是部分实现。",
+      [
+        "长期参考：历史 Case 与检索索引",
+        "轮次上下文：上一次失败信息",
+        "尚未自动把新运行结果写回经验库"
+      ],
+      "algo_rag_demo/case_pipeline/schema.py",
+      "EngineeringCase · 部分实现"
+    ],
+    "tools": [
+      "05 / Tool Use",
+      "用明确的结构定义模型可调用的工具。",
+      "模型通过 actions 表达 write_file 请求。工具参数是白名单相对路径和完整文件内容，不允许模型自行选择任意 shell 命令。",
+      [
+        "tool: write_file",
+        "path: allowed_files 中的路径",
+        "整个动作批次校验后才写入文件"
+      ],
+      "algo_rag_demo/agent/executor.py",
+      "结构化 write_file Action"
+    ],
+    "action": [
+      "06 / Action / Execution",
+      "把结构化动作变成实际文件修改。",
+      "FileProjectAdapter 在运行目录创建项目副本，读取真实文件、保存检查点，再执行通过校验的文件写入。",
+      [
+        "facts() 提供当前代码事实",
+        "checkpoint() 保存原始字节",
+        "execute() 应用白名单文件修改"
+      ],
+      "algo_rag_demo/agent/executor.py",
+      "FileProjectAdapter"
+    ],
+    "observation": [
+      "07 / Observation",
+      "收集执行器与环境给出的实际反馈。",
+      "验证以子进程运行固定命令，保存退出码、stdout、stderr 和超时信息。模型的成功声明不会替代这些执行结果。",
+      [
+        "execution.json 记录修改文件",
+        "validation.json 保留真实测试输出",
+        "events.jsonl 记录阶段与耗时"
+      ],
+      "algo_rag_demo/agent/trace.py",
+      "执行结果 + 测试日志"
+    ],
+    "reflection": [
+      "08 / Reflection",
+      "让失败证据改变下一轮检索与规划。",
+      "workflow.py 将验证或执行错误写入 error_analysis.json，再把失败信息追加到任务查询和仓库上下文。这是已实现的失败反馈机制。",
+      [
+        "task + validation failure → 新检索",
+        "错误上下文进入下一轮 Planner",
+        "尚无独立的 LLM Critic 或经验自动沉淀"
+      ],
+      "algo_rag_demo/agent/workflow.py",
+      "错误反馈 → 再检索 / 再规划"
+    ],
+    "evaluation": [
+      "09 / Evaluation & Guardrails",
+      "用检查约束交付，用评测量化检索取舍。",
+      "固定验证命令决定单次代码修改是否通过；检索消融比较 Dense、BM25 和 RRF。文件白名单、路径检查与重试上限限定执行范围。",
+      [
+        "评测：20 个合成 Case / 30 条查询",
+        "约束：白名单、固定命令、超时和重试上限",
+        "尚无业务成功率基准或操作系统级沙箱"
+      ],
+      "algo_rag_demo/evaluation.py",
+      "评测与约束 · 部分实现"
+    ],
+    "output": [
+      "10 / Response / Output",
+      "交付可追溯的执行结果。",
+      "最终结果是修改后的项目副本与运行报告。报告说明成功、回滚成功或回滚失败，并保留每轮检索、动作与验证证据。",
+      [
+        "final_report.json：最终状态",
+        "report.html：可阅读的运行报告",
+        "workspace/：实际修改后的代码"
+      ],
+      "algo_rag_demo/reporting.py",
+      "Final Report + Project Artifacts"
+    ]
+  },
+  "modules": [
+    [
+      "LLM",
+      "推理与规划的模型能力",
+      "DeepSeek / OpenAI-compatible Provider",
+      "已实现",
+      "模型可替换；不绑定算法场景",
+      "algo_rag_demo/agent/llm_provider.py"
+    ],
+    [
+      "Prompt",
+      "组织任务、事实、证据与输出契约",
+      "prompt_builder.py",
+      "已实现",
+      "经验作参考，当前仓库作事实",
+      "algo_rag_demo/rag/prompt_builder.py"
+    ],
+    [
+      "RAG",
+      "访问外部经验，支持规划决策",
+      "BGE-M3 + BM25 + RRF",
+      "已实现",
+      "支持模块过滤与每 Case 数量限制",
+      "algo_rag_demo/rag/retriever.py"
+    ],
+    [
+      "Planning",
+      "形成步骤与可执行动作",
+      "LLMPlanner",
+      "已实现",
+      "结构化计划和 actions",
+      "algo_rag_demo/agent/planner.py"
+    ],
+    [
+      "Memory",
+      "长期经验与轮次上下文",
+      "历史 EngineeringCase + 失败上下文",
+      "部分实现",
+      "尚无新经验自动写回",
+      "algo_rag_demo/case_pipeline/schema.py"
+    ],
+    [
+      "Tool Use",
+      "模型请求受控工具",
+      "结构化 write_file Action",
+      "已实现",
+      "当前仅提供文件写入工具",
+      "algo_rag_demo/agent/executor.py"
+    ],
+    [
+      "Execution",
+      "对环境实施实际操作",
+      "FileProjectAdapter",
+      "已实现",
+      "在运行目录的项目副本中修改",
+      "algo_rag_demo/agent/executor.py"
+    ],
+    [
+      "Observation",
+      "获得环境与测试反馈",
+      "实际执行结果、退出码与测试日志",
+      "已实现",
+      "保存 stdout / stderr 与阶段事件",
+      "algo_rag_demo/agent/trace.py"
+    ],
+    [
+      "Reflection",
+      "用失败反馈调整后续行为",
+      "失败信息进入下一轮检索和规划",
+      "已实现",
+      "实现失败反馈；尚无独立反思模型",
+      "algo_rag_demo/agent/workflow.py"
+    ],
+    [
+      "Orchestration",
+      "调度模块与管理终止条件",
+      "run_agent()",
+      "已实现",
+      "控制验证、重试、回滚与最终状态",
+      "algo_rag_demo/agent/workflow.py"
+    ],
+    [
+      "Evaluation",
+      "衡量检索与运行结果",
+      "检索消融、测试、运行报告",
+      "部分实现",
+      "合成开发集；尚无独立业务评测",
+      "algo_rag_demo/evaluation.py"
+    ],
+    [
+      "Guardrails",
+      "限制工具、文件与执行范围",
+      "文件白名单、固定验证命令",
+      "部分实现",
+      "当前不提供操作系统级沙箱",
+      "algo_rag_demo/agent/executor.py"
+    ]
+  ],
+  "steps": {
+    "task": [
+      "User Task",
+      "定义一次可验证的工程升级。",
+      "算法替换、工程升级或 Bug 修复需求，以及必须保留的接口、行为和回退约束。",
+      "CLI 读取任务与仓库事实；执行配置指定项目模板、允许修改的文件和验证命令。工作流启动后先 checkpoint。",
+      "任务文本 + Repository Facts + Skill + 检查点",
+      "algo_rag_demo/cli.py",
+      [
+        "examples/custom_data/task.txt",
+        "examples/algorithm_upgrade/skill.md",
+        "checkpoint/manifest.json"
+      ]
+    ],
+    "knowledge": [
+      "Knowledge Preparation",
+      "把历史对话准备成可检索的工程经验。",
+      "历史对话，或已整理好的 EngineeringCase JSON。",
+      "LLMCaseExtractor 抽取任务、约束、问题与解决方案；Pydantic 校验后按任务、约束、解决方案分块。EmbeddingProvider 建立向量和 Chunk 元数据映射，检索时构建 BM25 词法通道。",
+      "EngineeringCase → KnowledgeChunk → Index",
+      "algo_rag_demo/case_pipeline/chunker.py",
+      [
+        "case_pipeline/parser.py",
+        "rag/index_builder.py",
+        "index/metadata.json"
+      ]
+    ],
+    "retrieval": [
+      "RAG Retriever",
+      "同时寻找语义相关与关键词匹配的经验。",
+      "第一轮使用原始任务；重试轮使用“任务 + 验证失败信息”。",
+      "BGE-M3 Dense 获取语义相似度，BM25 匹配错误文本和代码标识符；RRF 按名次融合。可先按模块过滤，再按 Case 限额选出 Top-K，保留分通道排名。",
+      "可追溯的 RetrievalResult 列表",
+      "algo_rag_demo/rag/retriever.py",
+      [
+        "attempts/01/query.json",
+        "attempts/01/retrieval.json",
+        "case_id / chunk_id / source"
+      ]
+    ],
+    "planner": [
+      "LLM Planner",
+      "把经验、事实与 Skill 变成可执行修改。",
+      "原始任务 + 检索经验 + 实际文件内容 + Skill + 上一轮错误。",
+      "build_prompt() 组织上下文；LLMPlanner 通过 Provider 请求 JSON 计划。计划包含理解、依据、步骤、风险和完整文件写入动作。模型填写的 validation_plan 供解释使用，实际验证命令仍来自配置。",
+      "Plan / Actions，而非只返回一段建议",
+      "algo_rag_demo/agent/planner.py",
+      [
+        "attempts/01/prompt.md",
+        "attempts/01/plan.json",
+        "actions: [{tool, path, content}]"
+      ]
+    ],
+    "execute": [
+      "Project Adapter / Executor",
+      "将动作落到真正的项目副本。",
+      "结构化 write_file 动作与允许编辑的文件列表。",
+      "FileProjectAdapter 复制目标项目；对整个动作批次检查工具、路径和内容类型，再写入文件。拒绝白名单以外的路径，验证脚本不在示例编辑白名单中。",
+      "实际文件修改 + execution.json",
+      "algo_rag_demo/agent/executor.py",
+      [
+        "workspace/ranking.py",
+        "workspace/config.json",
+        "attempts/01/execution.json"
+      ]
+    ],
+    "validate": [
+      "Independent Validator",
+      "由独立测试决定修改能否交付。",
+      "修改后的项目副本 + 配置中固定的验证命令。",
+      "adapter.validate() 使用 shell=False 启动子进程并收集真实结果。示例 validate.py 检查接口字段、实际新算法调用、排序与分数回归、旧算法回退。固定测试程序独立于 Planner 的成功声明；这不是另一个 LLM 审核员。",
+      "passed + checks + exit_code / stdout / stderr",
+      "examples/algorithm_upgrade/validate.py",
+      [
+        "check_interface()",
+        "check_runtime()",
+        "check_regression() / check_rollback()",
+        "attempts/01/validation.json"
+      ]
+    ],
+    "report": [
+      "PASS → Final Report",
+      "把通过验证的代码与证据一起交付。",
+      "validation.passed 必须严格为 True。",
+      "workflow.py 结束重试循环，记录 success。reporting.py 将每轮的检索、计划、执行和验证结果整理为可阅读报告；报告与项目副本保存在本次 run_dir。",
+      "成功状态 + 修改后的项目 + 可追溯报告",
+      "algo_rag_demo/reporting.py",
+      [
+        "final_report.json",
+        "report.html",
+        "events.jsonl / workspace/"
+      ]
+    ],
+    "retry": [
+      "FAIL → Error Analysis → RAG → Retry",
+      "把本轮错误变成下一轮的检索依据。",
+      "验证失败、规划异常或执行异常。",
+      "保存 validation 和 error_analysis；以 task + Validation failure 构造下一轮查询。失败信息同时进入 Planner 上下文，促使模型在新的检索证据和实际错误上调整动作。当前错误分析是结构化反馈整理。",
+      "带错误证据的新 Query / Prompt / Plan",
+      "algo_rag_demo/agent/workflow.py",
+      [
+        "attempts/01/error_analysis.json",
+        "attempts/02/query.json",
+        "attempts/02/plan.json"
+      ]
+    ],
+    "rollback": [
+      "Retry Exhausted → Rollback & Verify",
+      "恢复起点，并确认恢复真的发生。",
+      "达到 max_attempts，或外层执行异常 / 中断。",
+      "恢复白名单文件原始字节；原来不存在的文件会删除。逐文件比较恢复结果与检查点，输出 rolled_back 或 rollback_failed。恢复校验是文件字节一致性校验。",
+      "恢复结果 + 校验状态 + 最终报告",
+      "algo_rag_demo/agent/workflow.py",
+      [
+        "FileProjectAdapter.rollback()",
+        "checkpoint/manifest.json",
+        "final_report.json → rollback.restored"
+      ]
+    ]
+  }
+}

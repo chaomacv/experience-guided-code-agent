@@ -14,7 +14,7 @@
 用真实的文件修改和独立验证决定交付、修复或回滚。
 
 [项目展示页](https://chaomacv.github.io/algorithm-upgrade-rag-agent-demo-zh/) ·
-[架构说明](docs/architecture.md) · [评测与取舍](docs/evaluation.md) ·
+[Agent 架构与实现对照](docs/agent_module_mapping.md) · [架构说明](docs/architecture.md) · [评测与取舍](docs/evaluation.md) ·
 [接入自己的项目](docs/execution_validation.md) · [技术讲解](docs/project_story.md)
 
 > 展示页通过 GitHub Pages 部署。`showcase/` 保存静态源码，修改 main 后由 Actions 自动发布。

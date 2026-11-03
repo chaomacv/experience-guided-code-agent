@@ -98,52 +98,6 @@ function renderQuery() {
   });
 }
 
-const architecture = {
-  case: {
-    file:"algo_rag_demo/case_pipeline/",
-    title:"把历史对话，整理成可复用经验。",
-    copy:"LLM 抽取 EngineeringCase，经 Pydantic 约束后，按任务、约束与解决方案生成三个检索视图。",
-    points:["Case ID、Source ID 贯穿数据与检索结果","按 Schema 分块，保留工程语义边界","已有结构化案例时跳过抽取"],
-    path:"algo_rag_demo/case_pipeline/chunker.py"
-  },
-  retrieval:{
-    file:"algo_rag_demo/rag/",
-    title:"语义召回与精确匹配，各有所长。",
-    copy:"BGE-M3 寻找语义相关经验，BM25 匹配错误信息与代码标识符；RRF 通过名次融合，避免直接相加不同量纲的分数。",
-    points:["中文二元片段 + 工程标识符分词","先模块过滤，再融合与选择 Top-K","按 Case 限额，保留分通道排名证据"],
-    path:"algo_rag_demo/rag/retriever.py"
-  },
-  planner:{
-    file:"algo_rag_demo/agent/planner.py",
-    title:"经验是参考，当前仓库才是事实。",
-    copy:"将历史经验、当前可编辑文件和 Skill 组织为提示词，要求 Planner 返回结构化计划与具体文件动作。",
-    points:["可替换 OpenAI-compatible 模型服务","统一 JSON 解析与计划字段整理","验证错误加入下一轮检索及规划上下文"],
-    path:"algo_rag_demo/agent/planner.py"
-  },
-  adapter:{
-    file:"algo_rag_demo/agent/executor.py",
-    title:"用真实执行，闭合规划循环。",
-    copy:"ProjectAdapter 定义 facts、checkpoint、execute、validate 与 rollback，让同一工作流适配不同工程项目。",
-    points:["项目副本与白名单文件动作","独立验证命令、超时和真实退出码","检查点恢复验证与阶段耗时事件"],
-    path:"algo_rag_demo/agent/executor.py"
-  }
-};
-function renderArchitecture(key) {
-  const a = architecture[key];
-  $("#arch-file").textContent = a.file;
-  $("#arch-title").textContent = a.title;
-  $("#arch-copy").textContent = a.copy;
-  $("#arch-points").replaceChildren(...a.points.map(text => node("li", text)));
-  $("#arch-link").href = "source.zip";
-  $("#arch-link").textContent = "下载源码查看 "+a.path.split("/").pop()+" ↓";
-  $("#arch-link").removeAttribute("target");
-  $("#arch-link").setAttribute("download", "");
-  $$(".arch-node").forEach(button => {
-    const active = button.dataset.node === key;
-    button.classList.toggle("active", active);
-    button.setAttribute("aria-pressed", String(active));
-  });
-}
 async function init() {
   const response = await fetch("data.json");
   if (!response.ok) throw new Error("数据加载失败");
@@ -174,8 +128,6 @@ async function init() {
   });
   renderDemo();renderQuery();
 }
-$$(".arch-node").forEach(button=>button.onclick=()=>renderArchitecture(button.dataset.node));
-renderArchitecture("case");
 $("#copy-command").onclick=async()=>{
   const button=$("#copy-command");
   try {
