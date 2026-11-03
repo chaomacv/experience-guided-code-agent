@@ -1,0 +1,38 @@
+{
+  "case_id": "CASE_RANK_SWITCH",
+  "module": "Ranking",
+  "task": "配置写入 NeuralScorer，但线上实际仍调用 LegacyRanker。Verify the active implementation.",
+  "old_algorithm": null,
+  "new_algorithm": null,
+  "constraints": {
+    "engineering": [
+      "运行证据必须证明新函数被调用，不能只改响应 algorithm 标签。"
+    ]
+  },
+  "steps": [
+    "识别失败证据与约束",
+    "实施针对性的修复",
+    "运行独立验证并保留结果"
+  ],
+  "problems": [
+    {
+      "stage": "synthetic incident",
+      "symptom": "配置写入 NeuralScorer，但线上实际仍调用 LegacyRanker。Verify the active implementation.",
+      "root_cause": "工厂读取了旧的 algorithm 配置，响应标签与执行路径不一致。"
+    }
+  ],
+  "solutions": [
+    {
+      "problem": "工厂读取了旧的 algorithm 配置，响应标签与执行路径不一致。",
+      "solution": "检查 factory dispatch 与 config.json；在独立测试中记录 neural_scorer invocation，校验实际调用与分数。"
+    }
+  ],
+  "validation": {
+    "verification": "not_run"
+  },
+  "final_status": "partial",
+  "reusable_experience": [
+    "检查 factory dispatch 与 config.json；在独立测试中记录 neural_scorer invocation，校验实际调用与分数。"
+  ],
+  "source_conversation_id": "SYNTHETIC_RANK_SWITCH"
+}

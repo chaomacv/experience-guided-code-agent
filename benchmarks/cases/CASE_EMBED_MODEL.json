@@ -1,0 +1,39 @@
+{
+  "case_id": "CASE_EMBED_MODEL",
+  "module": "Embedding",
+  "task": "换了同维度的 embedding checkpoint 后检索相关性骤降，没有维度报错。",
+  "old_algorithm": null,
+  "new_algorithm": null,
+  "constraints": {
+    "engineering": [
+      "相同向量维度不等于相同语义空间。",
+      "document 和 query 必须使用相同模型身份。"
+    ]
+  },
+  "steps": [
+    "识别失败证据与约束",
+    "实施针对性的修复",
+    "运行独立验证并保留结果"
+  ],
+  "problems": [
+    {
+      "stage": "synthetic incident",
+      "symptom": "换了同维度的 embedding checkpoint 后检索相关性骤降，没有维度报错。",
+      "root_cause": "新旧 checkpoint 的坐标系不同，索引仍缓存旧模型向量。"
+    }
+  ],
+  "solutions": [
+    {
+      "problem": "新旧 checkpoint 的坐标系不同，索引仍缓存旧模型向量。",
+      "solution": "持久化 provider 与 model revision；加载时比对模型身份，不一致时强制重新编码语料。"
+    }
+  ],
+  "validation": {
+    "verification": "not_run"
+  },
+  "final_status": "partial",
+  "reusable_experience": [
+    "持久化 provider 与 model revision；加载时比对模型身份，不一致时强制重新编码语料。"
+  ],
+  "source_conversation_id": "SYNTHETIC_EMBED_MODEL"
+}

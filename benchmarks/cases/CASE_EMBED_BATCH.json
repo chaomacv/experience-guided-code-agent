@@ -1,0 +1,38 @@
+{
+  "case_id": "CASE_EMBED_BATCH",
+  "module": "Embedding",
+  "task": "一次编码全部历史案例导致 CUDA out of memory。",
+  "old_algorithm": null,
+  "new_algorithm": null,
+  "constraints": {
+    "engineering": [
+      "显存使用应随 batch_size 而非总语料规模增长。"
+    ]
+  },
+  "steps": [
+    "识别失败证据与约束",
+    "实施针对性的修复",
+    "运行独立验证并保留结果"
+  ],
+  "problems": [
+    {
+      "stage": "synthetic incident",
+      "symptom": "一次编码全部历史案例导致 CUDA out of memory。",
+      "root_cause": "encode_documents 把整个 corpus 同时放入 GPU。"
+    }
+  ],
+  "solutions": [
+    {
+      "problem": "encode_documents 把整个 corpus 同时放入 GPU。",
+      "solution": "bounded batches 编码并回收临时张量；测试样本数超过 batch_size 的最后一个小批次。"
+    }
+  ],
+  "validation": {
+    "verification": "not_run"
+  },
+  "final_status": "partial",
+  "reusable_experience": [
+    "bounded batches 编码并回收临时张量；测试样本数超过 batch_size 的最后一个小批次。"
+  ],
+  "source_conversation_id": "SYNTHETIC_EMBED_BATCH"
+}

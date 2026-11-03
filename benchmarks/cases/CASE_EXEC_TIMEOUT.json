@@ -1,0 +1,39 @@
+{
+  "case_id": "CASE_EXEC_TIMEOUT",
+  "module": "Execution",
+  "task": "验证子进程卡死，Agent 一直等不到测试结果。",
+  "old_algorithm": null,
+  "new_algorithm": null,
+  "constraints": {
+    "engineering": [
+      "每条验证命令需 timeout 与真实退出码。",
+      "超时是失败证据，不能当作通过。"
+    ]
+  },
+  "steps": [
+    "识别失败证据与约束",
+    "实施针对性的修复",
+    "运行独立验证并保留结果"
+  ],
+  "problems": [
+    {
+      "stage": "synthetic incident",
+      "symptom": "验证子进程卡死，Agent 一直等不到测试结果。",
+      "root_cause": "外部测试没有结束或依赖长时间阻塞。"
+    }
+  ],
+  "solutions": [
+    {
+      "problem": "外部测试没有结束或依赖长时间阻塞。",
+      "solution": "subprocess.run 设置 timeout、shell=False；捕获 TimeoutExpired，记录失败后决定重试或回滚。"
+    }
+  ],
+  "validation": {
+    "verification": "not_run"
+  },
+  "final_status": "partial",
+  "reusable_experience": [
+    "subprocess.run 设置 timeout、shell=False；捕获 TimeoutExpired，记录失败后决定重试或回滚。"
+  ],
+  "source_conversation_id": "SYNTHETIC_EXEC_TIMEOUT"
+}

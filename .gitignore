@@ -1,4 +1,5 @@
 .venv/
+showcase/source.zip
 __pycache__/
 *.pyc
 .pytest_cache/
@@ -16,4 +17,5 @@ index/
 *.index
 *.npy
 metadata.json
+
 

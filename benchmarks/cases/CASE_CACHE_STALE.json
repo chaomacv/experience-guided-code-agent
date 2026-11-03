@@ -1,0 +1,38 @@
+{
+  "case_id": "CASE_CACHE_STALE",
+  "module": "Indexing",
+  "task": "案例文本已更新，但检索仍返回旧的解决方案。",
+  "old_algorithm": null,
+  "new_algorithm": null,
+  "constraints": {
+    "engineering": [
+      "语料变化应使 embedding 缓存失效。"
+    ]
+  },
+  "steps": [
+    "识别失败证据与约束",
+    "实施针对性的修复",
+    "运行独立验证并保留结果"
+  ],
+  "problems": [
+    {
+      "stage": "synthetic incident",
+      "symptom": "案例文本已更新，但检索仍返回旧的解决方案。",
+      "root_cause": "缓存仅按 case_id 命名，没有包含文本和模型摘要。"
+    }
+  ],
+  "solutions": [
+    {
+      "problem": "缓存仅按 case_id 命名，没有包含文本和模型摘要。",
+      "solution": "使用内容哈希与模型身份作为缓存键；索引 manifest 记录 corpus fingerprint；更新后验证内容来源。"
+    }
+  ],
+  "validation": {
+    "verification": "not_run"
+  },
+  "final_status": "partial",
+  "reusable_experience": [
+    "使用内容哈希与模型身份作为缓存键；索引 manifest 记录 corpus fingerprint；更新后验证内容来源。"
+  ],
+  "source_conversation_id": "SYNTHETIC_CACHE_STALE"
+}

@@ -1,0 +1,38 @@
+{
+  "case_id": "CASE_DEPENDENCY_ABI",
+  "module": "Dependency",
+  "task": "升级 NumPy 后 faiss-cpu 加载失败，出现 _ARRAY_API not found。",
+  "old_algorithm": null,
+  "new_algorithm": null,
+  "constraints": {
+    "engineering": [
+      "二进制扩展与 NumPy ABI 必须兼容。"
+    ]
+  },
+  "steps": [
+    "识别失败证据与约束",
+    "实施针对性的修复",
+    "运行独立验证并保留结果"
+  ],
+  "problems": [
+    {
+      "stage": "synthetic incident",
+      "symptom": "升级 NumPy 后 faiss-cpu 加载失败，出现 _ARRAY_API not found。",
+      "root_cause": "向量索引依赖的 wheel 按旧 ABI 构建。"
+    }
+  ],
+  "solutions": [
+    {
+      "problem": "向量索引依赖的 wheel 按旧 ABI 构建。",
+      "solution": "隔离虚拟环境并选择相容依赖；运行 import smoke test；无法加载 FAISS 时明确采用 NumPy fallback 索引格式。"
+    }
+  ],
+  "validation": {
+    "verification": "not_run"
+  },
+  "final_status": "partial",
+  "reusable_experience": [
+    "隔离虚拟环境并选择相容依赖；运行 import smoke test；无法加载 FAISS 时明确采用 NumPy fallback 索引格式。"
+  ],
+  "source_conversation_id": "SYNTHETIC_DEPENDENCY_ABI"
+}

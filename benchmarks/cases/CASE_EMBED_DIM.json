@@ -1,0 +1,38 @@
+{
+  "case_id": "CASE_EMBED_DIM",
+  "module": "Embedding",
+  "task": "更换向量模型后 FAISS 查询报 dimension mismatch，向量维数与索引不一致。",
+  "old_algorithm": null,
+  "new_algorithm": null,
+  "constraints": {
+    "engineering": [
+      "查询维度必须与 index.d 一致；写入前拒绝 NaN 和 Inf。"
+    ]
+  },
+  "steps": [
+    "识别失败证据与约束",
+    "实施针对性的修复",
+    "运行独立验证并保留结果"
+  ],
+  "problems": [
+    {
+      "stage": "synthetic incident",
+      "symptom": "更换向量模型后 FAISS 查询报 dimension mismatch，向量维数与索引不一致。",
+      "root_cause": "旧索引是 768 维，新 query embedding 是 1024 维。"
+    }
+  ],
+  "solutions": [
+    {
+      "problem": "旧索引是 768 维，新 query embedding 是 1024 维。",
+      "solution": "索引元数据记录 dimension；查询前验证形状和有限值；更换维度后重建索引。"
+    }
+  ],
+  "validation": {
+    "verification": "not_run"
+  },
+  "final_status": "partial",
+  "reusable_experience": [
+    "索引元数据记录 dimension；查询前验证形状和有限值；更换维度后重建索引。"
+  ],
+  "source_conversation_id": "SYNTHETIC_EMBED_DIM"
+}

@@ -1,0 +1,39 @@
+{
+  "case_id": "CASE_RANK_SCHEMA",
+  "module": "Ranking",
+  "task": "升级打分器后，下游读取 metadata.reason 抛出 KeyError。Preserve the downstream metadata contract.",
+  "old_algorithm": null,
+  "new_algorithm": null,
+  "constraints": {
+    "engineering": [
+      "score 必须为数值；metadata.confidence 与 metadata.reason 不能缺失。",
+      "新算法内部结构不能泄漏到公共响应。"
+    ]
+  },
+  "steps": [
+    "识别失败证据与约束",
+    "实施针对性的修复",
+    "运行独立验证并保留结果"
+  ],
+  "problems": [
+    {
+      "stage": "synthetic incident",
+      "symptom": "升级打分器后，下游读取 metadata.reason 抛出 KeyError。Preserve the downstream metadata contract.",
+      "root_cause": "新 scorer 只返回 raw_score，缺少旧输出的解释字段。"
+    }
+  ],
+  "solutions": [
+    {
+      "problem": "新 scorer 只返回 raw_score，缺少旧输出的解释字段。",
+      "solution": "在边界增加 schema adapter，映射分数、置信度与原因；运行 interface contract regression。"
+    }
+  ],
+  "validation": {
+    "verification": "not_run"
+  },
+  "final_status": "partial",
+  "reusable_experience": [
+    "在边界增加 schema adapter，映射分数、置信度与原因；运行 interface contract regression。"
+  ],
+  "source_conversation_id": "SYNTHETIC_RANK_SCHEMA"
+}

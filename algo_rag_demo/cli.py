@@ -68,6 +68,16 @@ def _embedding_settings(config: Dict[str, object]) -> Dict[str, str]:
     }
 
 
+def _retrieval_options(config, args):
+    retrieval = config.get("retrieval", {})
+    return {
+        "mode": getattr(args, "retrieval_mode", None) or retrieval.get("mode", "dense"),
+        "candidate_k": getattr(args, "candidate_k", None) or retrieval.get("candidate_k", 50),
+        "rrf_constant": retrieval.get("rrf_constant", 60),
+        "max_per_case": getattr(args, "max_per_case", None) or retrieval.get("max_per_case"),
+    }
+
+
 def _case_ids(results) -> List[str]:
     """Return unique case ids from retrieval results."""
     return list(dict.fromkeys(item.case_id for item in results))
@@ -112,6 +122,7 @@ def cmd_search(args: argparse.Namespace) -> None:
         provider_name=args.embedding_provider or embedding["provider"],
         embedding_model=args.embedding_model or embedding["model"],
         case_dir=Path(args.case_dir),
+        **_retrieval_options(config, args),
     ).search(query, top_k=top_k, module=args.module)
     table = Table(title="Retrieval Results")
     table.add_column("Rank")
@@ -136,6 +147,7 @@ def cmd_plan(args: argparse.Namespace) -> None:
         provider_name=args.embedding_provider or embedding["provider"],
         embedding_model=args.embedding_model or embedding["model"],
         case_dir=Path(args.case_dir),
+        **_retrieval_options(config, args),
     ).search(task, top_k=top_k, module=args.module)
     plan = _llm_planner(config).plan(task, results, repository_facts)
     run_dir = _run_dir("plan")
@@ -204,6 +216,7 @@ def _run_pipeline(args: argparse.Namespace, config: Dict[str, object], run_dir: 
         provider_name=args.embedding_provider or embedding["provider"],
         embedding_model=args.embedding_model or embedding["model"],
         case_dir=working_case_dir,
+        **_retrieval_options(config, args),
     )
     if args.plan_only:
         results = retriever.search(task, top_k=top_k, module=args.module)
@@ -278,6 +291,9 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--embedding-provider")
     p.add_argument("--embedding-model")
     p.add_argument("--top-k", type=int)
+    p.add_argument("--retrieval-mode", choices=["dense", "bm25", "hybrid"])
+    p.add_argument("--candidate-k", type=int)
+    p.add_argument("--max-per-case", type=int)
     p.add_argument("--module")
     p.set_defaults(func=cmd_search)
 
@@ -290,6 +306,9 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--embedding-provider")
     p.add_argument("--embedding-model")
     p.add_argument("--top-k", type=int)
+    p.add_argument("--retrieval-mode", choices=["dense", "bm25", "hybrid"])
+    p.add_argument("--candidate-k", type=int)
+    p.add_argument("--max-per-case", type=int)
     p.add_argument("--module")
     p.set_defaults(func=cmd_plan)
 
@@ -302,6 +321,9 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--embedding-provider")
     p.add_argument("--embedding-model")
     p.add_argument("--top-k", type=int)
+    p.add_argument("--retrieval-mode", choices=["dense", "bm25", "hybrid"])
+    p.add_argument("--candidate-k", type=int)
+    p.add_argument("--max-per-case", type=int)
     p.add_argument("--module")
     p.add_argument("--plan-only", action="store_true", help="Generate a plan without executing project tools")
     p.set_defaults(func=cmd_run)
@@ -317,3 +339,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

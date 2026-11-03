@@ -1,0 +1,38 @@
+{
+  "case_id": "CASE_INDEX_FILTER",
+  "module": "Retrieval",
+  "task": "按 module 过滤时返回空列表，但索引中存在匹配的案例。",
+  "old_algorithm": null,
+  "new_algorithm": null,
+  "constraints": {
+    "engineering": [
+      "metadata filter 应在最终 top_k 选择之前生效。"
+    ]
+  },
+  "steps": [
+    "识别失败证据与约束",
+    "实施针对性的修复",
+    "运行独立验证并保留结果"
+  ],
+  "problems": [
+    {
+      "stage": "synthetic incident",
+      "symptom": "按 module 过滤时返回空列表，但索引中存在匹配的案例。",
+      "root_cause": "先截断全库 top_k，再做 module filter；目标在候选窗口之外。"
+    }
+  ],
+  "solutions": [
+    {
+      "problem": "先截断全库 top_k，再做 module filter；目标在候选窗口之外。",
+      "solution": "扩大或完整扫描候选后过滤，再选 top_k；大规模场景使用支持预过滤的索引。"
+    }
+  ],
+  "validation": {
+    "verification": "not_run"
+  },
+  "final_status": "partial",
+  "reusable_experience": [
+    "扩大或完整扫描候选后过滤，再选 top_k；大规模场景使用支持预过滤的索引。"
+  ],
+  "source_conversation_id": "SYNTHETIC_INDEX_FILTER"
+}

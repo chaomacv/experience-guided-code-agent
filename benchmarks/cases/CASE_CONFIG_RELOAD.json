@@ -1,0 +1,38 @@
+{
+  "case_id": "CASE_CONFIG_RELOAD",
+  "module": "Configuration",
+  "task": "磁盘上的配置已修改，长驻进程仍使用初始化时缓存的旧设置。",
+  "old_algorithm": null,
+  "new_algorithm": null,
+  "constraints": {
+    "engineering": [
+      "配置重新加载必须有明确生效时机。"
+    ]
+  },
+  "steps": [
+    "识别失败证据与约束",
+    "实施针对性的修复",
+    "运行独立验证并保留结果"
+  ],
+  "problems": [
+    {
+      "stage": "synthetic incident",
+      "symptom": "磁盘上的配置已修改，长驻进程仍使用初始化时缓存的旧设置。",
+      "root_cause": "服务只在启动时读取 config.json，运行时对象未更新。"
+    }
+  ],
+  "solutions": [
+    {
+      "problem": "服务只在启动时读取 config.json，运行时对象未更新。",
+      "solution": "定义 reload 或重启边界；用新请求检查实际配置 revision 与运行分发，区分磁盘内容和内存状态。"
+    }
+  ],
+  "validation": {
+    "verification": "not_run"
+  },
+  "final_status": "partial",
+  "reusable_experience": [
+    "定义 reload 或重启边界；用新请求检查实际配置 revision 与运行分发，区分磁盘内容和内存状态。"
+  ],
+  "source_conversation_id": "SYNTHETIC_CONFIG_RELOAD"
+}

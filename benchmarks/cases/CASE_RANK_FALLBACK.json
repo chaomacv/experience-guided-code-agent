@@ -1,0 +1,39 @@
+{
+  "case_id": "CASE_RANK_FALLBACK",
+  "module": "Ranking",
+  "task": "替换排序模块时保留 LegacyRanker fallback 与旧排序行为。",
+  "old_algorithm": null,
+  "new_algorithm": null,
+  "constraints": {
+    "engineering": [
+      "新实现异常时仍可显式选用旧算法。",
+      "不得删除旧实现或改变其 quality 排序。"
+    ]
+  },
+  "steps": [
+    "识别失败证据与约束",
+    "实施针对性的修复",
+    "运行独立验证并保留结果"
+  ],
+  "problems": [
+    {
+      "stage": "synthetic incident",
+      "symptom": "替换排序模块时保留 LegacyRanker fallback 与旧排序行为。",
+      "root_cause": "迁移时删除旧分支导致无法快速回退。"
+    }
+  ],
+  "solutions": [
+    {
+      "problem": "迁移时删除旧分支导致无法快速回退。",
+      "solution": "为 algorithm=LegacyRanker 保留独立分发路径；对原始结果和数值做回退测试。"
+    }
+  ],
+  "validation": {
+    "verification": "not_run"
+  },
+  "final_status": "partial",
+  "reusable_experience": [
+    "为 algorithm=LegacyRanker 保留独立分发路径；对原始结果和数值做回退测试。"
+  ],
+  "source_conversation_id": "SYNTHETIC_RANK_FALLBACK"
+}

@@ -1,0 +1,38 @@
+{
+  "case_id": "CASE_RANK_TIES",
+  "module": "Ranking",
+  "task": "算法升级后相同分数的候选每次顺序不同，分页结果抖动。",
+  "old_algorithm": null,
+  "new_algorithm": null,
+  "constraints": {
+    "engineering": [
+      "同分结果排序稳定；分页不得重复或跳过候选。"
+    ]
+  },
+  "steps": [
+    "识别失败证据与约束",
+    "实施针对性的修复",
+    "运行独立验证并保留结果"
+  ],
+  "problems": [
+    {
+      "stage": "synthetic incident",
+      "symptom": "算法升级后相同分数的候选每次顺序不同，分页结果抖动。",
+      "root_cause": "仅使用 score 排序，原始容器顺序不稳定。"
+    }
+  ],
+  "solutions": [
+    {
+      "problem": "仅使用 score 排序，原始容器顺序不稳定。",
+      "solution": "增加稳定的次级排序键 item.id；重复运行同分候选与跨页测试。"
+    }
+  ],
+  "validation": {
+    "verification": "not_run"
+  },
+  "final_status": "partial",
+  "reusable_experience": [
+    "增加稳定的次级排序键 item.id；重复运行同分候选与跨页测试。"
+  ],
+  "source_conversation_id": "SYNTHETIC_RANK_TIES"
+}

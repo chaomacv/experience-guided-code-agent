@@ -60,3 +60,17 @@ python -m pytest -q
 
 测试使用受控模型响应与测试向量验证真实执行、失败再检索和回滚，
 不等于在线 DeepSeek + BGE-M3 验证。
+
+# 扩展命令
+
+```bash
+python scripts/offline_demo.py outputs/repair
+python scripts/offline_demo.py outputs/rollback --scenario rollback
+python -m algo_rag_demo.evaluation --provider bge-m3 --output-dir outputs/evaluation
+python -m algo_rag_demo.reporting --run-dir outputs/repair --output outputs/repair/report.html
+```
+
+search、plan、run 支持 --retrieval-mode dense/bm25/hybrid、--candidate-k 和 --max-per-case。
+也可在 JSON 的 retrieval 配置中设置 mode、candidate_k、rrf_constant、max_per_case。
+离线演示每次需指定新的输出目录。评测不调用规划 LLM。
+

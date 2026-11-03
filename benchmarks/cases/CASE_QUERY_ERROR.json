@@ -1,0 +1,39 @@
+{
+  "case_id": "CASE_QUERY_ERROR",
+  "module": "Retrieval",
+  "task": "首次执行失败后，重复检索原始任务，总是拿到不相关的成功迁移经验。",
+  "old_algorithm": null,
+  "new_algorithm": null,
+  "constraints": {
+    "engineering": [
+      "修复查询应包含验证错误和症状。",
+      "失败案例也有可复用的诊断价值。"
+    ]
+  },
+  "steps": [
+    "识别失败证据与约束",
+    "实施针对性的修复",
+    "运行独立验证并保留结果"
+  ],
+  "problems": [
+    {
+      "stage": "synthetic incident",
+      "symptom": "首次执行失败后，重复检索原始任务，总是拿到不相关的成功迁移经验。",
+      "root_cause": "重试没有把 stderr、缺失字段和失败阶段传回检索。"
+    }
+  ],
+  "solutions": [
+    {
+      "problem": "重试没有把 stderr、缺失字段和失败阶段传回检索。",
+      "solution": "以 task + validation failure 构造新 query；保留失败案例，记录本轮 query 与检索来源用于对比。"
+    }
+  ],
+  "validation": {
+    "verification": "not_run"
+  },
+  "final_status": "partial",
+  "reusable_experience": [
+    "以 task + validation failure 构造新 query；保留失败案例，记录本轮 query 与检索来源用于对比。"
+  ],
+  "source_conversation_id": "SYNTHETIC_QUERY_ERROR"
+}

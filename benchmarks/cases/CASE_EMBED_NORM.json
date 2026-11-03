@@ -1,0 +1,38 @@
+{
+  "case_id": "CASE_EMBED_NORM",
+  "module": "Embedding",
+  "task": "IndexFlatIP 检索被长向量主导，dot product 与 cosine 排序不同。",
+  "old_algorithm": null,
+  "new_algorithm": null,
+  "constraints": {
+    "engineering": [
+      "文档与查询都应 L2 normalize。"
+    ]
+  },
+  "steps": [
+    "识别失败证据与约束",
+    "实施针对性的修复",
+    "运行独立验证并保留结果"
+  ],
+  "problems": [
+    {
+      "stage": "synthetic incident",
+      "symptom": "IndexFlatIP 检索被长向量主导，dot product 与 cosine 排序不同。",
+      "root_cause": "只有 query 做了归一化，document 的向量范数影响 inner product。"
+    }
+  ],
+  "solutions": [
+    {
+      "problem": "只有 query 做了归一化，document 的向量范数影响 inner product。",
+      "solution": "对两侧向量都做 L2 normalization，处理零范数；用可控向量验证余弦排序一致。"
+    }
+  ],
+  "validation": {
+    "verification": "not_run"
+  },
+  "final_status": "partial",
+  "reusable_experience": [
+    "对两侧向量都做 L2 normalization，处理零范数；用可控向量验证余弦排序一致。"
+  ],
+  "source_conversation_id": "SYNTHETIC_EMBED_NORM"
+}

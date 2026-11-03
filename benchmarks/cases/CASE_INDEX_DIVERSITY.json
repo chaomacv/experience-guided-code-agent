@@ -1,0 +1,38 @@
+{
+  "case_id": "CASE_INDEX_DIVERSITY",
+  "module": "Retrieval",
+  "task": "Top-5 检索结果全来自同一历史案例，提示词缺少其他故障经验。",
+  "old_algorithm": null,
+  "new_algorithm": null,
+  "constraints": {
+    "engineering": [
+      "有限上下文应覆盖不同 case_id。"
+    ]
+  },
+  "steps": [
+    "识别失败证据与约束",
+    "实施针对性的修复",
+    "运行独立验证并保留结果"
+  ],
+  "problems": [
+    {
+      "stage": "synthetic incident",
+      "symptom": "Top-5 检索结果全来自同一历史案例，提示词缺少其他故障经验。",
+      "root_cause": "一个 Case 的 task、constraint、solution 三个 Chunk 同时挤占上下文。"
+    }
+  ],
+  "solutions": [
+    {
+      "problem": "一个 Case 的 task、constraint、solution 三个 Chunk 同时挤占上下文。",
+      "solution": "融合打分后按 case_id 限额 max_per_case；记录覆盖度并消融对比相关性损失。"
+    }
+  ],
+  "validation": {
+    "verification": "not_run"
+  },
+  "final_status": "partial",
+  "reusable_experience": [
+    "融合打分后按 case_id 限额 max_per_case；记录覆盖度并消融对比相关性损失。"
+  ],
+  "source_conversation_id": "SYNTHETIC_INDEX_DIVERSITY"
+}

@@ -1,0 +1,38 @@
+{
+  "case_id": "CASE_PLAN_JSON",
+  "module": "Planning",
+  "task": "LLM 返回 Markdown 围栏、数组或不完整 JSON，执行器无法解析动作。",
+  "old_algorithm": null,
+  "new_algorithm": null,
+  "constraints": {
+    "engineering": [
+      "计划必须是 JSON object，actions 必须是合法列表。"
+    ]
+  },
+  "steps": [
+    "识别失败证据与约束",
+    "实施针对性的修复",
+    "运行独立验证并保留结果"
+  ],
+  "problems": [
+    {
+      "stage": "synthetic incident",
+      "symptom": "LLM 返回 Markdown 围栏、数组或不完整 JSON，执行器无法解析动作。",
+      "root_cause": "模型遵循格式不稳定，宽松字符串处理掩盖结构错误。"
+    }
+  ],
+  "solutions": [
+    {
+      "problem": "模型遵循格式不稳定，宽松字符串处理掩盖结构错误。",
+      "solution": "统一解析围栏中的 JSON；用结构验证拒绝数组、拼接对象与非法 action；把解析错误作为失败证据反馈。"
+    }
+  ],
+  "validation": {
+    "verification": "not_run"
+  },
+  "final_status": "partial",
+  "reusable_experience": [
+    "统一解析围栏中的 JSON；用结构验证拒绝数组、拼接对象与非法 action；把解析错误作为失败证据反馈。"
+  ],
+  "source_conversation_id": "SYNTHETIC_PLAN_JSON"
+}

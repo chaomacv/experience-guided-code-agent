@@ -1,0 +1,30 @@
+{"id":"Q01","category":"identifier","query":"metadata.reason KeyError after replacing scorer","relevance":{"CASE_RANK_SCHEMA":3}}
+{"id":"Q02","category":"semantic","query":"新评分器输出的解释信息消失了，消费者解析失败，怎样兼容旧协议？","relevance":{"CASE_RANK_SCHEMA":3}}
+{"id":"Q03","category":"identifier","query":"algorithm label NeuralScorer but neural_scorer never called","relevance":{"CASE_RANK_SWITCH":3,"CASE_CONFIG_RELOAD":1}}
+{"id":"Q04","category":"semantic","query":"配置已经切换了，但结果看起来还是上一版模型，怎么证明新实现生效？","relevance":{"CASE_RANK_SWITCH":3,"CASE_CONFIG_RELOAD":2}}
+{"id":"Q05","category":"identifier","query":"algorithm=LegacyRanker fallback preserve original quality ranking","relevance":{"CASE_RANK_FALLBACK":3}}
+{"id":"Q06","category":"semantic","query":"新排序组件上线以后出了问题，我想快速退回旧路径并确认结果没变。","relevance":{"CASE_RANK_FALLBACK":3,"CASE_EXEC_CHECKPOINT":1}}
+{"id":"Q07","category":"identifier","query":"rank([]) stack empty division by zero","relevance":{"CASE_RANK_EMPTY":3}}
+{"id":"Q08","category":"semantic","query":"没有任何候选时，新的打分模块直接崩溃，该在哪里处理边界？","relevance":{"CASE_RANK_EMPTY":3}}
+{"id":"Q09","category":"semantic","query":"同样的数据重复请求，得分相同的条目顺序漂移，翻页还会漏数据。","relevance":{"CASE_RANK_TIES":3}}
+{"id":"Q10","category":"identifier","query":"FAISS dimension mismatch query 1024 index 768","relevance":{"CASE_EMBED_DIM":3}}
+{"id":"Q11","category":"semantic","query":"检索编码器换过版本，向量长度没变却找不到相关历史经验了。","relevance":{"CASE_EMBED_MODEL":3,"CASE_CACHE_STALE":1}}
+{"id":"Q12","category":"identifier","query":"IndexFlatIP cosine document L2 normalization","relevance":{"CASE_EMBED_NORM":3}}
+{"id":"Q13","category":"semantic","query":"相似度总偏爱模长大的文档，两边的表示应该如何处理？","relevance":{"CASE_EMBED_NORM":3}}
+{"id":"Q14","category":"identifier","query":"encode_documents CUDA out of memory batch_size","relevance":{"CASE_EMBED_BATCH":3}}
+{"id":"Q15","category":"semantic","query":"历史经验越来越多，一次索引就把显卡撑爆，如何让内存消耗有上界？","relevance":{"CASE_EMBED_BATCH":3}}
+{"id":"Q16","category":"identifier","query":"module filter applied after top_k returns no matches","relevance":{"CASE_INDEX_FILTER":3}}
+{"id":"Q17","category":"semantic","query":"明明有同模块的历史记录，加上筛选条件后反而一条也找不到。","relevance":{"CASE_INDEX_FILTER":3}}
+{"id":"Q18","category":"identifier","query":"max_per_case duplicate case_id task constraint solution chunks","relevance":{"CASE_INDEX_DIVERSITY":3}}
+{"id":"Q19","category":"semantic","query":"检索到的五条经验其实是同一件事的不同片段，怎么增加上下文覆盖？","relevance":{"CASE_INDEX_DIVERSITY":3}}
+{"id":"Q20","category":"identifier","query":"write_file ../validate.py reject entire actions batch","relevance":{"CASE_EXEC_PATH":3}}
+{"id":"Q21","category":"semantic","query":"代理计划里夹杂了不允许修改的文件，前面的合法动作能先执行吗？","relevance":{"CASE_EXEC_PATH":3}}
+{"id":"Q22","category":"identifier","query":"checkpoint original bytes remove newly created files rollback_failed","relevance":{"CASE_EXEC_CHECKPOINT":3}}
+{"id":"Q23","category":"semantic","query":"重试全部耗尽后，如何确认恢复的是最初状态，而不是某次中间修改？","relevance":{"CASE_EXEC_CHECKPOINT":3}}
+{"id":"Q24","category":"identifier","query":"same mtime same size __pycache__ PYTHONDONTWRITEBYTECODE stale pyc","relevance":{"CASE_EXEC_BYTECODE":3}}
+{"id":"Q25","category":"semantic","query":"代码明明已经改了，测试却像在跑旧版本，连续快速修改时才出现。","relevance":{"CASE_EXEC_BYTECODE":3,"CASE_CONFIG_RELOAD":1}}
+{"id":"Q26","category":"identifier","query":"subprocess TimeoutExpired validation shell=False","relevance":{"CASE_EXEC_TIMEOUT":3}}
+{"id":"Q27","category":"identifier","query":"faiss-cpu numpy _ARRAY_API not found ABI wheel import failure","relevance":{"CASE_DEPENDENCY_ABI":3}}
+{"id":"Q28","category":"semantic","query":"知识库内容更新过，但召回的还是旧方案，要检查什么缓存标识？","relevance":{"CASE_CACHE_STALE":3,"CASE_EMBED_MODEL":1}}
+{"id":"Q29","category":"multi","query":"失败后一直重试同一方案，怎么让检索利用缺失字段和测试报错？","relevance":{"CASE_QUERY_ERROR":3,"CASE_RANK_SCHEMA":1}}
+{"id":"Q30","category":"multi","query":"模型计划不是合法对象，解析失败后如何记录并带着错误再次规划？","relevance":{"CASE_PLAN_JSON":3,"CASE_QUERY_ERROR":2}}

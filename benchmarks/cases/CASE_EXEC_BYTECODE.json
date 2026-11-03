@@ -1,0 +1,38 @@
+{
+  "case_id": "CASE_EXEC_BYTECODE",
+  "module": "Execution",
+  "task": "连续修改 Python 文件后验证仍执行旧代码，修改时间和文件大小恰好相同。",
+  "old_algorithm": null,
+  "new_algorithm": null,
+  "constraints": {
+    "engineering": [
+      "每轮验证必须执行最新源代码。"
+    ]
+  },
+  "steps": [
+    "识别失败证据与约束",
+    "实施针对性的修复",
+    "运行独立验证并保留结果"
+  ],
+  "problems": [
+    {
+      "stage": "synthetic incident",
+      "symptom": "连续修改 Python 文件后验证仍执行旧代码，修改时间和文件大小恰好相同。",
+      "root_cause": "Python 重用了 timestamp-based __pycache__；PYTHONDONTWRITEBYTECODE 不能阻止读取既有 pyc。"
+    }
+  ],
+  "solutions": [
+    {
+      "problem": "Python 重用了 timestamp-based __pycache__；PYTHONDONTWRITEBYTECODE 不能阻止读取既有 pyc。",
+      "solution": "项目副本排除旧 __pycache__，验证进程禁写字节码；测试同秒同大小更新的实际执行输出。"
+    }
+  ],
+  "validation": {
+    "verification": "not_run"
+  },
+  "final_status": "partial",
+  "reusable_experience": [
+    "项目副本排除旧 __pycache__，验证进程禁写字节码；测试同秒同大小更新的实际执行输出。"
+  ],
+  "source_conversation_id": "SYNTHETIC_EXEC_BYTECODE"
+}

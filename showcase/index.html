@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#f7f8f2">
+<meta name="description" content="一个让历史工程经验参与代码规划、执行、验证与修复的开源 RAG Planning 项目。探索混合检索实验与可追溯的执行闭环。">
+<title>RAG Planning Lab — 让代码演进有经验可循</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到内容</a>
+<header class="nav"><a class="brand" href="#main"><span class="mark" aria-hidden="true">↗</span> RAG Planning<span class="lab">Lab</span></a><nav aria-label="主导航"><a href="#workflow">工作流</a><a href="#retrieval">检索实验</a><a href="#architecture">技术架构</a></nav><a class="nav-github" href="https://github.com/chaomacv/algorithm-upgrade-rag-agent-demo-zh" target="_blank" rel="noopener">GitHub <span>↗</span></a></header>
+<main id="main">
+<section class="hero">
+<div class="eyebrow"><span class="live-dot"></span> 开源工程实验 · EXPERIENCE-DRIVEN AGENT</div>
+<h1>让历史经验，<br>驱动下一次<span class="handline">代码演进<svg viewBox="0 0 440 20" aria-hidden="true"><path d="M5 13Q190-5 432 10M60 18Q220 4 380 15" /></svg></span>。</h1>
+<p class="hero-copy">把散落在工程对话里的经验，变成可检索的依据。<br>让 Agent 带着依据规划，用真实测试验证，在失败中修复。</p>
+<div class="hero-actions"><a class="button dark" href="#workflow">探索执行闭环 <span>↘</span></a><a class="button quiet" href="#retrieval">看看实验结果 <span>→</span></a></div>
+<div class="hero-note"><span>DeepSeek / 可替换 LLM</span><i></i><span>BGE-M3 + BM25</span><i></i><span>Python · FAISS</span></div>
+<div class="hero-visual">
+<div class="visual-caption"><span><span class="tiny-mark">↗</span> 从一次失败，到一次有依据的修复</span><span>SCENARIO REPLAY / 01</span></div>
+<div class="mini-flow"><div><span>01 / EXPERIENCE</span><strong>历史工程经验</strong><p>接口兼容 · 配置切换 · 回退策略</p><div class="file-pill">▧ EngineeringCase.json</div></div><b aria-hidden="true">→</b><div class="flow-main"><span>02 / REASON & ACT</span><strong>检索、规划与执行</strong><p>历史依据 + 当前仓库事实 + Skill</p><div class="stack-lines"><span>Dense</span><span>BM25</span><span class="accent">RRF → Plan</span></div></div><b aria-hidden="true">→</b><div><span>03 / VERIFY</span><strong>让测试给出答案</strong><p>通过交付，失败检索、修复或回滚</p><div class="pass-pill">✓ interface · runtime · regression</div></div></div>
+<div class="feedback-line"><span>↶</span> VALIDATION FAILURE → ERROR-AWARE RETRIEVAL → REPAIR</div>
+</div>
+</section>
+<div class="principles"><span>经验可追溯</span><span>规划有依据</span><span>结果可验证</span><span>失败可恢复</span></div>
+<section class="section intro" id="workflow">
+<div class="section-label">01 / THE WORKFLOW</div><div class="section-heading"><h2>一次修改，<br>不止一次生成。</h2><p>模型给出计划只是开始。<br>实际执行与独立验证，决定下一步。</p></div>
+<div class="workspace">
+<div class="workspace-top"><div><span class="window-dots">● ● ●</span><span> algorithm-upgrade / run evidence</span></div><span class="replay-tag">示例回放</span></div>
+<div class="demo-layout"><aside class="demo-sidebar"><div class="sidebar-label">选择执行路径</div><button class="scenario active" data-scenario="repair">↗ <span>失败后修复<small>schema adapter → 验证通过</small></span></button><button class="scenario" data-scenario="rollback">↶ <span>重试耗尽回滚<small>恢复文件 → 校验原始字节</small></span></button><div class="sidebar-task"><span>当前任务</span><p>替换 LegacyRanker，保留下游 metadata 契约与旧算法回退。</p></div><div class="demo-provenance">脚本化 Planner · Mock 向量<br>文件修改与验证子进程实际执行<br><a href="demo-repair.html" target="_blank">查看完整运行记录 ↗</a></div></aside>
+<div class="demo-main"><div class="demo-controls"><div id="attempts" class="segmented"></div><span id="attempt-status" class="status"></span></div><div class="stage-tabs" role="tablist" aria-label="执行阶段"><button role="tab" aria-selected="true" data-stage="retrieval">检索依据</button><button role="tab" aria-selected="false" data-stage="plan">修改计划</button><button role="tab" aria-selected="false" data-stage="validation">验证结果</button></div><div id="demo-content" class="demo-content" role="tabpanel" aria-live="polite">正在读取运行记录…</div><div class="demo-bottom"><span id="demo-footer"></span><span>每一步均有 JSON 产物 ↗</span></div></div></div>
+</div>
+<div class="narrative-grid"><article><span class="number">01.</span><h3>检索的是工程经验</h3><p>把任务、约束、问题和解决方案整理成 EngineeringCase，保留 Case 与来源标识。</p></article><article><span class="number">02.</span><h3>验证驱动下一步</h3><p>错误信息进入下一轮查询与提示词，让重试获得新的证据，而非原样再生成。</p></article><article><span class="number">03.</span><h3>保留可恢复的起点</h3><p>限制可编辑文件，执行独立检查；重试耗尽时恢复检查点，并核对恢复结果。</p></article></div>
+</section>
+<section class="section research" id="retrieval">
+<div class="section-label">02 / RETRIEVAL, WITH EVIDENCE</div><div class="section-heading"><h2>检索做得更复杂，<br>到底换来了什么？</h2><p>同一语料、同一组查询、同样的上下文预算。<br>用四组消融，看到收益，也看到取舍。</p></div>
+<div class="research-strip"><div><strong>20<span> 个</span></strong><p>合成工程案例</p></div><div><strong>30<span> 条</span></strong><p>带分级标注的查询</p></div><div><strong>60<span> 个</span></strong><p>Schema 对齐分块</p></div><div><strong>4<span> 组</span></strong><p>检索方案对比</p></div></div>
+<div class="experiment"><div class="experiment-heading"><h3>打开一次检索，看看排序依据。</h3><span>BGE-M3 · RTX 4090 · K=5</span></div><label for="query-select">选择评测查询</label><select id="query-select" aria-label="评测查询"></select><div class="mode-controls" role="group" aria-label="检索方案"><button data-mode="dense" class="active">Dense</button><button data-mode="bm25">BM25</button><button data-mode="hybrid">Hybrid / RRF</button><button data-mode="hybrid_diverse">Hybrid + 去重</button></div><div id="query-results" class="query-results" aria-live="polite"></div><p class="experiment-foot">结果来自已完成的 GPU 评测回放。相关性等级来自人工编写的合成标注，非实时在线查询。</p></div>
+<div class="results-head"><h3>完整结果，保留取舍。</h3><a href="evaluation.json" download>下载逐查询数据 ↓</a></div><div class="table-wrap"><table><caption>同一合成开发集上的检索结果，指标范围 0–1</caption><thead><tr><th>检索方案</th><th>Recall@5 ↑</th><th>MRR@5 ↑</th><th>nDCG@5 ↑</th><th>平均案例数 ↑</th></tr></thead><tbody id="metrics-table"></tbody></table></div>
+<div class="finding"><span>↗</span><div><strong>相关经验更靠前，召回覆盖并非全面提升。</strong><p>融合去重的 MRR@5 从 0.911 提高到 0.967，Recall@5 从 0.933 降到 0.900。是否启用融合与去重，需要结合任务对首条相关性和经验覆盖的要求。</p></div></div><details class="scope"><summary>实验范围与复现说明 <span>＋</span></summary><p>这是 20 个手工合成案例、30 条共同设计的开发查询，尚无独立测试集，不能据此声称业务泛化收益。指标以 Top-5 Chunk 槽位计分，同一 Case 只获得一次相关性收益。未启用成功案例加分；RRF constant=60、candidate_k=50。检索指标不等同于 Agent 任务成功率。耗时为预热后的单次顺序运行，非压测。</p><pre>python -m algo_rag_demo.evaluation --provider bge-m3 --output-dir outputs/evaluation</pre><a href="evaluation.json" download>模型配置、数据指纹与逐条结果 →</a></details>
+</section>
+<section class="section architecture" id="architecture"><div class="section-label">03 / UNDER THE HOOD</div><div class="section-heading"><h2>模块边界清楚，<br>经验才能继续复用。</h2><p>模型、检索器与项目执行接口分别替换。<br>从轻量参考实现，继续扩展你的工程场景。</p></div>
+<div class="arch-layout"><div class="arch-diagram"><div class="arch-source">历史对话 / 结构化 Case</div><div class="arch-arrow">↓</div><button class="arch-node active" data-node="case"><span>01</span> Case Pipeline <small>抽取 → Schema → Chunk</small><b>↗</b></button><div class="arch-arrow">↓</div><button class="arch-node" data-node="retrieval"><span>02</span> Retrieval <small>BGE-M3 + BM25 → RRF</small><b>↗</b></button><div class="arch-arrow">↓</div><button class="arch-node" data-node="planner"><span>03</span> Planner <small>Experience + Facts + Skill</small><b>↗</b></button><div class="arch-arrow">↓</div><button class="arch-node" data-node="adapter"><span>04</span> Project Adapter <small>Execute → Validate → Recover</small><b>↗</b></button></div><article class="arch-detail"><div class="code-label" id="arch-file"></div><h3 id="arch-title"></h3><p id="arch-copy"></p><ul id="arch-points"></ul><a id="arch-link" target="_blank" rel="noopener">阅读实现 ↗</a><div class="boundary"><span>工程边界</span>文件白名单约束编辑入口；执行器不提供操作系统级隔离。接入不可信代码时，可通过 ProjectAdapter 使用容器。</div></article></div></section>
+<section class="section start" id="start"><div class="section-label">04 / MAKE IT YOURS</div><div class="section-heading"><h2>从一个可运行的例子，<br>开始你的下一次演进。</h2><p>先离线体验完整机制，再接入真实模型。<br>源码、案例、指标与运行产物，都可继续探索。</p></div><div class="start-grid"><div class="terminal"><div class="terminal-top"><span>离线演示 / 无需 API Key</span><button id="copy-command" aria-label="复制快速开始命令">复制 ↗</button></div><pre id="quickstart">git clone https://github.com/chaomacv/algorithm-upgrade-rag-agent-demo-zh.git
+cd algorithm-upgrade-rag-agent-demo-zh
+python -m venv .venv
+# 激活 .venv 后安装核心依赖
+python -m pip install -r requirements-core.txt
+python scripts/offline_demo.py outputs/my-first-run</pre><p>离线演示使用预设计划，不评估模型智能。</p></div><div class="next-links"><a href="source.zip" download><span>01 / SOURCE</span><strong>下载升级源码 <b>↓</b></strong><small>包含混合检索、评测、回放与展示页</small></a><a href="https://github.com/chaomacv/algorithm-upgrade-rag-agent-demo-zh" target="_blank" rel="noopener"><span>02 / GITHUB</span><strong>查看 GitHub 仓库 <b>↗</b></strong><small>浏览源码、评测与运行文档</small></a><a href="demo-repair.html" target="_blank"><span>03 / EVIDENCE</span><strong>打开运行报告 <b>↗</b></strong><small>追溯检索、计划、执行与验证</small></a></div></div></section>
+<section class="end-note"><span class="end-mark">↗</span><p>让经验留下来。<br><strong>让下一次修改，更有依据。</strong></p><a class="button dark" href="#workflow">回到工作流 <span>↑</span></a></section>
+</main><footer><a class="brand" href="#main"><span class="mark">↗</span> RAG Planning <span class="lab">Lab</span></a><span>基于开源 RAG Planning Pipeline 的扩展展示 · MIT</span><a href="https://github.com/chaomacv/algorithm-upgrade-rag-agent-demo-zh" target="_blank" rel="noopener">Explore the source ↗</a></footer>
+<script src="app.js"></script>
+</body></html>

@@ -53,3 +53,13 @@ Algorithm Replacement Skill
 Planner 输出结构化 JSON 计划和 actions。ProjectAdapter 实际执行后独立验证，
 失败信息进入错误查询，再次检索、规划与执行；重试耗尽则恢复 checkpoint。
 默认示例使用 DeepSeek 和 BGE-M3，完整快速开始见 README。
+
+# 混合检索扩展
+
+Retriever 新增 mode=dense/bm25/hybrid，默认保留 dense。BM25 从索引 metadata 的
+Chunk 文本构建，不额外加载向量模型。hybrid 取分通道候选，以 RRF 融合后按
+max_per_case 限额，再选 Top-K；module 过滤发生在候选截断前。
+检索结果保留 dense_score、lexical_score 和分通道 rank。融合后的 score 不是概率。
+原有成功案例 +0.01 仅保留在 dense 模式，评测中统一关闭。
+参见 [实验与指标定义](evaluation.md)。
+

@@ -1,0 +1,328 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>RAG Planning · Run evidence</title>
+<style>body{font:16px/1.6 system-ui;margin:0;background:#f5f4ef;color:#202c2a}main{max-width:1050px;margin:auto;padding:50px 24px}h1{font-size:38px}section{background:white;padding:24px;border:1px solid #d9ddd7;border-radius:16px;margin:24px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.7 monospace;background:#eef2ec;padding:20px}summary{cursor:pointer;padding:14px;border-bottom:1px solid #ddd}small{color:#61736b}</style><main>
+<small>RAG PLANNING LAB / EXECUTION EVIDENCE</small><h1>从计划到验证，每一步都有依据。</h1><p>最终状态：rolled_back</p><details><summary>演示来源与限制</summary><pre>{
+  &quot;planner&quot;: &quot;scripted&quot;,
+  &quot;embedding&quot;: &quot;mock&quot;,
+  &quot;live_llm&quot;: false,
+  &quot;note&quot;: &quot;Predetermined failure/repair demonstrates workflow mechanics. Validation subprocesses and file edits are real; this does not measure LLM task success.&quot;
+}</pre></details><details><summary>Final report</summary><pre>{
+  &quot;status&quot;: &quot;rolled_back&quot;,
+  &quot;attempts&quot;: [
+    {
+      &quot;attempt&quot;: 1,
+      &quot;passed&quot;: false,
+      &quot;retrieved_cases&quot;: [
+        &quot;CASE_RANK_SWITCH&quot;,
+        &quot;CASE_RANK_FALLBACK&quot;,
+        &quot;CASE_RANK_SCHEMA&quot;,
+        &quot;CASE_INDEX_FILTER&quot;,
+        &quot;CASE_DEPENDENCY_ABI&quot;
+      ]
+    },
+    {
+      &quot;attempt&quot;: 2,
+      &quot;passed&quot;: false,
+      &quot;retrieved_cases&quot;: [
+        &quot;CASE_RANK_SWITCH&quot;,
+        &quot;CASE_RANK_SCHEMA&quot;,
+        &quot;CASE_RANK_FALLBACK&quot;,
+        &quot;CASE_QUERY_ERROR&quot;,
+        &quot;CASE_DEPENDENCY_ABI&quot;
+      ]
+    }
+  ],
+  &quot;rollback&quot;: {
+    &quot;restored&quot;: true,
+    &quot;files&quot;: [
+      &quot;ranking.py&quot;,
+      &quot;config.json&quot;
+    ]
+  },
+  &quot;telemetry&quot;: {
+    &quot;elapsed_ms&quot;: 251.4931999903638,
+    &quot;stage_ms&quot;: {
+      &quot;checkpoint&quot;: 6.528900004923344,
+      &quot;retrieval&quot;: 1.8859999836422503,
+      &quot;planning&quot;: 0.076299998909235,
+      &quot;execution&quot;: 2.8454999846871942,
+      &quot;validation&quot;: 207.03379999031313,
+      &quot;rollback&quot;: 7.738599990261719
+    },
+    &quot;event_count&quot;: 10
+  }
+}</pre></details><section><h2>Attempt 1 · FAIL</h2><details><summary>query</summary><pre>{
+  &quot;query&quot;: &quot;Replace LegacyRanker with NeuralScorer while preserving metadata.reason and fallback.&quot;
+}</pre></details><details><summary>retrieval</summary><pre>[
+  {
+    &quot;score&quot;: 0.03252247488101534,
+    &quot;case_id&quot;: &quot;CASE_RANK_SWITCH&quot;,
+    &quot;chunk_id&quot;: &quot;CASE_RANK_SWITCH_task&quot;,
+    &quot;chunk_type&quot;: &quot;task&quot;,
+    &quot;text&quot;: &quot;Module: Ranking. Task: 配置写入 NeuralScorer，但线上实际仍调用 LegacyRanker。Verify the active implementation.. Replace None with None.&quot;,
+    &quot;module&quot;: &quot;Ranking&quot;,
+    &quot;final_status&quot;: &quot;partial&quot;,
+    &quot;source&quot;: &quot;SYNTHETIC_RANK_SWITCH&quot;,
+    &quot;case_path&quot;: &quot;benchmarks\\cases\\CASE_RANK_SWITCH.json&quot;,
+    &quot;dense_score&quot;: 0.6676943302154541,
+    &quot;lexical_score&quot;: 23.35235952815745,
+    &quot;dense_rank&quot;: 2,
+    &quot;lexical_rank&quot;: 1,
+    &quot;retrieval_mode&quot;: &quot;hybrid&quot;
+  },
+  {
+    &quot;score&quot;: 0.03128054740957967,
+    &quot;case_id&quot;: &quot;CASE_RANK_FALLBACK&quot;,
+    &quot;chunk_id&quot;: &quot;CASE_RANK_FALLBACK_task&quot;,
+    &quot;chunk_type&quot;: &quot;task&quot;,
+    &quot;text&quot;: &quot;Module: Ranking. Task: 替换排序模块时保留 LegacyRanker fallback 与旧排序行为。. Replace None with None.&quot;,
+    &quot;module&quot;: &quot;Ranking&quot;,
+    &quot;final_status&quot;: &quot;partial&quot;,
+    &quot;source&quot;: &quot;SYNTHETIC_RANK_FALLBACK&quot;,
+    &quot;case_path&quot;: &quot;benchmarks\\cases\\CASE_RANK_FALLBACK.json&quot;,
+    &quot;dense_score&quot;: 0.40892672538757324,
+    &quot;lexical_score&quot;: 16.19995286930084,
+    &quot;dense_rank&quot;: 6,
+    &quot;lexical_rank&quot;: 2,
+    &quot;retrieval_mode&quot;: &quot;hybrid&quot;
+  },
+  {
+    &quot;score&quot;: 0.031024531024531024,
+    &quot;case_id&quot;: &quot;CASE_RANK_SCHEMA&quot;,
+    &quot;chunk_id&quot;: &quot;CASE_RANK_SCHEMA_constraint&quot;,
+    &quot;chunk_type&quot;: &quot;constraint&quot;,
+    &quot;text&quot;: &quot;score 必须为数值；metadata.confidence 与 metadata.reason 不能缺失。 新算法内部结构不能泄漏到公共响应。&quot;,
+    &quot;module&quot;: &quot;Ranking&quot;,
+    &quot;final_status&quot;: &quot;partial&quot;,
+    &quot;source&quot;: &quot;SYNTHETIC_RANK_SCHEMA&quot;,
+    &quot;case_path&quot;: &quot;benchmarks\\cases\\CASE_RANK_SCHEMA.json&quot;,
+    &quot;dense_score&quot;: 0.47294944524765015,
+    &quot;lexical_score&quot;: 10.842786815618108,
+    &quot;dense_rank&quot;: 3,
+    &quot;lexical_rank&quot;: 6,
+    &quot;retrieval_mode&quot;: &quot;hybrid&quot;
+  },
+  {
+    &quot;score&quot;: 0.029631255487269532,
+    &quot;case_id&quot;: &quot;CASE_INDEX_FILTER&quot;,
+    &quot;chunk_id&quot;: &quot;CASE_INDEX_FILTER_constraint&quot;,
+    &quot;chunk_type&quot;: &quot;constraint&quot;,
+    &quot;text&quot;: &quot;metadata filter 应在最终 top_k 选择之前生效。&quot;,
+    &quot;module&quot;: &quot;Retrieval&quot;,
+    &quot;final_status&quot;: &quot;partial&quot;,
+    &quot;source&quot;: &quot;SYNTHETIC_INDEX_FILTER&quot;,
+    &quot;case_path&quot;: &quot;benchmarks\\cases\\CASE_INDEX_FILTER.json&quot;,
+    &quot;dense_score&quot;: 0.40678611397743225,
+    &quot;lexical_score&quot;: 3.821978603530986,
+    &quot;dense_rank&quot;: 7,
+    &quot;lexical_rank&quot;: 8,
+    &quot;retrieval_mode&quot;: &quot;hybrid&quot;
+  },
+  {
+    &quot;score&quot;: 0.02877846790890269,
+    &quot;case_id&quot;: &quot;CASE_DEPENDENCY_ABI&quot;,
+    &quot;chunk_id&quot;: &quot;CASE_DEPENDENCY_ABI_solution&quot;,
+    &quot;chunk_type&quot;: &quot;solution&quot;,
+    &quot;text&quot;: &quot;升级 NumPy 后 faiss-cpu 加载失败，出现 _ARRAY_API not found。 向量索引依赖的 wheel 按旧 ABI 构建。 隔离虚拟环境并选择相容依赖；运行 import smoke test；无法加载 FAISS 时明确采用 NumPy fallback 索引格式。 隔离虚拟环境并选择相容依赖；运行 import smoke test；无法加载 FAISS 时明确采用 NumPy fallback 索引格式。&quot;,
+    &quot;module&quot;: &quot;Dependency&quot;,
+    &quot;final_status&quot;: &quot;partial&quot;,
+    &quot;source&quot;: &quot;SYNTHETIC_DEPENDENCY_ABI&quot;,
+    &quot;case_path&quot;: &quot;benchmarks\\cases\\CASE_DEPENDENCY_ABI.json&quot;,
+    &quot;dense_score&quot;: 0.26565515995025635,
+    &quot;lexical_score&quot;: 3.083078168345599,
+    &quot;dense_rank&quot;: 10,
+    &quot;lexical_rank&quot;: 9,
+    &quot;retrieval_mode&quot;: &quot;hybrid&quot;
+  }
+]</pre></details><details><summary>plan</summary><pre>{
+  &quot;actions&quot;: [
+    {
+      &quot;tool&quot;: &quot;write_file&quot;,
+      &quot;path&quot;: &quot;config.json&quot;,
+      &quot;content&quot;: &quot;{\&quot;algorithm\&quot;: \&quot;NeuralScorer\&quot;}&quot;
+    }
+  ],
+  &quot;plan&quot;: [
+    &quot;Apply scripted demonstration action&quot;
+  ],
+  &quot;retrieved_experience_used&quot;: [
+    &quot;CASE_RANK_SWITCH_task&quot;,
+    &quot;CASE_RANK_FALLBACK_task&quot;,
+    &quot;CASE_RANK_SCHEMA_constraint&quot;,
+    &quot;CASE_INDEX_FILTER_constraint&quot;,
+    &quot;CASE_DEPENDENCY_ABI_solution&quot;
+  ]
+}</pre></details><details><summary>execution</summary><pre>{
+  &quot;applied&quot;: true,
+  &quot;files&quot;: [
+    &quot;config.json&quot;
+  ]
+}</pre></details><details><summary>validation</summary><pre>{
+  &quot;passed&quot;: false,
+  &quot;checks&quot;: [
+    {
+      &quot;command&quot;: [
+        &quot;{python}&quot;,
+        &quot;validate.py&quot;
+      ],
+      &quot;passed&quot;: false,
+      &quot;exit_code&quot;: 1,
+      &quot;stdout&quot;: &quot;{\n  \&quot;passed\&quot;: false,\n  \&quot;checks\&quot;: [\n    {\n      \&quot;name\&quot;: \&quot;check_interface\&quot;,\n      \&quot;passed\&quot;: false,\n      \&quot;error\&quot;: \&quot;&#x27;score&#x27;\&quot;\n    },\n    {\n      \&quot;name\&quot;: \&quot;check_runtime\&quot;,\n      \&quot;passed\&quot;: false,\n      \&quot;error\&quot;: \&quot;&#x27;score&#x27;\&quot;\n    },\n    {\n      \&quot;name\&quot;: \&quot;check_regression\&quot;,\n      \&quot;passed\&quot;: false,\n      \&quot;error\&quot;: \&quot;&#x27;score&#x27;\&quot;\n    },\n    {\n      \&quot;name\&quot;: \&quot;check_rollback\&quot;,\n      \&quot;passed\&quot;: true\n    }\n  ]\n}\n&quot;,
+      &quot;stderr&quot;: &quot;&quot;
+    }
+  ]
+}</pre></details><details><summary>error_analysis</summary><pre>{
+  &quot;failure&quot;: {
+    &quot;passed&quot;: false,
+    &quot;checks&quot;: [
+      {
+        &quot;command&quot;: [
+          &quot;{python}&quot;,
+          &quot;validate.py&quot;
+        ],
+        &quot;passed&quot;: false,
+        &quot;exit_code&quot;: 1,
+        &quot;stdout&quot;: &quot;{\n  \&quot;passed\&quot;: false,\n  \&quot;checks\&quot;: [\n    {\n      \&quot;name\&quot;: \&quot;check_interface\&quot;,\n      \&quot;passed\&quot;: false,\n      \&quot;error\&quot;: \&quot;&#x27;score&#x27;\&quot;\n    },\n    {\n      \&quot;name\&quot;: \&quot;check_runtime\&quot;,\n      \&quot;passed\&quot;: false,\n      \&quot;error\&quot;: \&quot;&#x27;score&#x27;\&quot;\n    },\n    {\n      \&quot;name\&quot;: \&quot;check_regression\&quot;,\n      \&quot;passed\&quot;: false,\n      \&quot;error\&quot;: \&quot;&#x27;score&#x27;\&quot;\n    },\n    {\n      \&quot;name\&quot;: \&quot;check_rollback\&quot;,\n      \&quot;passed\&quot;: true\n    }\n  ]\n}\n&quot;,
+        &quot;stderr&quot;: &quot;&quot;
+      }
+    ]
+  },
+  &quot;next_action&quot;: &quot;retry&quot;
+}</pre></details></section><section><h2>Attempt 2 · FAIL</h2><details><summary>query</summary><pre>{
+  &quot;query&quot;: &quot;Replace LegacyRanker with NeuralScorer while preserving metadata.reason and fallback.\nValidation failure:\n{\&quot;passed\&quot;: false, \&quot;checks\&quot;: [{\&quot;command\&quot;: [\&quot;{python}\&quot;, \&quot;validate.py\&quot;], \&quot;passed\&quot;: false, \&quot;exit_code\&quot;: 1, \&quot;stdout\&quot;: \&quot;{\\n  \\\&quot;passed\\\&quot;: false,\\n  \\\&quot;checks\\\&quot;: [\\n    {\\n      \\\&quot;name\\\&quot;: \\\&quot;check_interface\\\&quot;,\\n      \\\&quot;passed\\\&quot;: false,\\n      \\\&quot;error\\\&quot;: \\\&quot;&#x27;score&#x27;\\\&quot;\\n    },\\n    {\\n      \\\&quot;name\\\&quot;: \\\&quot;check_runtime\\\&quot;,\\n      \\\&quot;passed\\\&quot;: false,\\n      \\\&quot;error\\\&quot;: \\\&quot;&#x27;score&#x27;\\\&quot;\\n    },\\n    {\\n      \\\&quot;name\\\&quot;: \\\&quot;check_regression\\\&quot;,\\n      \\\&quot;passed\\\&quot;: false,\\n      \\\&quot;error\\\&quot;: \\\&quot;&#x27;score&#x27;\\\&quot;\\n    },\\n    {\\n      \\\&quot;name\\\&quot;: \\\&quot;check_rollback\\\&quot;,\\n      \\\&quot;passed\\\&quot;: true\\n    }\\n  ]\\n}\\n\&quot;, \&quot;stderr\&quot;: \&quot;\&quot;}]}&quot;
+}</pre></details><details><summary>retrieval</summary><pre>[
+  {
+    &quot;score&quot;: 0.03252247488101534,
+    &quot;case_id&quot;: &quot;CASE_RANK_SWITCH&quot;,
+    &quot;chunk_id&quot;: &quot;CASE_RANK_SWITCH_task&quot;,
+    &quot;chunk_type&quot;: &quot;task&quot;,
+    &quot;text&quot;: &quot;Module: Ranking. Task: 配置写入 NeuralScorer，但线上实际仍调用 LegacyRanker。Verify the active implementation.. Replace None with None.&quot;,
+    &quot;module&quot;: &quot;Ranking&quot;,
+    &quot;final_status&quot;: &quot;partial&quot;,
+    &quot;source&quot;: &quot;SYNTHETIC_RANK_SWITCH&quot;,
+    &quot;case_path&quot;: &quot;benchmarks\\cases\\CASE_RANK_SWITCH.json&quot;,
+    &quot;dense_score&quot;: 0.5167654752731323,
+    &quot;lexical_score&quot;: 23.35235952815745,
+    &quot;dense_rank&quot;: 2,
+    &quot;lexical_rank&quot;: 1,
+    &quot;retrieval_mode&quot;: &quot;hybrid&quot;
+  },
+  {
+    &quot;score&quot;: 0.03200204813108039,
+    &quot;case_id&quot;: &quot;CASE_RANK_SCHEMA&quot;,
+    &quot;chunk_id&quot;: &quot;CASE_RANK_SCHEMA_solution&quot;,
+    &quot;chunk_type&quot;: &quot;solution&quot;,
+    &quot;text&quot;: &quot;升级打分器后，下游读取 metadata.reason 抛出 KeyError。Preserve the downstream metadata contract. 新 scorer 只返回 raw_score，缺少旧输出的解释字段。 在边界增加 schema adapter，映射分数、置信度与原因；运行 interface contract regression。 在边界增加 schema adapter，映射分数、置信度与原因；运行 interface contract regression。&quot;,
+    &quot;module&quot;: &quot;Ranking&quot;,
+    &quot;final_status&quot;: &quot;partial&quot;,
+    &quot;source&quot;: &quot;SYNTHETIC_RANK_SCHEMA&quot;,
+    &quot;case_path&quot;: &quot;benchmarks\\cases\\CASE_RANK_SCHEMA.json&quot;,
+    &quot;dense_score&quot;: 0.4479888677597046,
+    &quot;lexical_score&quot;: 23.331048977576472,
+    &quot;dense_rank&quot;: 3,
+    &quot;lexical_rank&quot;: 2,
+    &quot;retrieval_mode&quot;: &quot;hybrid&quot;
+  },
+  {
+    &quot;score&quot;: 0.03055037313432836,
+    &quot;case_id&quot;: &quot;CASE_RANK_FALLBACK&quot;,
+    &quot;chunk_id&quot;: &quot;CASE_RANK_FALLBACK_task&quot;,
+    &quot;chunk_type&quot;: &quot;task&quot;,
+    &quot;text&quot;: &quot;Module: Ranking. Task: 替换排序模块时保留 LegacyRanker fallback 与旧排序行为。. Replace None with None.&quot;,
+    &quot;module&quot;: &quot;Ranking&quot;,
+    &quot;final_status&quot;: &quot;partial&quot;,
+    &quot;source&quot;: &quot;SYNTHETIC_RANK_FALLBACK&quot;,
+    &quot;case_path&quot;: &quot;benchmarks\\cases\\CASE_RANK_FALLBACK.json&quot;,
+    &quot;dense_score&quot;: 0.3165145516395569,
+    &quot;lexical_score&quot;: 16.19995286930084,
+    &quot;dense_rank&quot;: 7,
+    &quot;lexical_rank&quot;: 4,
+    &quot;retrieval_mode&quot;: &quot;hybrid&quot;
+  },
+  {
+    &quot;score&quot;: 0.02964426877470356,
+    &quot;case_id&quot;: &quot;CASE_QUERY_ERROR&quot;,
+    &quot;chunk_id&quot;: &quot;CASE_QUERY_ERROR_solution&quot;,
+    &quot;chunk_type&quot;: &quot;solution&quot;,
+    &quot;text&quot;: &quot;首次执行失败后，重复检索原始任务，总是拿到不相关的成功迁移经验。 重试没有把 stderr、缺失字段和失败阶段传回检索。 以 task + validation failure 构造新 query；保留失败案例，记录本轮 query 与检索来源用于对比。 以 task + validation failure 构造新 query；保留失败案例，记录本轮 query 与检索来源用于对比。&quot;,
+    &quot;module&quot;: &quot;Retrieval&quot;,
+    &quot;final_status&quot;: &quot;partial&quot;,
+    &quot;source&quot;: &quot;SYNTHETIC_QUERY_ERROR&quot;,
+    &quot;case_path&quot;: &quot;benchmarks\\cases\\CASE_QUERY_ERROR.json&quot;,
+    &quot;dense_score&quot;: 0.3180602490901947,
+    &quot;lexical_score&quot;: 10.420689225923478,
+    &quot;dense_rank&quot;: 6,
+    &quot;lexical_rank&quot;: 9,
+    &quot;retrieval_mode&quot;: &quot;hybrid&quot;
+  },
+  {
+    &quot;score&quot;: 0.02857142857142857,
+    &quot;case_id&quot;: &quot;CASE_DEPENDENCY_ABI&quot;,
+    &quot;chunk_id&quot;: &quot;CASE_DEPENDENCY_ABI_solution&quot;,
+    &quot;chunk_type&quot;: &quot;solution&quot;,
+    &quot;text&quot;: &quot;升级 NumPy 后 faiss-cpu 加载失败，出现 _ARRAY_API not found。 向量索引依赖的 wheel 按旧 ABI 构建。 隔离虚拟环境并选择相容依赖；运行 import smoke test；无法加载 FAISS 时明确采用 NumPy fallback 索引格式。 隔离虚拟环境并选择相容依赖；运行 import smoke test；无法加载 FAISS 时明确采用 NumPy fallback 索引格式。&quot;,
+    &quot;module&quot;: &quot;Dependency&quot;,
+    &quot;final_status&quot;: &quot;partial&quot;,
+    &quot;source&quot;: &quot;SYNTHETIC_DEPENDENCY_ABI&quot;,
+    &quot;case_path&quot;: &quot;benchmarks\\cases\\CASE_DEPENDENCY_ABI.json&quot;,
+    &quot;dense_score&quot;: 0.29369980096817017,
+    &quot;lexical_score&quot;: 6.285462776929509,
+    &quot;dense_rank&quot;: 10,
+    &quot;lexical_rank&quot;: 10,
+    &quot;retrieval_mode&quot;: &quot;hybrid&quot;
+  }
+]</pre></details><details><summary>plan</summary><pre>{
+  &quot;actions&quot;: [
+    {
+      &quot;tool&quot;: &quot;write_file&quot;,
+      &quot;path&quot;: &quot;config.json&quot;,
+      &quot;content&quot;: &quot;{\&quot;algorithm\&quot;: \&quot;NeuralScorer\&quot;}&quot;
+    }
+  ],
+  &quot;plan&quot;: [
+    &quot;Apply scripted demonstration action&quot;
+  ],
+  &quot;retrieved_experience_used&quot;: [
+    &quot;CASE_RANK_SWITCH_task&quot;,
+    &quot;CASE_RANK_SCHEMA_solution&quot;,
+    &quot;CASE_RANK_FALLBACK_task&quot;,
+    &quot;CASE_QUERY_ERROR_solution&quot;,
+    &quot;CASE_DEPENDENCY_ABI_solution&quot;
+  ]
+}</pre></details><details><summary>execution</summary><pre>{
+  &quot;applied&quot;: true,
+  &quot;files&quot;: [
+    &quot;config.json&quot;
+  ]
+}</pre></details><details><summary>validation</summary><pre>{
+  &quot;passed&quot;: false,
+  &quot;checks&quot;: [
+    {
+      &quot;command&quot;: [
+        &quot;{python}&quot;,
+        &quot;validate.py&quot;
+      ],
+      &quot;passed&quot;: false,
+      &quot;exit_code&quot;: 1,
+      &quot;stdout&quot;: &quot;{\n  \&quot;passed\&quot;: false,\n  \&quot;checks\&quot;: [\n    {\n      \&quot;name\&quot;: \&quot;check_interface\&quot;,\n      \&quot;passed\&quot;: false,\n      \&quot;error\&quot;: \&quot;&#x27;score&#x27;\&quot;\n    },\n    {\n      \&quot;name\&quot;: \&quot;check_runtime\&quot;,\n      \&quot;passed\&quot;: false,\n      \&quot;error\&quot;: \&quot;&#x27;score&#x27;\&quot;\n    },\n    {\n      \&quot;name\&quot;: \&quot;check_regression\&quot;,\n      \&quot;passed\&quot;: false,\n      \&quot;error\&quot;: \&quot;&#x27;score&#x27;\&quot;\n    },\n    {\n      \&quot;name\&quot;: \&quot;check_rollback\&quot;,\n      \&quot;passed\&quot;: true\n    }\n  ]\n}\n&quot;,
+      &quot;stderr&quot;: &quot;&quot;
+    }
+  ]
+}</pre></details><details><summary>error_analysis</summary><pre>{
+  &quot;failure&quot;: {
+    &quot;passed&quot;: false,
+    &quot;checks&quot;: [
+      {
+        &quot;command&quot;: [
+          &quot;{python}&quot;,
+          &quot;validate.py&quot;
+        ],
+        &quot;passed&quot;: false,
+        &quot;exit_code&quot;: 1,
+        &quot;stdout&quot;: &quot;{\n  \&quot;passed\&quot;: false,\n  \&quot;checks\&quot;: [\n    {\n      \&quot;name\&quot;: \&quot;check_interface\&quot;,\n      \&quot;passed\&quot;: false,\n      \&quot;error\&quot;: \&quot;&#x27;score&#x27;\&quot;\n    },\n    {\n      \&quot;name\&quot;: \&quot;check_runtime\&quot;,\n      \&quot;passed\&quot;: false,\n      \&quot;error\&quot;: \&quot;&#x27;score&#x27;\&quot;\n    },\n    {\n      \&quot;name\&quot;: \&quot;check_regression\&quot;,\n      \&quot;passed\&quot;: false,\n      \&quot;error\&quot;: \&quot;&#x27;score&#x27;\&quot;\n    },\n    {\n      \&quot;name\&quot;: \&quot;check_rollback\&quot;,\n      \&quot;passed\&quot;: true\n    }\n  ]\n}\n&quot;,
+        &quot;stderr&quot;: &quot;&quot;
+      }
+    ]
+  },
+  &quot;next_action&quot;: &quot;rollback&quot;
+}</pre></details></section></main></html>

@@ -1,0 +1,38 @@
+{
+  "case_id": "CASE_RANK_EMPTY",
+  "module": "Ranking",
+  "task": "新算法处理空候选列表时发生除零或 stack empty 异常。",
+  "old_algorithm": null,
+  "new_algorithm": null,
+  "constraints": {
+    "engineering": [
+      "rank([]) 应返回 items=[] 且保持输出结构。"
+    ]
+  },
+  "steps": [
+    "识别失败证据与约束",
+    "实施针对性的修复",
+    "运行独立验证并保留结果"
+  ],
+  "problems": [
+    {
+      "stage": "synthetic incident",
+      "symptom": "新算法处理空候选列表时发生除零或 stack empty 异常。",
+      "root_cause": "平均分归一化和向量堆叠均假设存在至少一个元素。"
+    }
+  ],
+  "solutions": [
+    {
+      "problem": "平均分归一化和向量堆叠均假设存在至少一个元素。",
+      "solution": "在批处理前增加空输入短路；验证空列表、单元素与正常批次。"
+    }
+  ],
+  "validation": {
+    "verification": "not_run"
+  },
+  "final_status": "partial",
+  "reusable_experience": [
+    "在批处理前增加空输入短路；验证空列表、单元素与正常批次。"
+  ],
+  "source_conversation_id": "SYNTHETIC_RANK_EMPTY"
+}

@@ -1,0 +1,39 @@
+{
+  "case_id": "CASE_EXEC_CHECKPOINT",
+  "module": "Execution",
+  "task": "所有修复尝试失败后，需要恢复修改前的文件精确内容。",
+  "old_algorithm": null,
+  "new_algorithm": null,
+  "constraints": {
+    "engineering": [
+      "保留原始字节及文件原本是否存在。",
+      "恢复失败不得报告 rolled_back。"
+    ]
+  },
+  "steps": [
+    "识别失败证据与约束",
+    "实施针对性的修复",
+    "运行独立验证并保留结果"
+  ],
+  "problems": [
+    {
+      "stage": "synthetic incident",
+      "symptom": "所有修复尝试失败后，需要恢复修改前的文件精确内容。",
+      "root_cause": "只保存文本或忽略新建文件，导致 rollback 后仍残留修改。"
+    }
+  ],
+  "solutions": [
+    {
+      "problem": "只保存文本或忽略新建文件，导致 rollback 后仍残留修改。",
+      "solution": "checkpoint 记录 bytes 与 existence；恢复时删除新建文件并逐字节验证；异常报告 rollback_failed。"
+    }
+  ],
+  "validation": {
+    "verification": "not_run"
+  },
+  "final_status": "partial",
+  "reusable_experience": [
+    "checkpoint 记录 bytes 与 existence；恢复时删除新建文件并逐字节验证；异常报告 rollback_failed。"
+  ],
+  "source_conversation_id": "SYNTHETIC_EXEC_CHECKPOINT"
+}

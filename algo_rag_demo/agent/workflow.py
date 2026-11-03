@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 from typing import Dict
 
+from algo_rag_demo.agent.trace import RunTrace
 from algo_rag_demo.rag.prompt_builder import build_prompt
 from algo_rag_demo.utils.jsonio import write_json
 
@@ -19,7 +20,12 @@ def run_agent(task, retriever, planner, adapter, run_dir: Path,
     """Retrieve, plan, execute, validate, and retry or roll back using actual outcomes."""
     if max_attempts < 1:
         raise ValueError("max_attempts must be at least 1.")
-    adapter.checkpoint()
+    trace = RunTrace(run_dir)
+    with trace.span("checkpoint"):
+        adapter.checkpoint()
+    def traced_rollback():
+        with trace.span("rollback"):
+            return _rollback(adapter)
     attempts = []
     query = task
     last_error = ""
@@ -27,7 +33,8 @@ def run_agent(task, retriever, planner, adapter, run_dir: Path,
         for number in range(1, max_attempts + 1):
             attempt_dir = run_dir / "attempts" / f"{number:02d}"
             attempt_dir.mkdir(parents=True, exist_ok=True)
-            results = retriever.search(query, top_k=top_k, module=module)
+            with trace.span("retrieval", number):
+                results = retriever.search(query, top_k=top_k, module=module)
             facts = repository_facts + "\n\n" + adapter.facts()
             if last_error:
                 facts += "\n\nPREVIOUS VALIDATION / EXECUTION FAILURE:\n" + last_error
@@ -36,11 +43,14 @@ def run_agent(task, retriever, planner, adapter, run_dir: Path,
             write_json(attempt_dir / "query.json", {"query": query})
             (attempt_dir / "prompt.md").write_text(build_prompt(task, results, facts), encoding="utf-8")
             try:
-                plan = planner.plan(task, results, facts)
+                with trace.span("planning", number):
+                    plan = planner.plan(task, results, facts)
                 write_json(attempt_dir / "plan.json", plan)
-                execution = adapter.execute(plan)
+                with trace.span("execution", number):
+                    execution = adapter.execute(plan)
                 write_json(attempt_dir / "execution.json", execution)
-                validation = adapter.validate()
+                with trace.span("validation", number):
+                    validation = adapter.validate()
             except Exception as exc:
                 validation = {"passed": False, "error": str(exc), "stage": "planning_or_execution"}
             write_json(attempt_dir / "validation.json", validation)
@@ -48,6 +58,7 @@ def run_agent(task, retriever, planner, adapter, run_dir: Path,
                              "retrieved_cases": list(dict.fromkeys(item.case_id for item in results))})
             if validation.get("passed") is True:
                 report = {"status": "success", "attempts": attempts, "rollback": None}
+                report["telemetry"] = trace.summary()
                 write_json(run_dir / "final_report.json", report)
                 return report
             last_error = json.dumps(validation, ensure_ascii=False)
@@ -57,11 +68,14 @@ def run_agent(task, retriever, planner, adapter, run_dir: Path,
             query = task + "\nValidation failure:\n" + last_error
     except (Exception, KeyboardInterrupt) as exc:
         report = {"status": "failed", "attempts": attempts, "error": str(exc) or type(exc).__name__,
-                  "rollback": _rollback(adapter)}
+                  "rollback": traced_rollback()}
+        report["telemetry"] = trace.summary()
         write_json(run_dir / "final_report.json", report)
         raise
-    rollback = _rollback(adapter)
+    rollback = traced_rollback()
     report = {"status": "rolled_back" if rollback.get("restored") is True else "rollback_failed",
               "attempts": attempts, "rollback": rollback}
+    report["telemetry"] = trace.summary()
     write_json(run_dir / "final_report.json", report)
     return report
+
