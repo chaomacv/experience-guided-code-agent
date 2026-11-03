@@ -38,3 +38,16 @@ html{scroll-padding-top:110px}body{background:#fff;color:var(--ink);-webkit-font
 .workflow-owner p,.scope-note,.next-links small{font-size:12px}.theory-grid a{font-size:11px}
 @media(max-width:700px){.concept-detail>p,.step-detail dd,.concept-detail li{font-size:13px}.mapping-table td,.mapping-table tbody th{font-size:11px}.concept-node small{font-size:10px}.track-description{font-size:12px}}
 .hero:before{left:0;right:0}
+.nav-actions{display:flex;align-items:center;gap:9px;flex-shrink:0}.nav-actions .nav-github{margin-left:0}
+.language-toggle{min-width:44px;min-height:34px;padding:6px 10px;border:1px solid #d9e4f6;border-radius:7px;background:#f5f8ff;color:#3765ad;font-size:11px;font-weight:600;line-height:1.6;white-space:nowrap}
+.language-toggle:hover{background:#eaf1ff;border-color:#b6cdf5}.language-toggle:disabled{opacity:.5;cursor:wait}
+.evidence-language-note{grid-column:1/-1;color:#6f819f;font-size:10px;line-height:1.8;padding:8px 10px;margin:0 0 10px;background:#f0f5ff;border-radius:5px}
+.original-evidence{margin-top:8px;font-size:10px;color:#6d83a7}.original-evidence summary{cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.original-evidence p,.query-card .original-evidence p{font-size:11px;line-height:1.9;height:auto;max-height:none;overflow:visible;padding:9px 0;color:#738099}
+.query-card .translated-summary{height:auto;max-height:none;min-height:4em;line-height:1.85}
+html[lang=en] .hero h1{font-size:clamp(40px,4.7vw,68px);letter-spacing:-2px;line-height:1.25}
+html[lang=en] .section-heading h2{font-size:34px;line-height:1.35;letter-spacing:-1.1px}
+html[lang=en] .hero-proof{gap:20px}html[lang=en] .flow-context strong{font-size:12px}
+@media(max-width:850px){.nav-actions{gap:6px}.language-toggle{min-width:39px;padding:6px 8px}.nav nav{gap:15px}}
+@media(max-width:700px){.nav-actions{margin-left:auto}.nav-actions .nav-github{margin-left:0}.language-toggle{font-size:10px;min-height:30px;min-width:38px;padding:5px 8px}html[lang=en] .hero h1{font-size:clamp(29px,7.7vw,40px);letter-spacing:-1px;line-height:1.3}html[lang=en] .section-heading h2{font-size:26px}html[lang=en] .hero-proof{gap:8px}.evidence-language-note{font-size:10px}}
+@media(max-width:425px){.nav nav{flex-wrap:wrap;justify-content:center;row-gap:8px}}
