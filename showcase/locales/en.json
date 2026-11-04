@@ -412,5 +412,6 @@
   "根据增强任务规划与执行": "Plan and act on the enriched task",
   "本次用户需求": "Current user request",
   "带来源的历史经验": "Past experience with provenance",
-  "每个知识片段的向量表示": "A vector for each knowledge chunk"
+  "每个知识片段的向量表示": "A vector for each knowledge chunk",
+  "RAG架构动画演示": "RAG Architecture Animation"
 }

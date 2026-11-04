@@ -85,3 +85,5 @@ html[lang=en] .hero h1{font-size:clamp(38px,4vw,58px)}
 
 /* Give the workspace more desktop width; its world scales all content together. */
 @media(min-width:1000px){.hero{max-width:1560px}.knowledge-story{max-width:1500px}.ks-toolbar{height:46px;font-size:12px}.ks-caption strong{font-size:14px}.ks-caption>p{font-size:12px}.ks-phases button{font-size:11px}}
+
+.ks-workspace-title{font-size:15px;font-weight:700;line-height:1.6;color:#516b95}
