@@ -10,7 +10,7 @@
     "repository_facts":"examples/wine_service/repository_facts.txt"
   },
   "execution": {
-    "factory":"algo_rag_demo.agent.executor:FileProjectAdapter",
+    "factory":"experience_guided_code_agent.agent.executor:FileProjectAdapter",
     "template_dir":"examples/wine_service",
     "allowed_files":["service.py", "config.json"],
     "validation_commands":[["{python}","validate.py"]],

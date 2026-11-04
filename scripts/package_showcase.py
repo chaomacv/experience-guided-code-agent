@@ -3,11 +3,11 @@ from pathlib import Path
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE_DIRS = {'algo_rag_demo', 'assets', 'benchmarks', 'configs', 'docs', 'examples',
+SOURCE_DIRS = {'experience_guided_code_agent', 'benchmarks', 'configs', 'docs', 'examples',
                'scripts', 'tests', 'showcase', '.github'}
 SOURCE_FILES = {'README.md', 'LICENSE', 'CONTRIBUTING.md', 'CODE_OF_CONDUCT.md',
                 'SECURITY.md', '.env.example', '.gitignore', '.gitattributes',
-                'pytest.ini', 'requirements.txt', 'requirements-core.txt', 'requirements-practice.txt', 'load_deepseek_env.sh'}
+                'pytest.ini', 'requirements.txt', 'requirements-core.txt'}
 
 
 def source_files():
@@ -25,7 +25,7 @@ def source_files():
 
 
 if __name__ == '__main__':
-    output = ROOT / 'showcase/source.zip'
+    output = ROOT / 'showcase/experience-guided-code-agent-source.zip'
     output.parent.mkdir(exist_ok=True)
     with zipfile.ZipFile(output, 'w', zipfile.ZIP_DEFLATED) as archive:
         for path in source_files():

@@ -5,17 +5,17 @@ from typing import Dict, List
 from rich.console import Console
 from rich.table import Table
 
-from algo_rag_demo.agent.llm_provider import build_chat_provider
-from algo_rag_demo.agent.planner import LLMPlanner
-from algo_rag_demo.agent.executor import build_project_adapter
-from algo_rag_demo.agent.workflow import run_agent
-from algo_rag_demo.case_pipeline.parser import LLMCaseExtractor, extract_case_directory
-from algo_rag_demo.config import CASE_DIR, DEFAULT_CONFIG, INDEX_DIR, KNOWLEDGE_DIR, RUNS_DIR
-from algo_rag_demo.rag.index_builder import build_index_from_cases
-from algo_rag_demo.rag.prompt_builder import build_prompt
-from algo_rag_demo.rag.retriever import Retriever
-from algo_rag_demo.utils.jsonio import read_json, write_json
-from algo_rag_demo import plugins
+from experience_guided_code_agent.agent.llm_provider import build_chat_provider
+from experience_guided_code_agent.agent.planner import LLMPlanner
+from experience_guided_code_agent.agent.executor import build_project_adapter
+from experience_guided_code_agent.agent.workflow import run_agent
+from experience_guided_code_agent.case_pipeline.parser import LLMCaseExtractor, extract_case_directory
+from experience_guided_code_agent.config import CASE_DIR, DEFAULT_CONFIG, INDEX_DIR, KNOWLEDGE_DIR, RUNS_DIR
+from experience_guided_code_agent.rag.index_builder import build_index_from_cases
+from experience_guided_code_agent.rag.prompt_builder import build_prompt
+from experience_guided_code_agent.rag.retriever import Retriever
+from experience_guided_code_agent.utils.jsonio import read_json, write_json
+from experience_guided_code_agent import plugins
 
 console = Console()
 
@@ -159,7 +159,7 @@ def cmd_plan(args: argparse.Namespace) -> None:
 def cmd_run(args: argparse.Namespace) -> None:
     """Ensure preparation failures also produce an auditable final report."""
     config = _load_config(args.config)
-    run_dir = _run_dir("algorithm-upgrade")
+    run_dir = _run_dir("code-change")
     try:
         _run_pipeline(args, config, run_dir)
     except (Exception, KeyboardInterrupt) as exc:
@@ -167,7 +167,7 @@ def cmd_run(args: argparse.Namespace) -> None:
         if not report_path.exists():
             write_json(report_path, {"status": "failed", "error": str(exc) or type(exc).__name__,
                                     "attempts": [], "rollback": None})
-        from algo_rag_demo.reporting import render_run
+        from experience_guided_code_agent.reporting import render_run
         render_run(run_dir, run_dir / 'report.html')
         console.print(f"Run artifacts: {run_dir}")
         raise
@@ -188,7 +188,7 @@ def _run_pipeline(args: argparse.Namespace, config: Dict[str, object], run_dir: 
         'python':platform.python_version(),
         'packages':{name:importlib.metadata.version(name) for name in ('numpy','pydantic')},
         'source_sha256':{p.as_posix():hashlib.sha256(p.read_bytes()).hexdigest()
-                         for directory in ('algo_rag_demo','examples/wine_service')
+                         for directory in ('experience_guided_code_agent','examples/wine_service')
                          for p in sorted(Path(directory).rglob('*')) if p.is_file() and '__pycache__' not in p.parts}
     })
     case_dir = _path(args.case_dir, Path(paths.get("case_dir", CASE_DIR)))
@@ -256,7 +256,7 @@ def _run_pipeline(args: argparse.Namespace, config: Dict[str, object], run_dir: 
         write_json(run_dir / "final_report.json", report)
     console.print(f"Cases: {cases}, chunks: {chunks}, dimension: {dimension}")
     console.print(f"Status: {report['status']}")
-    from algo_rag_demo.reporting import render_run
+    from experience_guided_code_agent.reporting import render_run
     render_run(run_dir, run_dir / 'report.html')
     console.print(f"Run artifacts: {run_dir}")
     if report["status"] not in {"success", "planned"}:

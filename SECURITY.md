@@ -1,50 +1,19 @@
 # Security Policy
 
-这个仓库是可配置 RAG Planning Pipeline，需要清楚处理密钥、数据和执行边界。
+默认流程会执行模型生成的 Python 代码。文件白名单、固定验收命令和字节检查用于约束工程操作，但不是操作系统沙箱；不可信任务应使用隔离容器或虚拟机，并由外部权限保护验收资产。
 
-## 不要提交的内容
+## 密钥与数据
 
-不要提交：
+- API Key 通过配置指定的环境变量传入，例如 DEEPSEEK_API_KEY；不要提交密钥文件。
+- .env.example 仅为变量名称示例，CLI 不自动加载 .env。
+- .env、password.txt、模型缓存、索引和 outputs/ 不进入 Git 或源码下载包。
+- 真实历史消息先脱敏；人工样例与用户自述测试应明确来源，不冒充客户事件或独立验证。
+- 分享报告前检查 Prompt、模型响应、日志和目标代码中是否有敏感内容。
 
-- `password.txt`
-- `.env`
-- API key
-- SSH key
-- 真实业务日志
-- 客户数据
-- 公司内部代码片段
-- `outputs/` 下的运行产物
-- 模型缓存或向量索引文件
+## 执行边界
 
-## DeepSeek API key
-
-本地使用 DeepSeek 时，可以创建 `password.txt`：
-
-```bash
-DEEPSEEK_API_KEY=your_api_key
-DEEPSEEK_BASE_URL=https://api.deepseek.com
-DEEPSEEK_MODEL=deepseek-flash
-```
-
-然后运行：
-
-```bash
-source ./load_deepseek_env.sh
-```
-
-`password.txt` 已经被 `.gitignore` 排除。提交前仍建议执行一次敏感信息扫描。
-
-## 执行安全边界
-
-项目默认只生成 RAG-backed plan 和可审计报告，不直接执行任意 LLM 生成代码。
-
-如果你在自己的工程里继续接入自动执行器，请优先明确：
-
-- 允许修改的目录和文件类型。
-- 允许运行的命令白名单。
-- 测试、验证和回滚规则。
-- LLM 输出如何转成受控操作，而不是直接执行。
+工程所有者在配置中指定可编辑文件、固定验收命令、超时与最大尝试次数。模型仅提交受控动作，验收通过后才导出交付文件；失败或中断会尝试恢复并记录结果。
 
 ## 报告问题
 
-如果你发现密钥泄露、危险执行路径或文档中的安全误导，请优先通过私有渠道联系仓库维护者，不要在公开 issue 中贴出敏感内容。
+请通过维护者提供的私有渠道报告泄露或危险执行路径，不要在公开 issue 中张贴密钥、客户数据或内部代码。

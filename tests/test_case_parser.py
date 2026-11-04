@@ -1,7 +1,7 @@
 import json
 
-from algo_rag_demo.case_pipeline.parser import LLMCaseExtractor
-from algo_rag_demo.case_pipeline.schema import Conversation
+from experience_guided_code_agent.case_pipeline.parser import LLMCaseExtractor
+from experience_guided_code_agent.case_pipeline.schema import Conversation
 
 
 class FakeProvider:

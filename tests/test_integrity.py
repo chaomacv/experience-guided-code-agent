@@ -7,14 +7,14 @@ import numpy as np
 import pytest
 from pydantic import ValidationError
 
-from algo_rag_demo import cli
-from algo_rag_demo.agent.executor import FileProjectAdapter
-from algo_rag_demo.case_pipeline.parser import extract_case_directory
-from algo_rag_demo.case_pipeline.schema import EngineeringCase, KnowledgeChunk
-from algo_rag_demo.rag.embedding import BgeM3EmbeddingProvider
-from algo_rag_demo.rag.index_builder import load_cases, save_index
-from algo_rag_demo.rag.retriever import Retriever
-from algo_rag_demo.utils.jsonio import parse_json_object, read_json, write_json
+from experience_guided_code_agent import cli
+from experience_guided_code_agent.agent.executor import FileProjectAdapter
+from experience_guided_code_agent.case_pipeline.parser import extract_case_directory
+from experience_guided_code_agent.case_pipeline.schema import EngineeringCase, KnowledgeChunk
+from experience_guided_code_agent.rag.embedding import BgeM3EmbeddingProvider
+from experience_guided_code_agent.rag.index_builder import load_cases, save_index
+from experience_guided_code_agent.rag.retriever import Retriever
+from experience_guided_code_agent.utils.jsonio import parse_json_object, read_json, write_json
 
 
 def _chunk(case_id, module="Ranking", status="success"):
@@ -58,7 +58,7 @@ def test_index_rejects_different_model_before_loading_it(tmp_path):
     """Reject same-dimension but different-model indices instead of silently misranking."""
     save_index(np.ones((1, 2), dtype="float32"), [_chunk("CASE_1")], "bge-m3",
                tmp_path, embedding_model="old-model")
-    with patch("algo_rag_demo.rag.retriever.get_embedding_provider",
+    with patch("experience_guided_code_agent.rag.retriever.get_embedding_provider",
                side_effect=AssertionError("Should not load a model")):
         with pytest.raises(ValueError, match="rebuild"):
             Retriever(index_dir=tmp_path, provider_name="bge-m3", embedding_model="new-model")
@@ -79,7 +79,7 @@ def test_invalid_query_dimension_and_top_k_are_rejected(tmp_path):
 ])
 def test_schema_rejects_invalid_user_data(field, value):
     """Verify real Pydantic rejects malformed case identifiers, statuses, and types."""
-    data = read_json(Path("examples/custom_data/cases/CASE_CUSTOM_001.json"))
+    data = read_json(Path("tests/fixtures/custom_data/cases/CASE_CUSTOM_001.json"))
     data[field] = value
     with pytest.raises(ValidationError):
         EngineeringCase(**data)
@@ -87,7 +87,7 @@ def test_schema_rejects_invalid_user_data(field, value):
 
 def test_case_filename_must_match_identity(tmp_path):
     """Ensure reported case_path always points to the actual source file."""
-    data = read_json(Path("examples/custom_data/cases/CASE_CUSTOM_001.json"))
+    data = read_json(Path("tests/fixtures/custom_data/cases/CASE_CUSTOM_001.json"))
     write_json(tmp_path / "CASE_OTHER.json", data)
     with pytest.raises(ValueError, match="filename"):
         load_cases(tmp_path)
@@ -101,7 +101,7 @@ def test_extraction_collision_does_not_overwrite_another_conversation(tmp_path):
         write_json(raw / f"conversation_{number}.json", {
             "conversation_id": f"CONV_{number}", "task": "upgrade", "messages": [],
         })
-    original = read_json(Path("examples/custom_data/cases/CASE_CUSTOM_001.json"))
+    original = read_json(Path("tests/fixtures/custom_data/cases/CASE_CUSTOM_001.json"))
     class Extractor:
         def extract(self, conversation):
             """Return intentionally colliding model identifiers."""

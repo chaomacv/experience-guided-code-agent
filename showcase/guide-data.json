@@ -9,7 +9,7 @@
         "从项目副本读取当前可编辑文件",
         "由配置确定工具、验证命令和重试次数"
       ],
-      "algo_rag_demo/cli.py",
+      "experience_guided_code_agent/cli.py",
       "Task + Facts + Skill"
     ],
     "orchestration": [
@@ -21,7 +21,7 @@
         "验证通过才返回 success",
         "重试耗尽后恢复检查点并校验"
       ],
-      "algo_rag_demo/agent/workflow.py",
+      "experience_guided_code_agent/agent/workflow.py",
       "run_agent()"
     ],
     "perception": [
@@ -33,7 +33,7 @@
         "保留任务、约束、问题、方案及来源",
         "当前未提供视觉或音频感知管线"
       ],
-      "algo_rag_demo/case_pipeline/parser.py",
+      "experience_guided_code_agent/case_pipeline/parser.py",
       "EngineeringCase / CLI"
     ],
     "planning": [
@@ -45,7 +45,7 @@
         "actions 中包含完整文件内容",
         "JSON 解析与字段整理后交给执行器"
       ],
-      "algo_rag_demo/agent/planner.py",
+      "experience_guided_code_agent/agent/planner.py",
       "LLMPlanner"
     ],
     "reasoning": [
@@ -57,7 +57,7 @@
         "DeepSeek 或其他 OpenAI-compatible 模型",
         "没有另外实现符号推理引擎"
       ],
-      "algo_rag_demo/rag/prompt_builder.py",
+      "experience_guided_code_agent/rag/prompt_builder.py",
       "LLM + Prompt + RAG"
     ],
     "memory": [
@@ -69,7 +69,7 @@
         "轮次上下文：上一次失败信息",
         "尚未自动把新运行结果写回经验库"
       ],
-      "algo_rag_demo/case_pipeline/schema.py",
+      "experience_guided_code_agent/case_pipeline/schema.py",
       "EngineeringCase · 部分实现"
     ],
     "tools": [
@@ -81,7 +81,7 @@
         "path: allowed_files 中的路径",
         "整个动作批次校验后才写入文件"
       ],
-      "algo_rag_demo/agent/executor.py",
+      "experience_guided_code_agent/agent/executor.py",
       "结构化 write_file Action"
     ],
     "action": [
@@ -93,7 +93,7 @@
         "checkpoint() 保存原始字节",
         "execute() 应用白名单文件修改"
       ],
-      "algo_rag_demo/agent/executor.py",
+      "experience_guided_code_agent/agent/executor.py",
       "FileProjectAdapter"
     ],
     "observation": [
@@ -105,7 +105,7 @@
         "validation.json 保留真实测试输出",
         "events.jsonl 记录阶段与耗时"
       ],
-      "algo_rag_demo/agent/trace.py",
+      "experience_guided_code_agent/agent/trace.py",
       "执行结果 + 测试日志"
     ],
     "reflection": [
@@ -117,7 +117,7 @@
         "错误上下文进入下一轮 Planner",
         "尚无独立的 LLM Critic 或经验自动沉淀"
       ],
-      "algo_rag_demo/agent/workflow.py",
+      "experience_guided_code_agent/agent/workflow.py",
       "错误反馈 → 再检索 / 再规划"
     ],
     "evaluation": [
@@ -129,7 +129,7 @@
         "约束：白名单、固定命令、超时和重试上限",
         "尚无业务成功率基准或操作系统级沙箱"
       ],
-      "algo_rag_demo/evaluation.py",
+      "experience_guided_code_agent/evaluation.py",
       "评测与约束 · 部分实现"
     ],
     "output": [
@@ -141,7 +141,7 @@
         "report.html：可阅读的运行报告",
         "workspace/：实际修改后的代码"
       ],
-      "algo_rag_demo/reporting.py",
+      "experience_guided_code_agent/reporting.py",
       "Final Report + Project Artifacts"
     ]
   },
@@ -152,7 +152,7 @@
       "DeepSeek / OpenAI-compatible Provider",
       "已实现",
       "模型可替换；不绑定算法场景",
-      "algo_rag_demo/agent/llm_provider.py"
+      "experience_guided_code_agent/agent/llm_provider.py"
     ],
     [
       "Prompt",
@@ -160,7 +160,7 @@
       "prompt_builder.py",
       "已实现",
       "经验作参考，当前仓库作事实",
-      "algo_rag_demo/rag/prompt_builder.py"
+      "experience_guided_code_agent/rag/prompt_builder.py"
     ],
     [
       "RAG",
@@ -168,7 +168,7 @@
       "BGE-M3 + BM25 + RRF",
       "已实现",
       "支持模块过滤与每 Case 数量限制",
-      "algo_rag_demo/rag/retriever.py"
+      "experience_guided_code_agent/rag/retriever.py"
     ],
     [
       "Planning",
@@ -176,7 +176,7 @@
       "LLMPlanner",
       "已实现",
       "结构化计划和 actions",
-      "algo_rag_demo/agent/planner.py"
+      "experience_guided_code_agent/agent/planner.py"
     ],
     [
       "Memory",
@@ -184,7 +184,7 @@
       "历史 EngineeringCase + 失败上下文",
       "部分实现",
       "尚无新经验自动写回",
-      "algo_rag_demo/case_pipeline/schema.py"
+      "experience_guided_code_agent/case_pipeline/schema.py"
     ],
     [
       "Tool Use",
@@ -192,7 +192,7 @@
       "结构化 write_file Action",
       "已实现",
       "当前仅提供文件写入工具",
-      "algo_rag_demo/agent/executor.py"
+      "experience_guided_code_agent/agent/executor.py"
     ],
     [
       "Execution",
@@ -200,7 +200,7 @@
       "FileProjectAdapter",
       "已实现",
       "在运行目录的项目副本中修改",
-      "algo_rag_demo/agent/executor.py"
+      "experience_guided_code_agent/agent/executor.py"
     ],
     [
       "Observation",
@@ -208,7 +208,7 @@
       "实际执行结果、退出码与测试日志",
       "已实现",
       "保存 stdout / stderr 与阶段事件",
-      "algo_rag_demo/agent/trace.py"
+      "experience_guided_code_agent/agent/trace.py"
     ],
     [
       "Reflection",
@@ -216,7 +216,7 @@
       "失败信息进入下一轮检索和规划",
       "已实现",
       "实现失败反馈；尚无独立反思模型",
-      "algo_rag_demo/agent/workflow.py"
+      "experience_guided_code_agent/agent/workflow.py"
     ],
     [
       "Orchestration",
@@ -224,7 +224,7 @@
       "run_agent()",
       "已实现",
       "控制验证、重试、回滚与最终状态",
-      "algo_rag_demo/agent/workflow.py"
+      "experience_guided_code_agent/agent/workflow.py"
     ],
     [
       "Evaluation",
@@ -232,7 +232,7 @@
       "检索消融、测试、运行报告",
       "部分实现",
       "合成开发集；尚无独立业务评测",
-      "algo_rag_demo/evaluation.py"
+      "experience_guided_code_agent/evaluation.py"
     ],
     [
       "Guardrails",
@@ -240,7 +240,7 @@
       "文件白名单、固定验证命令",
       "部分实现",
       "当前不提供操作系统级沙箱",
-      "algo_rag_demo/agent/executor.py"
+      "experience_guided_code_agent/agent/executor.py"
     ]
   ],
   "steps": {
@@ -250,10 +250,10 @@
       "算法替换、工程升级或 Bug 修复需求，以及必须保留的接口、行为和回退约束。",
       "CLI 读取任务与仓库事实；执行配置指定项目模板、允许修改的文件和验证命令。工作流启动后先 checkpoint。",
       "任务文本 + Repository Facts + Skill + 检查点",
-      "algo_rag_demo/cli.py",
+      "experience_guided_code_agent/cli.py",
       [
         "examples/wine_service/task.txt",
-        "examples/algorithm_upgrade/skill.md",
+        "tests/fixtures/ranking_project/skill.md",
         "checkpoint/manifest.json"
       ]
     ],
@@ -263,7 +263,7 @@
       "历史对话，或已整理好的 EngineeringCase JSON。",
       "从 examples/history_dialogues/raw 读取 12 段人工编写的人机历史对话样例（96 条消息，含相关与不相关算法替换主题）；DeepSeek 抽取 Case，再分块并计算 BGE-M3 向量。相关性标签不参与建库，Wine 业务数据另行准备。",
       "EngineeringCase → KnowledgeChunk → Index",
-      "algo_rag_demo/case_pipeline/chunker.py",
+      "experience_guided_code_agent/case_pipeline/chunker.py",
       [
         "case_pipeline/parser.py",
         "rag/index_builder.py",
@@ -276,7 +276,7 @@
       "第一轮使用原始任务；重试轮使用“任务 + 验证失败信息”。",
       "BGE-M3 Dense 获取语义相似度，BM25 匹配错误文本和代码标识符；RRF 按名次融合。可先按模块过滤，再按 Case 限额选出 Top-K，保留分通道排名。",
       "可追溯的 RetrievalResult 列表",
-      "algo_rag_demo/rag/retriever.py",
+      "experience_guided_code_agent/rag/retriever.py",
       [
         "attempts/01/query.json",
         "attempts/01/retrieval.json",
@@ -289,7 +289,7 @@
       "原始任务 + 检索经验 + 实际文件内容 + Skill + 上一轮错误。",
       "build_prompt() 组织上下文；LLMPlanner 通过 Provider 请求 JSON 计划。计划包含理解、依据、步骤、风险和完整文件写入动作。模型填写的 validation_plan 供解释使用，实际验证命令仍来自配置。",
       "Plan / Actions，而非只返回一段建议",
-      "algo_rag_demo/agent/planner.py",
+      "experience_guided_code_agent/agent/planner.py",
       [
         "attempts/01/prompt.md",
         "attempts/01/plan.json",
@@ -302,7 +302,7 @@
       "结构化 write_file 动作与允许编辑的文件列表。",
       "FileProjectAdapter 复制目标项目；对整个动作批次检查工具、路径和内容类型，再写入文件。拒绝白名单以外的路径，验证脚本不在示例编辑白名单中。",
       "实际文件修改 + execution.json",
-      "algo_rag_demo/agent/executor.py",
+      "experience_guided_code_agent/agent/executor.py",
       [
         "workspace/service.py",
         "workspace/config.json",
@@ -329,7 +329,7 @@
       "validation.passed 必须严格为 True。",
       "PASS 后导出 delivery/ 中的代码、SHA-256 清单和 changes.patch；保存 final_report.json 和 report.html。原始模型响应、检索和验收记录可逐轮核对。",
       "成功状态 + 修改后的项目 + 可追溯报告",
-      "algo_rag_demo/reporting.py",
+      "experience_guided_code_agent/reporting.py",
       [
         "final_report.json",
         "report.html",
@@ -342,7 +342,7 @@
       "验证失败、规划异常或执行异常。",
       "保存 validation 和 error_analysis；以 task + Validation failure 构造下一轮查询。失败信息同时进入 Planner 上下文，促使模型在新的检索证据和实际错误上调整动作。当前错误分析是结构化反馈整理。",
       "带错误证据的新 Query / Prompt / Plan",
-      "algo_rag_demo/agent/workflow.py",
+      "experience_guided_code_agent/agent/workflow.py",
       [
         "attempts/01/error_analysis.json",
         "attempts/02/query.json",
@@ -355,7 +355,7 @@
       "达到 max_attempts，或外层执行异常 / 中断。",
       "恢复白名单文件原始字节；原来不存在的文件会删除。逐文件比较恢复结果与检查点，输出 rolled_back 或 rollback_failed。恢复校验是文件字节一致性校验。",
       "恢复结果 + 校验状态 + 最终报告",
-      "algo_rag_demo/agent/workflow.py",
+      "experience_guided_code_agent/agent/workflow.py",
       [
         "FileProjectAdapter.rollback()",
         "checkpoint/manifest.json",

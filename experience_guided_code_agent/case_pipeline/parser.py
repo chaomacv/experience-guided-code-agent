@@ -1,9 +1,9 @@
 import json
 from pathlib import Path
 
-from algo_rag_demo.agent.llm_provider import ChatProvider
-from algo_rag_demo.case_pipeline.schema import Conversation, EngineeringCase, model_to_dict
-from algo_rag_demo.utils.jsonio import parse_json_object, read_json, write_json
+from experience_guided_code_agent.agent.llm_provider import ChatProvider
+from experience_guided_code_agent.case_pipeline.schema import Conversation, EngineeringCase, model_to_dict
+from experience_guided_code_agent.utils.jsonio import parse_json_object, read_json, write_json
 
 
 class LLMCaseExtractor:

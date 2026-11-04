@@ -1,7 +1,7 @@
 import numpy as np
-from algo_rag_demo.rag.embedding import get_embedding_provider
-from algo_rag_demo import plugins
-from algo_rag_demo.agent.llm_provider import build_chat_provider
+from experience_guided_code_agent.rag.embedding import get_embedding_provider
+from experience_guided_code_agent import plugins
+from experience_guided_code_agent.agent.llm_provider import build_chat_provider
 
 
 def test_configured_factories_are_used_without_changing_workflow(tmp_path, monkeypatch):

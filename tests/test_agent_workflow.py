@@ -2,12 +2,12 @@ import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from algo_rag_demo.agent.executor import FileProjectAdapter, build_project_adapter
-from algo_rag_demo.agent.planner import LLMPlanner
-from algo_rag_demo.agent.workflow import run_agent
-from algo_rag_demo.rag.index_builder import build_index_from_cases
-from algo_rag_demo.rag.retriever import Retriever
-from algo_rag_demo.utils.jsonio import read_json
+from experience_guided_code_agent.agent.executor import FileProjectAdapter, build_project_adapter
+from experience_guided_code_agent.agent.planner import LLMPlanner
+from experience_guided_code_agent.agent.workflow import run_agent
+from experience_guided_code_agent.rag.index_builder import build_index_from_cases
+from experience_guided_code_agent.rag.retriever import Retriever
+from experience_guided_code_agent.utils.jsonio import read_json
 
 
 class RecordingRetriever:
@@ -15,7 +15,7 @@ class RecordingRetriever:
 
     def __init__(self, root):
         """Build a small test index from the bundled Case."""
-        build_index_from_cases("mock", case_dir=Path("examples/custom_data/cases"),
+        build_index_from_cases("mock", case_dir=Path("tests/fixtures/custom_data/cases"),
                                knowledge_dir=root / "knowledge", index_dir=root / "index")
         self.retriever = Retriever(index_dir=root / "index", provider_name="mock")
         self.queries = []
@@ -54,7 +54,7 @@ class ScriptedProvider:
 
 def _components(root, repair=True, immediate=False):
     """Create the configured real file executor and a controlled chat response."""
-    config = read_json(Path("configs/deepseek_bge_m3.json"))["execution"]
+    config = read_json(Path("tests/fixtures/ranking_config.json"))["execution"]
     adapter = build_project_adapter(config, root)
     original = (adapter.workspace / "ranking.py").read_text(encoding="utf-8")
     provider = ScriptedProvider(original, repair=repair, immediate=immediate)
@@ -132,7 +132,7 @@ def test_validation_timeout_is_failure():
     """Verify a timed-out check produces failure evidence and permits rollback."""
     with TemporaryDirectory() as temporary:
         root = Path(temporary)
-        config = read_json(Path("configs/deepseek_bge_m3.json"))["execution"]
+        config = read_json(Path("tests/fixtures/ranking_config.json"))["execution"]
         config["validation_commands"] = [["{python}", "-c", "import time; time.sleep(2)"]]
         config["timeout"] = 1
         adapter = FileProjectAdapter(config, root)

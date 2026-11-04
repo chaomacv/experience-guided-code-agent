@@ -1,9 +1,9 @@
 from typing import Dict, List, Protocol
 
-from algo_rag_demo.agent.llm_provider import ChatProvider
-from algo_rag_demo.rag.models import RetrievalResult
-from algo_rag_demo.rag.prompt_builder import build_prompt
-from algo_rag_demo.utils.jsonio import parse_json_object
+from experience_guided_code_agent.agent.llm_provider import ChatProvider
+from experience_guided_code_agent.rag.models import RetrievalResult
+from experience_guided_code_agent.rag.prompt_builder import build_prompt
+from experience_guided_code_agent.utils.jsonio import parse_json_object
 
 
 class Planner(Protocol):

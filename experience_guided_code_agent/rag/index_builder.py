@@ -3,12 +3,12 @@ from typing import Dict, List, Tuple
 
 import numpy as np
 
-from algo_rag_demo.case_pipeline.chunker import chunk_cases
-from algo_rag_demo.case_pipeline.parser import load_case_file
-from algo_rag_demo.case_pipeline.schema import EngineeringCase, KnowledgeChunk, model_to_dict
-from algo_rag_demo.config import CASE_DIR, INDEX_DIR, KNOWLEDGE_DIR
-from algo_rag_demo.rag.embedding import get_embedding_provider
-from algo_rag_demo.utils.jsonio import write_json
+from experience_guided_code_agent.case_pipeline.chunker import chunk_cases
+from experience_guided_code_agent.case_pipeline.parser import load_case_file
+from experience_guided_code_agent.case_pipeline.schema import EngineeringCase, KnowledgeChunk, model_to_dict
+from experience_guided_code_agent.config import CASE_DIR, INDEX_DIR, KNOWLEDGE_DIR
+from experience_guided_code_agent.rag.embedding import get_embedding_provider
+from experience_guided_code_agent.utils.jsonio import write_json
 
 
 def load_cases(case_dir: Path = CASE_DIR) -> List[EngineeringCase]:

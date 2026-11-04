@@ -6,9 +6,9 @@ import shutil
 import pytest
 
 pytest.importorskip('sklearn')
-from algo_rag_demo.agent.executor import FileProjectAdapter
-from algo_rag_demo.agent.planner import LLMPlanner
-from algo_rag_demo.agent.workflow import run_agent
+from experience_guided_code_agent.agent.executor import FileProjectAdapter
+from experience_guided_code_agent.agent.planner import LLMPlanner
+from experience_guided_code_agent.agent.workflow import run_agent
 from scripts.prepare_wine import prepare
 
 

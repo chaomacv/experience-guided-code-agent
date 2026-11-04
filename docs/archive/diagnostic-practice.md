@@ -31,23 +31,25 @@ UCI Wine 的 178 条真实化学测量记录、13 个特征、3 类标签；固�
 
 ## 可核对的证据
 
-- [完整文本证据包](evidence/wine-live-run.json)：42 个文件的快照，含原始观测、抽取响应、Case、Chunk、Prompt、模型响应、修改、检查点、验收和交付哈希。
-- [HTML 运行报告](https://chaomacv.github.io/algorithm-upgrade-rag-agent-demo-zh/wine-live-report.html)：逐轮展开查看。
+- [完整文本证据包](../evidence/wine-live-run.json)：42 个文件的快照，含原始观测、抽取响应、Case、Chunk、Prompt、模型响应、修改、检查点、验收和交付哈希。
+- [HTML 运行报告](https://chaomacv.github.io/experience-guided-code-agent/wine-live-report.html)：逐轮展开查看。
 - 交付 service.py 的 SHA-256：`89f15a3a5a38f373b7d5c87c5fec9bdc4e8232cadcabb59bedbcaba167eefb97`。
 
 文本证据导出时把绝对运行目录替换为 `<run_dir>`，项目目录替换为 `<project_root>`；保存导出前各文件 SHA-256。二进制向量索引不随文本证据发布，可用相同配置重建。`run_metadata.json` 记录执行时的源码哈希，便于区分后续文档或框架维护版本。
 
 这是一份真实调用、真实写入和真实验收的单次运行记录，不代表成功率统计。54 条固定留出数据是本项目的验收集；正式评估需另设未用于调试/重试的独立测试集。本次结果也没有证明 RAG 相比不使用 RAG 的增益；检验该问题需要相同任务、预算与独立标注的对照实验。
 
-复现环境版本与 BGE 缓存 revision 见 [环境记录](evidence/wine-environment.json)。默认依赖固定为实测版本，BGE 配置固定到该快照；CPU / CUDA 构建随平台选择。
+复现环境版本与 BGE 缓存 revision 见 [环境记录](../evidence/wine-environment.json)。默认依赖固定为实测版本，BGE 配置固定到该快照；CPU / CUDA 构建随平台选择。
 
-## 逐步复现
+## 当前运行入口（知识输入已更新）
 
-先按 README 安装依赖并设置自己的 API Key。可拆开检查各阶段：
+本页记录改名和历史对话语料接入之前的一次诊断知识实验。证据中的路径、源码哈希和运行编号保持历史值。当前默认入口已改为人机历史对话语料，以下命令运行当前版本，结果不会复现本页四个诊断 Case。当前实战见 [历史对话记录](../history_dialogues.md)。
+
+按根 README 安装依赖并设置自己的 API Key，可拆开运行：
 
 ```bash
 python scripts/prepare_wine.py
-python -m algo_rag_demo.cli --config configs/wine_practice.json run
+python -m experience_guided_code_agent.cli --config configs/wine_practice.json run
 ```
 
 运行目录由 CLI 打印，模型回答与尝试轮数可能不同。CLI 自动生成 report.html；成功才生成 delivery。失败会保存检查日志与恢复结果。

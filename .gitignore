@@ -1,5 +1,5 @@
 .venv/
-showcase/source.zip
+showcase/experience-guided-code-agent-source.zip
 __pycache__/
 *.pyc
 .pytest_cache/
@@ -17,5 +17,3 @@ index/
 *.index
 *.npy
 metadata.json
-
-

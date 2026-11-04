@@ -1,20 +1,44 @@
 {
   "llm": {
     "provider": "openai-compatible",
-    "base_url": "https://api.example.com",
-    "api_key_env": "OPENAI_COMPATIBLE_API_KEY",
-    "model": "your-chat-model",
-    "timeout": 60,
+    "base_url": "https://your-gateway.example/v1",
+    "model": "your-code-model",
+    "api_key_env": "MY_LLM_API_KEY",
+    "timeout": 180,
     "verify_ssl": true
   },
   "embedding": {
     "provider": "bge-m3",
-    "model": "BAAI/bge-m3"
+    "model": "BAAI/bge-m3@5617a9f61b028005a4858fdac845db406aefb181"
   },
   "retrieval": {
-    "top_k": 5
+    "mode": "hybrid",
+    "top_k": 5,
+    "max_per_case": 1,
+    "candidate_k": 30
   },
   "paths": {
-    "case_dir": "examples/custom_data/cases"
+    "case_dir": "outputs/history_cases",
+    "raw_dir": "examples/history_dialogues/raw",
+    "preparation_dir": "outputs/wine_preparation",
+    "task_file": "examples/wine_service/task.txt",
+    "repository_facts": "examples/wine_service/repository_facts.txt"
+  },
+  "execution": {
+    "factory": "experience_guided_code_agent.agent.executor:FileProjectAdapter",
+    "template_dir": "examples/wine_service",
+    "allowed_files": [
+      "service.py",
+      "config.json"
+    ],
+    "validation_commands": [
+      [
+        "{python}",
+        "validate.py"
+      ]
+    ],
+    "skill_file": "examples/wine_service/skill.md",
+    "max_attempts": 3,
+    "timeout": 120
   }
 }

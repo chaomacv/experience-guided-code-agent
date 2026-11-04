@@ -4,7 +4,7 @@ import json
 from html import escape
 from pathlib import Path
 
-from algo_rag_demo.utils.jsonio import read_json
+from experience_guided_code_agent.utils.jsonio import read_json
 
 
 def render_run(run_dir, output):

@@ -10,9 +10,9 @@ from pathlib import Path
 
 import numpy as np
 
-from algo_rag_demo.rag.index_builder import build_index_from_cases, load_cases
-from algo_rag_demo.rag.retriever import Retriever
-from algo_rag_demo.utils.jsonio import read_json, write_json
+from experience_guided_code_agent.rag.index_builder import build_index_from_cases, load_cases
+from experience_guided_code_agent.rag.retriever import Retriever
+from experience_guided_code_agent.utils.jsonio import read_json, write_json
 
 
 def ranking_metrics(case_ids, relevance, k):

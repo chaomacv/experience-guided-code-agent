@@ -28,7 +28,7 @@ Hybrid 实际选择 HISTORY_006（实际模型调用）、HISTORY_001（输出�
 
 - [检索逐条结果](evidence/history-retrieval-check.json)
 - [运行与来源摘要](evidence/history-live-summary.json)
-- [新运行 HTML 报告](https://chaomacv.github.io/algorithm-upgrade-rag-agent-demo-zh/history-live-report.html)
+- [新运行 HTML 报告](https://chaomacv.github.io/experience-guided-code-agent/history-live-report.html)
 
 ## 复现
 

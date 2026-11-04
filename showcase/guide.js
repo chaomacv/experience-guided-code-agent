@@ -3,7 +3,7 @@
   "use strict";
   const one = selector => document.querySelector(selector);
   const all = selector => [...document.querySelectorAll(selector)];
-  const sourceBase = "https://github.com/chaomacv/algorithm-upgrade-rag-agent-demo-zh/blob/main/";
+  const sourceBase = "https://github.com/chaomacv/experience-guided-code-agent/blob/main/";
   const element = (tag, text, className) => {
     const item = document.createElement(tag);
     item.textContent = text;
@@ -63,8 +63,8 @@
   function renderCommands() {
     const windows = runState.os === "windows";
     const setup = [
-      "git clone https://github.com/chaomacv/algorithm-upgrade-rag-agent-demo-zh.git",
-      "cd algorithm-upgrade-rag-agent-demo-zh",
+      "git clone https://github.com/chaomacv/experience-guided-code-agent.git",
+      "cd experience-guided-code-agent",
       windows ? "py -3.10 -m venv .venv" : "python3 -m venv .venv",
       windows ? ".\\.venv\\Scripts\\Activate.ps1" : "source .venv/bin/activate"
     ];
@@ -78,7 +78,7 @@
       one("#track-note").textContent = tr("真实 API 实战记录在上方；回归测试覆盖成功、失败、重试、耗尽恢复与验收文件保护。");
     } else {
       setup.push(
-        "python -m pip install -r requirements-practice.txt",
+        "python -m pip install -r requirements.txt",
         windows ? '$env:DEEPSEEK_API_KEY="你的密钥"' : 'export DEEPSEEK_API_KEY="你的密钥"',
         "python scripts/run_practice.py"
       );

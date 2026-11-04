@@ -1,6 +1,6 @@
 from typing import Iterable
 
-from algo_rag_demo.rag.models import RetrievalResult
+from experience_guided_code_agent.rag.models import RetrievalResult
 
 
 def build_prompt(

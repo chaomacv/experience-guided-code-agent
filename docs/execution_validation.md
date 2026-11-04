@@ -1,6 +1,6 @@
 # 执行、验收、重试与回滚
 
-通用控制器 `algo_rag_demo/agent/workflow.py:run_agent` 负责以下真实分支：
+通用控制器 `experience_guided_code_agent/agent/workflow.py:run_agent` 负责以下真实分支：
 
 1. 建立检查点，第一次检索使用原始任务。
 2. 把检索结果、当前可编辑文件、业务 Skill 和已有失败信息交给 LLMPlanner。
@@ -13,4 +13,4 @@
 
 Error Analysis 当前是基于失败检查的结构化观察与分支选择；修复推理由下一轮 LLM 完成，不另设一个声称已验证的自评模型。验收命令不由 LLM 的 validation_plan 决定。
 
-[接入自己的执行器](project_adapter.md) · [设计独立验收](validator.md) · [真实运行记录](live_practice.md)
+[接入自己的执行器](project_adapter.md) · [设计独立验收](validator.md) · [真实运行记录](archive/diagnostic-practice.md)

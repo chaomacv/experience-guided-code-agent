@@ -1,5 +1,4 @@
 {
-  "Algorithm Upgrade RAG Agent — 从架构到可复现的工程闭环": "Algorithm Upgrade RAG Agent — From Architecture to Reproducible Execution",
   "跳到内容": "Skip to content",
   "Agent 架构": "Architecture",
   "项目实现": "Implementation",
@@ -172,11 +171,11 @@
   "让下一次修改，更有依据。": "Ground the next change in evidence.",
   "回到工作流": "Back to the workflow",
   "基于开源 RAG Planning Pipeline 的扩展展示 · MIT": "An open-source RAG planning and execution reference · MIT",
-  "可下载、可复现的 Algorithm Upgrade RAG Agent 实操项目：从 Agent 架构映射到混合检索、规划、代码执行、独立验证、重试与回滚。": "A downloadable, reproducible Algorithm Upgrade RAG Agent: connect Agent architecture to hybrid retrieval, planning, code execution, independent validation, retries and rollback.",
+  "可下载、可复现的 Experience-Guided Code Agent 实操项目：从 Agent 架构映射到混合检索、规划、代码执行、独立验证、重试与回滚。": "A downloadable, reproducible Experience-Guided Code Agent: connect Agent architecture to hybrid retrieval, planning, code execution, independent validation, retries and rollback.",
   "主导航": "Main navigation",
   "Agent 架构与项目实现对应图": "Agent architecture and implementation map",
   "按实现状态筛选": "Filter implementation status",
-  "Algorithm Upgrade RAG Agent 实施流程": "Algorithm Upgrade RAG Agent workflow",
+  "Experience-Guided Code Agent 实施流程": "Experience-Guided Code Agent workflow",
   "执行阶段": "Execution stages",
   "评测查询": "Evaluation query",
   "复现路线": "Reproduction path",
@@ -282,5 +281,7 @@
   "查看流程回归夹具（归档）": "Open archived workflow regression fixtures",
   "178 条 UCI 业务数据；RAG 从含相关和干扰项的人机对话样例构建，DeepSeek 生成代码，独立程序验收。": "178 UCI business records. RAG uses authored human-assistant dialogues with related and distracting topics; DeepSeek writes code and independent checks decide acceptance.",
   "12 段对话 → 12 Case → 36 Chunk": "12 dialogues → 12 Cases → 36 Chunks",
-  "对话语料为人工编写样例，包含 6 段相关与 6 段不相关内容；不是客户原始聊天。": "The corpus contains 6 related and 6 unrelated authored dialogue examples, not original customer chats."
+  "对话语料为人工编写样例，包含 6 段相关与 6 段不相关内容；不是客户原始聊天。": "The corpus contains 6 related and 6 unrelated authored dialogue examples, not original customer chats.",
+  "工程经验驱动的代码变更 Agent — 实操与复现": "Experience-Guided Code Agent — Practice and Reproduction",
+  "工程经验驱动的代码变更 Agent": "EXPERIENCE-GUIDED CODE AGENT"
 }

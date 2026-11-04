@@ -14,7 +14,7 @@ from sklearn.model_selection import train_test_split
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from algo_rag_demo.utils.jsonio import write_json
+from experience_guided_code_agent.utils.jsonio import write_json
 
 
 def prepare(output, project=ROOT / 'examples/wine_service'):

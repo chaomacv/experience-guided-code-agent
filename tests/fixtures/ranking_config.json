@@ -15,18 +15,18 @@
     "top_k": 5
   },
   "paths": {
-    "case_dir": "examples/custom_data/cases",
-    "raw_dir": "examples/custom_data/raw",
-    "task_file": "examples/custom_data/task.txt",
-    "repository_facts": "examples/custom_data/repository_facts.txt"
+    "case_dir": "tests/fixtures/custom_data/cases",
+    "raw_dir": "tests/fixtures/custom_data/raw",
+    "task_file": "tests/fixtures/custom_data/task.txt",
+    "repository_facts": "tests/fixtures/custom_data/repository_facts.txt"
   },
   "execution": {
-    "factory": "algo_rag_demo.agent.executor:FileProjectAdapter",
+    "factory": "experience_guided_code_agent.agent.executor:FileProjectAdapter",
     "demo_only": true,
-    "template_dir": "examples/algorithm_upgrade",
+    "template_dir": "tests/fixtures/ranking_project",
     "allowed_files": ["ranking.py", "config.json"],
     "validation_commands": [["{python}", "validate.py"]],
-    "skill_file": "examples/algorithm_upgrade/skill.md",
+    "skill_file": "tests/fixtures/ranking_project/skill.md",
     "max_attempts": 3,
     "timeout": 60
   }

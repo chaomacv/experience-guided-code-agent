@@ -27,9 +27,9 @@ CLI 对每段原始对话调用 LLMCaseExtractor，保存 Case 与原始抽取�
 ```
 
 ```bash
-python -m algo_rag_demo.cli --config configs/wine_practice.json extract-cases --raw-dir my_data/raw --case-dir my_data/cases
-python -m algo_rag_demo.cli --config configs/wine_practice.json build-index --case-dir my_data/cases --knowledge-dir outputs/my_knowledge --index-dir outputs/my_index
-python -m algo_rag_demo.cli --config configs/wine_practice.json search --case-dir my_data/cases --index-dir outputs/my_index --task "替换搜索算法" --retrieval-mode hybrid
+python -m experience_guided_code_agent.cli --config configs/wine_practice.json extract-cases --raw-dir my_data/raw --case-dir my_data/cases
+python -m experience_guided_code_agent.cli --config configs/wine_practice.json build-index --case-dir my_data/cases --knowledge-dir outputs/my_knowledge --index-dir outputs/my_index
+python -m experience_guided_code_agent.cli --config configs/wine_practice.json search --case-dir my_data/cases --index-dir outputs/my_index --task "替换搜索算法" --retrieval-mode hybrid
 ```
 
 如果已有结构化 Case，可直接跳过 LLM 抽取。文件名必须是 `<case_id>.json`，例如 `CASE_SEARCH_001.json`；详细字段见 [Case Schema](case_schema.md)。抽取响应保存在旁边的 `extraction_audit/`，源 conversation_id 由程序绑定而非相信模型生成值。成功/失败、约束、测试结论应由知识维护者核对原记录。

@@ -25,7 +25,7 @@
 
 ```bash
 python -m pip install -r requirements.txt
-python -m algo_rag_demo.evaluation \
+python -m experience_guided_code_agent.evaluation \
   --provider bge-m3 --model BAAI/bge-m3 \
   --case-dir benchmarks/cases --queries benchmarks/queries.jsonl \
   --output-dir outputs/evaluation --k 5

@@ -9,7 +9,7 @@
         "Read editable files from the project copy",
         "Configure tools, validation commands and retry limits"
       ],
-      "algo_rag_demo/cli.py",
+      "experience_guided_code_agent/cli.py",
       "Task + Facts + Skill"
     ],
     "orchestration": [
@@ -21,7 +21,7 @@
         "Return success only after validation passes",
         "Restore and verify the checkpoint when attempts run out"
       ],
-      "algo_rag_demo/agent/workflow.py",
+      "experience_guided_code_agent/agent/workflow.py",
       "run_agent()"
     ],
     "perception": [
@@ -33,7 +33,7 @@
         "Preserve goals, constraints, problems, solutions and sources",
         "No vision or audio perception pipeline is implemented"
       ],
-      "algo_rag_demo/case_pipeline/parser.py",
+      "experience_guided_code_agent/case_pipeline/parser.py",
       "EngineeringCase / CLI"
     ],
     "planning": [
@@ -45,7 +45,7 @@
         "Actions contain complete file contents",
         "Parse and normalize the JSON before execution"
       ],
-      "algo_rag_demo/agent/planner.py",
+      "experience_guided_code_agent/agent/planner.py",
       "LLMPlanner"
     ],
     "reasoning": [
@@ -57,7 +57,7 @@
         "Use DeepSeek or another OpenAI-compatible model",
         "No separate symbolic reasoning engine is implemented"
       ],
-      "algo_rag_demo/rag/prompt_builder.py",
+      "experience_guided_code_agent/rag/prompt_builder.py",
       "LLM + Prompt + RAG"
     ],
     "memory": [
@@ -69,7 +69,7 @@
         "Per-attempt context: the previous failure",
         "New execution results are not automatically written back to the experience store"
       ],
-      "algo_rag_demo/case_pipeline/schema.py",
+      "experience_guided_code_agent/case_pipeline/schema.py",
       "EngineeringCase · Partially implemented"
     ],
     "tools": [
@@ -81,7 +81,7 @@
         "path: one of allowed_files",
         "Validate the entire action batch before writing any file"
       ],
-      "algo_rag_demo/agent/executor.py",
+      "experience_guided_code_agent/agent/executor.py",
       "Structured write_file action"
     ],
     "action": [
@@ -93,7 +93,7 @@
         "checkpoint() saves original bytes",
         "execute() applies allowlisted file edits"
       ],
-      "algo_rag_demo/agent/executor.py",
+      "experience_guided_code_agent/agent/executor.py",
       "FileProjectAdapter"
     ],
     "observation": [
@@ -105,7 +105,7 @@
         "validation.json preserves real test output",
         "events.jsonl records execution stages and durations"
       ],
-      "algo_rag_demo/agent/trace.py",
+      "experience_guided_code_agent/agent/trace.py",
       "Execution results + Test logs"
     ],
     "reflection": [
@@ -117,7 +117,7 @@
         "Failure context reaches the next Planner attempt",
         "No separate LLM critic or automatic experience write-back is implemented"
       ],
-      "algo_rag_demo/agent/workflow.py",
+      "experience_guided_code_agent/agent/workflow.py",
       "Failure feedback → Retrieve / Plan again"
     ],
     "evaluation": [
@@ -129,7 +129,7 @@
         "Boundaries: allowlists, fixed commands, timeouts and retry limits",
         "No business task-success benchmark or operating-system sandbox is provided"
       ],
-      "algo_rag_demo/evaluation.py",
+      "experience_guided_code_agent/evaluation.py",
       "Evaluation and guardrails · Partially implemented"
     ],
     "output": [
@@ -141,7 +141,7 @@
         "report.html: readable execution report",
         "workspace/: actual modified code"
       ],
-      "algo_rag_demo/reporting.py",
+      "experience_guided_code_agent/reporting.py",
       "Final Report + Project Artifacts"
     ]
   },
@@ -152,7 +152,7 @@
       "DeepSeek / OpenAI-compatible Provider",
       "已实现",
       "Replaceable model; independent of the algorithm domain",
-      "algo_rag_demo/agent/llm_provider.py"
+      "experience_guided_code_agent/agent/llm_provider.py"
     ],
     [
       "Prompt",
@@ -160,7 +160,7 @@
       "prompt_builder.py",
       "已实现",
       "Experience is reference; the current repository supplies facts",
-      "algo_rag_demo/rag/prompt_builder.py"
+      "experience_guided_code_agent/rag/prompt_builder.py"
     ],
     [
       "RAG",
@@ -168,7 +168,7 @@
       "BGE-M3 + BM25 + RRF",
       "已实现",
       "Module filtering and per-case limits",
-      "algo_rag_demo/rag/retriever.py"
+      "experience_guided_code_agent/rag/retriever.py"
     ],
     [
       "Planning",
@@ -176,7 +176,7 @@
       "LLMPlanner",
       "已实现",
       "Structured plans and actions",
-      "algo_rag_demo/agent/planner.py"
+      "experience_guided_code_agent/agent/planner.py"
     ],
     [
       "Memory",
@@ -184,7 +184,7 @@
       "EngineeringCase + Failure context",
       "部分实现",
       "No automatic write-back of new experience",
-      "algo_rag_demo/case_pipeline/schema.py"
+      "experience_guided_code_agent/case_pipeline/schema.py"
     ],
     [
       "Tool Use",
@@ -192,7 +192,7 @@
       "Structured write_file action",
       "已实现",
       "File writing is the currently supported tool",
-      "algo_rag_demo/agent/executor.py"
+      "experience_guided_code_agent/agent/executor.py"
     ],
     [
       "Execution",
@@ -200,7 +200,7 @@
       "FileProjectAdapter",
       "已实现",
       "Edit a run-local project copy",
-      "algo_rag_demo/agent/executor.py"
+      "experience_guided_code_agent/agent/executor.py"
     ],
     [
       "Observation",
@@ -208,7 +208,7 @@
       "Execution results, exit codes and test logs",
       "已实现",
       "Preserve stdout, stderr and stage events",
-      "algo_rag_demo/agent/trace.py"
+      "experience_guided_code_agent/agent/trace.py"
     ],
     [
       "Reflection",
@@ -216,7 +216,7 @@
       "Failures enter the next retrieval and planning attempt",
       "已实现",
       "Failure feedback is implemented; no separate reflection model",
-      "algo_rag_demo/agent/workflow.py"
+      "experience_guided_code_agent/agent/workflow.py"
     ],
     [
       "Orchestration",
@@ -224,7 +224,7 @@
       "run_agent()",
       "已实现",
       "Validation, retries, rollback and final status",
-      "algo_rag_demo/agent/workflow.py"
+      "experience_guided_code_agent/agent/workflow.py"
     ],
     [
       "Evaluation",
@@ -232,7 +232,7 @@
       "Retrieval ablations, tests and reports",
       "部分实现",
       "Synthetic development set; no independent business evaluation",
-      "algo_rag_demo/evaluation.py"
+      "experience_guided_code_agent/evaluation.py"
     ],
     [
       "Guardrails",
@@ -240,7 +240,7 @@
       "File allowlist + Fixed validation commands",
       "部分实现",
       "No operating-system sandbox is provided",
-      "algo_rag_demo/agent/executor.py"
+      "experience_guided_code_agent/agent/executor.py"
     ]
   ],
   "steps": {
@@ -250,10 +250,10 @@
       "An algorithm replacement, upgrade or bug-fix request, including required interface, behavior and fallback constraints.",
       "The CLI reads the task and repository facts. Execution configuration defines the project template, editable files and validation commands. The workflow creates a checkpoint before attempting changes.",
       "Task + Repository facts + Skill + Checkpoint",
-      "algo_rag_demo/cli.py",
+      "experience_guided_code_agent/cli.py",
       [
         "examples/wine_service/task.txt",
-        "examples/algorithm_upgrade/skill.md",
+        "tests/fixtures/ranking_project/skill.md",
         "checkpoint/manifest.json"
       ]
     ],
@@ -263,7 +263,7 @@
       "Historical conversations or existing EngineeringCase JSON records.",
       "Load 12 authored human-assistant history examples (96 messages with related and unrelated algorithm migrations). DeepSeek extracts Cases, followed by chunking and BGE-M3 embeddings. Relevance labels do not enter the index; Wine business data is prepared separately.",
       "EngineeringCase → KnowledgeChunk → Index",
-      "algo_rag_demo/case_pipeline/chunker.py",
+      "experience_guided_code_agent/case_pipeline/chunker.py",
       [
         "case_pipeline/parser.py",
         "rag/index_builder.py",
@@ -276,7 +276,7 @@
       "The original task on attempt one; task + validation failure on later attempts.",
       "BGE-M3 Dense computes semantic similarity. BM25 matches errors and code identifiers. RRF combines ranks. Optional module filtering and per-case limits select Top-K while preserving evidence from each channel.",
       "Traceable RetrievalResult records",
-      "algo_rag_demo/rag/retriever.py",
+      "experience_guided_code_agent/rag/retriever.py",
       [
         "attempts/01/query.json",
         "attempts/01/retrieval.json",
@@ -289,7 +289,7 @@
       "Task + Retrieved cases + Actual file contents + Skill + Previous errors.",
       "build_prompt() assembles context; LLMPlanner requests a JSON plan through the provider. The plan includes task understanding, evidence, steps, risks and complete file-writing actions. validation_plan explains intended checks; actual validation commands still come from configuration.",
       "Plan / Actions, including concrete file edits",
-      "algo_rag_demo/agent/planner.py",
+      "experience_guided_code_agent/agent/planner.py",
       [
         "attempts/01/prompt.md",
         "attempts/01/plan.json",
@@ -302,7 +302,7 @@
       "Structured write_file actions and an editable-file allowlist.",
       "FileProjectAdapter copies the project. It checks the tool, path and content type for the full action batch before writing files. Paths outside the allowlist are rejected; the example validation script is excluded from editable files.",
       "Real file changes + execution.json",
-      "algo_rag_demo/agent/executor.py",
+      "experience_guided_code_agent/agent/executor.py",
       [
         "workspace/service.py",
         "workspace/config.json",
@@ -329,7 +329,7 @@
       "validation.passed must be exactly True.",
       "After PASS, export code, SHA-256 manifests and changes.patch in delivery/. Save final_report.json and report.html with model responses, retrieval and acceptance evidence for each attempt.",
       "Success status + Modified project + Traceable report",
-      "algo_rag_demo/reporting.py",
+      "experience_guided_code_agent/reporting.py",
       [
         "final_report.json",
         "report.html",
@@ -342,7 +342,7 @@
       "Validation failures, planning exceptions or execution errors.",
       "Save validation and error_analysis. Build the next query from task + Validation failure. The Planner also receives failure context, allowing subsequent actions to use retrieved experience and actual errors. Error analysis currently organizes structured feedback.",
       "New query / prompt / plan grounded in failure evidence",
-      "algo_rag_demo/agent/workflow.py",
+      "experience_guided_code_agent/agent/workflow.py",
       [
         "attempts/01/error_analysis.json",
         "attempts/02/query.json",
@@ -355,7 +355,7 @@
       "max_attempts is reached, or the outer workflow is interrupted or raises an error.",
       "Restore the original bytes of allowlisted files, removing files that originally did not exist. Compare each restored file with the checkpoint and report rolled_back or rollback_failed. Restoration is verified through byte equality.",
       "Restoration result + Verification status + Final report",
-      "algo_rag_demo/agent/workflow.py",
+      "experience_guided_code_agent/agent/workflow.py",
       [
         "FileProjectAdapter.rollback()",
         "checkpoint/manifest.json",

@@ -4,14 +4,14 @@ import argparse
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from algo_rag_demo.agent.executor import FileProjectAdapter
-from algo_rag_demo.agent.workflow import run_agent
-from algo_rag_demo.rag.index_builder import build_index_from_cases
-from algo_rag_demo.rag.retriever import Retriever
-from algo_rag_demo.reporting import render_run
-from algo_rag_demo.utils.jsonio import read_json, write_json
+from experience_guided_code_agent.agent.executor import FileProjectAdapter
+from experience_guided_code_agent.agent.workflow import run_agent
+from experience_guided_code_agent.rag.index_builder import build_index_from_cases
+from experience_guided_code_agent.rag.retriever import Retriever
+from experience_guided_code_agent.reporting import render_run
+from experience_guided_code_agent.utils.jsonio import read_json, write_json
 
 
 class ScriptedPlanner:
@@ -46,7 +46,7 @@ def main():
         "note":"Predetermined failure/repair demonstrates workflow mechanics. Validation subprocesses and file edits are real; this does not measure LLM task success."})
     build_index_from_cases("mock", case_dir=Path("benchmarks/cases"),
                            knowledge_dir=root / "knowledge", index_dir=root / "index")
-    adapter = FileProjectAdapter(read_json(Path("configs/deepseek_bge_m3.json"))["execution"], root)
+    adapter = FileProjectAdapter(read_json(Path("tests/fixtures/ranking_config.json"))["execution"], root)
     planner = ScriptedPlanner((adapter.workspace / "ranking.py").read_text(encoding="utf-8"), args.scenario == "repair")
     retriever = Retriever(root / "index", "mock", case_dir=Path("benchmarks/cases"),
                           mode="hybrid", max_per_case=1)

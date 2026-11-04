@@ -3,11 +3,11 @@ from typing import List, Optional
 
 import numpy as np
 
-from algo_rag_demo.config import CASE_DIR, INDEX_DIR
-from algo_rag_demo.rag.embedding import get_embedding_provider
-from algo_rag_demo.rag.lexical import BM25Index, reciprocal_rank_fusion
-from algo_rag_demo.rag.models import RetrievalResult
-from algo_rag_demo.utils.jsonio import read_json
+from experience_guided_code_agent.config import CASE_DIR, INDEX_DIR
+from experience_guided_code_agent.rag.embedding import get_embedding_provider
+from experience_guided_code_agent.rag.lexical import BM25Index, reciprocal_rank_fusion
+from experience_guided_code_agent.rag.models import RetrievalResult
+from experience_guided_code_agent.utils.jsonio import read_json
 
 
 class Retriever:

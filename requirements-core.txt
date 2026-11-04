@@ -1,4 +1,4 @@
-numpy>=1.24,<2
+numpy>=1.26,<3
 pydantic>=2,<3
 rich
 pytest>=7,<9

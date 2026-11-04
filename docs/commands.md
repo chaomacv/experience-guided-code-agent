@@ -1,33 +1,40 @@
-# 常用命令
+# 分阶段命令
 
-默认完整实战：
+以下命令均在仓库根目录执行；先按根 README 安装依赖并设置 API Key。
+
+## 当前完整 demo
 
 ```bash
-python -m pip install -r requirements-practice.txt
-# 设置 DEEPSEEK_API_KEY 后
 python scripts/run_practice.py
 ```
 
-逐步运行：
+## 分开准备业务数据与运行 Agent
 
 ```bash
 python scripts/prepare_wine.py
-python -m algo_rag_demo.cli --config configs/wine_practice.json run
+python -m experience_guided_code_agent.cli --config configs/wine_practice.json run
 ```
 
-自己的知识：[准备与检索命令](knowledge_preparation.md)。其他 API / Embedding：[配置接口](retriever_extensions.md)、[模型 API](llm_providers.md)。
+## 使用自己的历史记录
 
-框架检查：
+```bash
+python -m experience_guided_code_agent.cli --config configs/wine_practice.json extract-cases --raw-dir my_data/raw --case-dir my_data/cases
+python -m experience_guided_code_agent.cli --config configs/wine_practice.json build-index --case-dir my_data/cases --knowledge-dir outputs/my_knowledge --index-dir outputs/my_index
+python -m experience_guided_code_agent.cli --config configs/wine_practice.json search --case-dir my_data/cases --index-dir outputs/my_index --task "替换分类算法" --retrieval-mode hybrid
+```
+
+## 检查当前对话检索
+
+把路径替换为 CLI 打印的实际运行目录：
+
+```bash
+python scripts/evaluate_history_retrieval.py --run-dir outputs/runs/YOUR_RUN_ID
+```
+
+## 自动化检查
 
 ```bash
 python -m pytest -q
 ```
 
-单独重放旧分支测试夹具（受控响应，不作为模型能力证据）：
-
-```bash
-python scripts/offline_demo.py outputs/branch-test-repair
-python scripts/offline_demo.py outputs/branch-test-rollback --scenario rollback
-```
-
-原检索消融实验仍使用独立 benchmarks 语料：[评测说明](evaluation.md)。
+受控分支回归程序位于 tests/fixtures，仅用于开发检查。检索消融实验命令见 [独立评测](evaluation.md)。

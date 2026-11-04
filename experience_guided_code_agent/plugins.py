@@ -10,10 +10,10 @@ def resolve(spec, default):
 
 
 def index_builder(config):
-    from algo_rag_demo.rag.index_builder import build_index_from_cases
+    from experience_guided_code_agent.rag.index_builder import build_index_from_cases
     return resolve(config.get('retrieval', {}).get('index_factory'), build_index_from_cases)
 
 
 def retriever(config, **kwargs):
-    from algo_rag_demo.rag.retriever import Retriever
+    from experience_guided_code_agent.rag.retriever import Retriever
     return resolve(config.get('retrieval', {}).get('factory'), Retriever)(**kwargs)

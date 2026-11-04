@@ -27,7 +27,7 @@ encode_query(text: str) -> numpy.ndarray            # float32 [d]，相同语义
 
 ## 替换整个 RAG 后端
 
-配置 `retrieval.index_factory="my_package.backend:build_index"` 和 `retrieval.factory="my_package.backend:Retriever"`。`algo_rag_demo/plugins.py` 负责实际加载：
+配置 `retrieval.index_factory="my_package.backend:build_index"` 和 `retrieval.factory="my_package.backend:Retriever"`。`experience_guided_code_agent/plugins.py` 负责实际加载：
 
 - build_index 接受默认 `build_index_from_cases` 的同名关键字：provider_name、embedding_model、case_dir、knowledge_dir、index_dir；返回 `(case_count, chunk_count, dimension)`。
 - Retriever 接受 index_dir、provider_name、embedding_model、case_dir、mode、candidate_k、rrf_constant、max_per_case；提供 `search(query, top_k=5, module=None)`。

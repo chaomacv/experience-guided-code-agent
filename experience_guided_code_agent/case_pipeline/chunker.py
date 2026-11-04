@@ -1,6 +1,6 @@
 from typing import Iterable, List
 
-from algo_rag_demo.case_pipeline.schema import EngineeringCase, KnowledgeChunk
+from experience_guided_code_agent.case_pipeline.schema import EngineeringCase, KnowledgeChunk
 
 
 def chunk_case(case: EngineeringCase) -> List[KnowledgeChunk]:

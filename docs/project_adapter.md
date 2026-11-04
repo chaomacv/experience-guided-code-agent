@@ -1,6 +1,6 @@
 # Project Adapter / Executor
 
-默认实现是 `algo_rag_demo/agent/executor.py:FileProjectAdapter`。它创建新的工作副本，读取真实可编辑文件供 Planner 规划，验证整批结构化 Actions 后写入，执行固定验收命令；成功后导出文件、哈希与 changes.patch。模型只具备 write_file 动作。
+默认实现是 `experience_guided_code_agent/agent/executor.py:FileProjectAdapter`。它创建新的工作副本，读取真实可编辑文件供 Planner 规划，验证整批结构化 Actions 后写入，执行固定验收命令；成功后导出文件、哈希与 changes.patch。模型只具备 write_file 动作。
 
 ## 接入自己的项目
 
@@ -8,7 +8,7 @@
 
 ```json
 {"execution": {
-  "factory":"algo_rag_demo.agent.executor:FileProjectAdapter",
+  "factory":"experience_guided_code_agent.agent.executor:FileProjectAdapter",
   "template_dir":"my_project",
   "allowed_files":["src/search.py", "config.json"],
   "validation_commands":[["{python}", "-m", "pytest", "tests/acceptance", "-q"]],

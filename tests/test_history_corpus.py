@@ -1,8 +1,8 @@
 import json
 from pathlib import Path
-from algo_rag_demo.case_pipeline.schema import Conversation, EngineeringCase
-from algo_rag_demo.case_pipeline.parser import LLMCaseExtractor
-from algo_rag_demo.case_pipeline.chunker import chunk_case
+from experience_guided_code_agent.case_pipeline.schema import Conversation, EngineeringCase
+from experience_guided_code_agent.case_pipeline.parser import LLMCaseExtractor
+from experience_guided_code_agent.case_pipeline.chunker import chunk_case
 
 
 def test_history_corpus_has_human_assistant_turns_and_mixed_topics():

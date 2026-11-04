@@ -7,7 +7,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from algo_rag_demo.utils.jsonio import read_json
+from experience_guided_code_agent.utils.jsonio import read_json
 
 
 def main():
@@ -20,7 +20,7 @@ def main():
     if not os.environ.get(key_env):
         raise SystemExit('Set ' + key_env + ' before running real-model practice.')
     subprocess.run([sys.executable, 'scripts/prepare_wine.py', '--output', config['paths'].get('preparation_dir', 'outputs/wine_preparation')], check=True)
-    subprocess.run([sys.executable, '-m', 'algo_rag_demo.cli', '--config', args.config, 'run'], check=True)
+    subprocess.run([sys.executable, '-m', 'experience_guided_code_agent.cli', '--config', args.config, 'run'], check=True)
 
 
 if __name__ == '__main__':

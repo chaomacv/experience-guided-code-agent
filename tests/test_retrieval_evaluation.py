@@ -6,12 +6,12 @@ from unittest.mock import patch
 import numpy as np
 import pytest
 
-from algo_rag_demo.agent.trace import RunTrace
-from algo_rag_demo.case_pipeline.schema import KnowledgeChunk
-from algo_rag_demo.evaluation import evaluate, ranking_metrics
-from algo_rag_demo.rag.index_builder import save_index
-from algo_rag_demo.rag.lexical import BM25Index, tokenize, reciprocal_rank_fusion
-from algo_rag_demo.rag.retriever import Retriever
+from experience_guided_code_agent.agent.trace import RunTrace
+from experience_guided_code_agent.case_pipeline.schema import KnowledgeChunk
+from experience_guided_code_agent.evaluation import evaluate, ranking_metrics
+from experience_guided_code_agent.rag.index_builder import save_index
+from experience_guided_code_agent.rag.lexical import BM25Index, tokenize, reciprocal_rank_fusion
+from experience_guided_code_agent.rag.retriever import Retriever
 
 
 def make_index(tmp_path):
@@ -45,7 +45,7 @@ def test_rrf_rewards_agreement_without_double_counting_one_channel():
 
 def test_lexical_mode_does_not_initialize_model(tmp_path):
     make_index(tmp_path)
-    with patch("algo_rag_demo.rag.retriever.get_embedding_provider", side_effect=AssertionError):
+    with patch("experience_guided_code_agent.rag.retriever.get_embedding_provider", side_effect=AssertionError):
         r = Retriever(tmp_path, "mock", mode="bm25")
         assert r.search("KeyError", module="Ranking")[0].case_id == "CASE_B"
         assert r.search("unfindable") == []
@@ -90,7 +90,7 @@ def test_trace_records_exception_and_refuses_to_mix_runs(tmp_path):
 
 
 def test_benchmark_is_schema_valid_and_labels_resolve():
-    from algo_rag_demo.rag.index_builder import load_cases
+    from experience_guided_code_agent.rag.index_builder import load_cases
     cases = load_cases(Path("benchmarks/cases"))
     ids = {c.case_id for c in cases}
     queries = [json.loads(line) for line in Path("benchmarks/queries.jsonl").read_text(encoding="utf-8").splitlines()]

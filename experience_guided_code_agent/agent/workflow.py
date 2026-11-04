@@ -2,9 +2,9 @@ import json
 from pathlib import Path
 from typing import Dict
 
-from algo_rag_demo.agent.trace import RunTrace
-from algo_rag_demo.rag.prompt_builder import build_prompt
-from algo_rag_demo.utils.jsonio import write_json
+from experience_guided_code_agent.agent.trace import RunTrace
+from experience_guided_code_agent.rag.prompt_builder import build_prompt
+from experience_guided_code_agent.utils.jsonio import write_json
 
 
 def _rollback(adapter) -> Dict[str, object]:

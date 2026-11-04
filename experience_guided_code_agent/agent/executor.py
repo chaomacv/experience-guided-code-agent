@@ -86,7 +86,7 @@ class FileProjectAdapter:
             name: self._path(name).read_bytes() if self._path(name).exists() else None
             for name in self.allowed_files
         }
-        from algo_rag_demo.utils.jsonio import write_json
+        from experience_guided_code_agent.utils.jsonio import write_json
         self.checkpoint_dir.mkdir(parents=True, exist_ok=True)
         write_json(self.checkpoint_dir / "manifest.json", {
             name: {"existed": content is not None} for name, content in self.original.items()
@@ -165,7 +165,7 @@ class FileProjectAdapter:
 
     def deliver(self, output):
         """Export validated files, hashes and a reviewable patch from the checkpoint."""
-        from algo_rag_demo.utils.jsonio import write_json
+        from experience_guided_code_agent.utils.jsonio import write_json
         output.mkdir(parents=True, exist_ok=True)
         manifest, patches = {}, []
         for name, before in self.original.items():
@@ -184,7 +184,7 @@ class FileProjectAdapter:
 def build_project_adapter(config: Dict[str, object], run_dir: Path) -> ProjectAdapter:
     """Load the configured adapter factory without depending on one project domain."""
     module_name, factory_name = str(config.get(
-        "factory", "algo_rag_demo.agent.executor:FileProjectAdapter"
+        "factory", "experience_guided_code_agent.agent.executor:FileProjectAdapter"
     )).split(":", 1)
     factory = getattr(importlib.import_module(module_name), factory_name)
     return factory(config, run_dir)

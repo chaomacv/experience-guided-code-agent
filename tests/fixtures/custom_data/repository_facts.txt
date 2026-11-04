@@ -1,4 +1,4 @@
-Target repository: examples/algorithm_upgrade, copied into the run workspace.
+Target repository: tests/fixtures/ranking_project, copied into the run workspace.
 - ranking.py contains legacy_ranker, neural_scorer, and rank(items, algorithm=None).
 - config.json selects LegacyRanker; upgrade must select NeuralScorer.
 - neural_scorer uses 0.7 * quality + 0.3 * relevance. Keep the formula unchanged.

@@ -1,5 +1,5 @@
-from algo_rag_demo.reporting import render_run
-from algo_rag_demo.utils.jsonio import write_json
+from experience_guided_code_agent.reporting import render_run
+from experience_guided_code_agent.utils.jsonio import write_json
 
 
 def test_report_escapes_untrusted_model_or_tool_output(tmp_path):

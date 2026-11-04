@@ -1,7 +1,7 @@
 import json
 
-from algo_rag_demo.agent.planner import LLMPlanner
-from algo_rag_demo.rag.models import RetrievalResult
+from experience_guided_code_agent.agent.planner import LLMPlanner
+from experience_guided_code_agent.rag.models import RetrievalResult
 
 
 class FakeProvider:

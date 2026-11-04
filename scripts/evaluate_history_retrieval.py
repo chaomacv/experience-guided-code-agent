@@ -5,8 +5,8 @@ from pathlib import Path
 import sys
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
-from algo_rag_demo.rag.retriever import Retriever
-from algo_rag_demo.utils.jsonio import read_json, write_json
+from experience_guided_code_agent.rag.retriever import Retriever
+from experience_guided_code_agent.utils.jsonio import read_json, write_json
 
 
 def evaluate(run_dir, output=None):
