@@ -41,24 +41,23 @@ Agent 思想对照与实现范围见 [架构映射文档](../docs/agent_module_m
 `theme.css` 统一视觉变量与各模块外观。首屏 Agent Workspace 为静态示例示意，不是在线执行控制台；具体证据来自下方运行回放。
 
 默认复现已切换为真实 Wine / DeepSeek / BGE-M3 实战。wine-live-report.html 来源于 docs/evidence/wine-live-run.json；旧脚本分支回放折叠归档，仅用于机制回归。
-## Hero：让非技术观众也能看懂的经验故事
+## Hero 知识流水线
 
-首屏只讲五件事：过去聊过的问题 → 整理经验 → 保存经验 → 找回经验 → 帮助新的行动。具体模型、索引方法、字段名和代码留在下方实现章节；首屏不逐项展开技术流水线。
+首页首屏用实际 HTML 卡片展示从历史对话到行动的过程；文案支持中英文。模拟对话、候选顺序、向量外观和成功路径是架构说明，不是新的运行证据。
 
-聊天里，小林的人物头像固定在左，助手的头像固定在右。经验卡使用“遇到的问题、找到的原因、解决的办法、下次要记住”四个通俗标题。所有对话、卡片和行动说明都使用 HTML，未绘制成图片。
-
-语言规则：中文模式完整使用中文叙述，英文模式完整使用英文叙述；Code Agent、Agent、GitHub 等品牌或产品名称保留。首屏的对话、经验卡、阶段名、按钮与辅助说明都随页面语言切换，不固定混排中英术语。
+实现文件：`index.html` 中的 `#knowledge-story`、`knowledge-story.css`、`knowledge-story.js`。没有新增构建步骤或外部 CDN 依赖；浏览器原生 Web Animations API 的所有动画共用一个 24 秒时间轴。`requestAnimationFrame` 只同步阶段文案与秒数，位移和透明度交给动画引擎。镜头使用 X 轴轨道与缓动，在重要节点停留。
 
 | 时间 | 叙事 |
 | --- | --- |
-| 0–4 秒 | 人与助手的历史聊天 |
-| 4–8 秒 | 对话整理成一张可复用的经验卡 |
-| 8–12 秒 | 经验保存进项目经验库，保留来源 |
-| 12–17.5 秒 | 新任务找回过去的相关经验 |
-| 17.5–24 秒 | 任务、经验与当前要求汇合，帮助 Agent 计划、修改并检查 |
+| 0–2 秒 | 工作区开场，进入历史聊天 |
+| 2–8 秒 | 聊天滚动与高亮 → LLM 抽取 → 三张案例卡片 |
+| 8–13 秒 | Case 拆为 task / constraint / solution → BGE-M3 → FAISS；同源文本用于 BM25 |
+| 13–17.5 秒 | WineService 新任务 → Dense + BM25 → RRF → 相关 Chunk |
+| 17.5–21 秒 | Task、Case、Repository Facts、Skill 汇入 Prompt |
+| 21–24 秒 | LLM Planner → write_file → Executor → Independent Validator；遮罩覆盖循环复位 |
 
-实现仍使用同一条横向轨道和 24 秒 Web Animations 时间轴，关键节点有缓动与停留。保留暂停、重播、阶段跳转、悬停暂停、后台与离屏暂停。移动端使用简化故事卡；减少动态效果时改为手动静态阅读。动画使用示例内容说明原理，不是实际运行证据；实际代码修改与验收仍分别由执行器和独立验证器负责。
+源码对照：`case_pipeline/parser.py` 抽取并保留来源；`chunker.py` 每 Case 生成三类 Chunk；BM25 在检索器中从索引元数据文本构建。Skill 由 `workflow.py` 并入 Repository Facts，再由 Prompt Builder 组织上下文。动画未向规划器展示受保护的验收标签。
 
-文件：`index.html`、`knowledge-story.css`、`knowledge-story.js`、`locales/en.json`。没有新增构建步骤或外部 CDN 依赖。
+控制：自动播放、暂停/播放、重播、阶段跳转（选择后暂停便于阅读）、鼠标悬停暂停；后台页面与离屏状态自动暂停。`prefers-reduced-motion` 使用手动分阶段静态视图，窄屏使用简化 HTML 叙事，不缩小整条轨道。
 
-本地预览：仓库根目录执行 `python -m http.server 8765 --bind 127.0.0.1 --directory showcase`，打开 `http://127.0.0.1:8765/`。发布沿用 GitHub Pages，源码下载包由 `scripts/package_showcase.py` 生成。
+本地预览：仓库根目录运行 `python -m http.server 8765 --bind 127.0.0.1 --directory showcase`，打开 `http://127.0.0.1:8765/`。发布仍使用现有 GitHub Pages 工作流；`scripts/package_showcase.py` 会将新资源纳入源码下载包。
