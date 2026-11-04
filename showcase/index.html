@@ -10,29 +10,119 @@
 <link href="style.css" rel="stylesheet"/>
 <link href="guide.css" rel="stylesheet"/>
 <link href="theme.css" rel="stylesheet"/>
+<link href="knowledge-story.css" rel="stylesheet"/>
 </head>
 <body>
 <a class="skip" href="#main"><span data-i18n="跳到内容">跳到内容</span></a>
 <header class="nav"><a class="brand" href="#main"><span aria-hidden="true" class="mark"><svg viewbox="0 0 28 28"><path d="M5 8h7v7H5zM16 4h7v7h-7zM16 18h7v7h-7z"></path><path class="mark-edge" d="M12 11.5h4M19.5 11v7M8.5 15v6.5H16"></path></svg></span> Code Agent<span class="lab">LAB</span></a><nav aria-label="主导航" data-i18n-aria-label="主导航"><a href="#agent-framework"><span data-i18n="Agent 架构">Agent 架构</span></a><a href="#workflow"><span data-i18n="项目实现">项目实现</span></a><a href="#live-practice"><span data-i18n="运行证据">运行证据</span></a><a href="#start"><span data-i18n="下载复现">下载复现</span></a></nav><div class="nav-actions"><button aria-label="Switch to English" class="language-toggle" disabled="True" id="language-toggle" title="Switch to English" type="button">EN</button><a class="nav-github" href="https://github.com/chaomacv/experience-guided-code-agent" rel="noopener" target="_blank">GitHub <span>↗</span></a></div></header>
 <main id="main">
 <section class="hero">
-<div class="eyebrow"><span class="live-dot"></span> <span class="eyebrow-badge">OPEN SOURCE</span><span data-i18n="工程经验驱动的代码变更 Agent">工程经验驱动的代码变更 Agent</span></div>
-<h1><span data-i18n="让工程经验，">让工程经验，</span><br/><span data-i18n="成为 Agent 的">成为 Agent 的</span><span class="handline"><span data-i18n="行动依据">行动依据</span></span><span data-i18n="。">。</span></h1>
-<p class="hero-copy"><span data-i18n="把历史工程经验接入检索与规划，让代码修改经过执行、验证、重试与回滚。">把历史工程经验接入检索与规划，让代码修改经过执行、验证、重试与回滚。</span><br/><span data-i18n="沿着架构读懂实现，下载源码，在自己的项目中复现。">沿着架构读懂实现，下载源码，在自己的项目中复现。</span></p>
+<div class="hero-intro"><div class="hero-heading"><div class="eyebrow"><span class="live-dot"></span> <span class="eyebrow-badge">OPEN SOURCE</span><span data-i18n="工程经验驱动的代码变更 Agent">工程经验驱动的代码变更 Agent</span></div>
+<h1><span data-i18n="让历史工程经验，">让历史工程经验，</span><br/><span data-i18n="成为 Agent 的">成为 Agent 的</span><span class="handline"><span data-i18n="行动依据">行动依据</span></span><span data-i18n="。">。</span></h1>
+</div><div class="hero-summary"><p class="hero-copy"><span data-i18n="从冗长工程对话中提取可复用经验，通过 RAG 增强规划，让代码修改经过执行、验证、重试与回滚。">从冗长工程对话中提取可复用经验，通过 RAG 增强规划，让代码修改经过执行、验证、重试与回滚。</span><br/> <span data-i18n="沿着架构读懂实现，下载源码，在自己的项目中复现。">沿着架构读懂实现，下载源码，在自己的项目中复现。</span></p>
 <div class="hero-actions"><a class="button dark" href="#agent-framework"><span data-i18n="探索 Agent 架构">探索 Agent 架构</span> <span>→</span></a><a class="button quiet" href="#start"><span data-i18n="下载源码复现">下载源码复现</span> <span>↗</span></a></div>
 <div class="hero-note"><span><span data-i18n="DeepSeek / 可替换 LLM">DeepSeek / 可替换 LLM</span></span><i></i><span>BGE-M3 + BM25</span><i></i><span>Python · FAISS</span></div>
-<div class="hero-visual product-stage">
-<div class="studio-toolbar"><div class="studio-name"><span class="studio-emblem">⌘</span> Agent Workspace <span class="studio-slash">/</span><strong>wine-classifier</strong></div><span class="studio-status"><i></i> <span data-i18n="真实实战 · 第 1 轮">真实实战 · 第 1 轮</span></span></div>
-<div class="studio-body">
-<aside class="studio-sidebar"><div class="studio-side-label">PROJECT EXPLORER</div><div class="studio-side-item"><span>▧</span> EngineeringCase</div><div class="studio-side-item"><span>≡</span> Repository Facts</div><div class="studio-side-item"><span>◇</span> Skill</div><div class="studio-side-label side-space">RUN ARTIFACTS</div><div class="studio-side-item"><span>↳</span> retrieval.json</div><div class="studio-side-item selected"><span>↳</span> plan.json</div><div class="studio-side-item"><span>↳</span> validation.json</div><div class="studio-side-note">Historical experience.<br/>Executable actions.<br/>Verifiable outcomes.</div></aside>
-<div class="studio-canvas"><div class="canvas-task"><span class="task-icon">↗</span><div><small>USER TASK</small><strong><span data-i18n="升级算法，保留接口与回退能力">升级算法，保留接口与回退能力</span></strong></div></div><div aria-hidden="true" class="canvas-route"></div><div class="canvas-node"><span class="canvas-icon blue-icon">⌕</span><div><strong>RAG Retriever</strong><small>BGE-M3 + BM25 → RRF</small></div><span class="node-count">TOP 5</span></div><div aria-hidden="true" class="canvas-route"></div><div class="canvas-node planner-node"><span class="canvas-icon purple-icon">✧</span><div><strong>LLM Planner</strong><small>Experience + Facts + Skill</small></div><span class="node-count">JSON</span></div><div aria-hidden="true" class="canvas-route"></div><div class="canvas-node"><span class="canvas-icon teal-icon">✓</span><div><strong>Execute &amp; Validate</strong><small><span data-i18n="实际文件修改 · 独立测试">实际文件修改 · 独立测试</span></small></div><span class="node-count valid-count">PASS</span></div><div class="canvas-caption"><span data-i18n="失败证据 ↶ 再检索、再规划；重试耗尽后回滚">失败证据 ↶ 再检索、再规划；重试耗尽后回滚</span></div></div>
-<aside class="studio-inspector"><div class="inspector-tabs"><span>plan.json</span><span>⋯</span></div><pre><span class="code-dim" data-i18n="// Structured action · 摘要">// Structured action · 摘要</span>
-{
-  <span class="code-key">"tool"</span>: <span class="code-value">"write_file"</span>,
-  <span class="code-key">"path"</span>: <span class="code-value">"service.py"</span>,
-  <span class="code-key">"content"</span>: <span class="code-value">"…"</span>
-}</pre><div class="inspector-checks"><div><span>✓</span> Interface contract <b>PASS</b></div><div><span>✓</span> Runtime activation <b>PASS</b></div><div><span>✓</span> Regression test <b>PASS</b></div><div><span>✓</span> Legacy fallback <b>PASS</b></div></div><a class="inspector-link" href="#live-practice"><span data-i18n="查看真实运行记录">查看真实运行记录</span> <span>↗</span></a></aside>
-</div><div class="studio-foot"><span><i></i> <span data-i18n="示例记录回放 · 非在线执行控制台">示例记录回放 · 非在线执行控制台</span></span><span>RETRIEVE → PLAN → EXECUTE → VERIFY</span></div>
+
+</div></div>
+<div class="knowledge-story" id="knowledge-story" role="region" aria-label="历史经验如何成为 Agent 的行动依据" data-i18n-aria-label="历史经验如何成为 Agent 的行动依据">
+  <div class="ks-toolbar"><div class="ks-workspace"><span class="ks-emblem" aria-hidden="true">⌘</span><strong>Agent Workspace</strong><span class="ks-divider">/</span><span>experience → actions</span></div><span class="ks-demo"><i></i><span data-i18n="架构动画 · 模拟内容">架构动画 · 模拟内容</span></span></div>
+  <div class="ks-viewport">
+    <div class="ks-desktop" aria-hidden="true"><div class="ks-world"><div class="ks-track">
+      <svg class="ks-connections" viewBox="0 0 4820 470" fill="none" aria-hidden="true">
+        <defs><marker id="ks-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0 0L6 3.5L0 7" stroke="#9cb6ec" fill="none"/></marker></defs>
+        <g stroke="#c7d6ef" stroke-width="1.5" marker-end="url(#ks-arrow)">
+          <path d="M314 242H382"/><path d="M532 242H650"/><path d="M940 242H1050"/>
+          <path d="M1330 172H1450"/><path d="M1620 172H1840"/>
+          <path d="M1330 350H1740Q1770 350 1770 352H1840" class="ks-lexical-path"/>
+          <path d="M2110 245H2150V443H2505V167H2530"/>
+          <path d="M2495 140H2510Q2520 140 2520 137H2530"/><path d="M2510 140V295H2530"/>
+          <path d="M2810 137H2840Q2860 137 2860 225H2900"/><path d="M2810 295H2840Q2860 295 2860 225H2900"/>
+          <path d="M3080 225H3160"/><path d="M3420 225H3485"/>
+          <path d="M3700 118H3740Q3770 118 3770 172H3800"/><path d="M3700 220H3800"/>
+          <path d="M3700 322H3740Q3770 322 3770 270H3800"/><path d="M3700 405H3740Q3770 405 3770 350H3800"/>
+          <path d="M4110 240H4240"/><path d="M4420 240H4520"/>
+        </g>
+        <g class="ks-moving-line" stroke="#6d8ff0" stroke-width="2.5"><path d="M314 242H650"/><path d="M1330 172H1840"/><path d="M2810 137H2840Q2860 137 2860 225H3160"/><path d="M2810 295H2840Q2860 295 2860 225H3160"/><path d="M3700 220H3800"/><path d="M4110 240H4520"/></g>
+      </svg>
+      <div class="ks-station-label" style="left:34px">01 / RAW CONVERSATIONS</div>
+      <article class="ks-chat ks-panel" style="left:34px;top:74px;width:280px;height:340px">
+        <header><span class="ks-chat-dot"></span>engineering-history.json<span class="ks-file-count">↗</span></header>
+        <div class="ks-chat-window"><div class="ks-chat-scroll">
+          <div class="ks-message engineer"><small>ENGINEER</small><p><span data-i18n="算法已换，运行时怎么还是旧实现？">算法已换，运行时怎么还是旧实现？</span></p></div>
+          <div class="ks-message agent"><small>CODING AGENT</small><p><span data-i18n="先检查配置分支和运行时元数据。">先检查配置分支和运行时元数据。</span></p></div>
+          <div class="ks-terminal"><small>TERMINAL</small><code>metadata.algorithm<br/><b>→ legacy_centroid</b></code></div>
+          <div class="ks-message engineer ks-highlight"><small>ENGINEER</small><p><span data-i18n="配置仍指向旧模型。修复切换，保留回退。">配置仍指向旧模型。修复切换，保留回退。</span></p></div>
+          <div class="ks-message agent ks-highlight"><small>CODING AGENT</small><p><span data-i18n="验证真实调用，再检查接口和回归。">验证真实调用，再检查接口和回归。</span></p></div>
+          <div class="ks-terminal"><small>OTHER CONVERSATION</small><code>ImportError: ABI mismatch<br/><b>validation failed</b></code></div>
+          <div class="ks-message engineer"><small>ENGINEER</small><p><span data-i18n="先恢复检查点，再比较原始字节。">先恢复检查点，再比较原始字节。</span></p></div>
+        </div></div><footer><span data-i18n="相关经验与干扰主题混在一起">相关经验与干扰主题混在一起</span></footer>
+      </article>
+      <div class="ks-extractor ks-engine" style="left:382px;top:164px;width:150px"><span class="ks-ai-icon">✧</span><h3>LLM Case<br/>Extractor</h3><p><span data-i18n="理解语义 → 结构化抽取">理解语义 → 结构化抽取</span></p><span class="ks-model-tag">DeepSeek / LLM</span></div>
+      <span class="ks-fragment ks-fragment-one"><span data-i18n="配置分支">配置分支</span></span><span class="ks-fragment ks-fragment-two"><span data-i18n="保留回退">保留回退</span></span>
+      <div class="ks-station-label" style="left:650px">02 / ENGINEERING CASES</div>
+      <div class="ks-case-back back-two"><span>CASE_ABI</span><strong>Dependency compatibility</strong><small>partial</small></div>
+      <div class="ks-case-back back-one"><span>CASE_SCHEMA</span><strong>Response contract</strong><small>success</small></div>
+      <article class="ks-case ks-panel" style="left:650px;top:67px;width:290px"><header><span class="ks-case-glyph">▧</span>EngineeringCase<span class="ks-badge">SCHEMA</span></header><div class="ks-case-id">CASE_RUNTIME_SWITCH <i>authored example</i></div><dl>
+        <div class="ks-case-field "><dt>task</dt><dd><span data-i18n="替换算法，保持服务协议">替换算法，保持服务协议</span></dd></div>
+        <div class="ks-case-field "><dt>constraints</dt><dd><span data-i18n="接口兼容 · 旧算法可回退">接口兼容 · 旧算法可回退</span></dd></div>
+        <div class="ks-case-field "><dt>problems</dt><dd><span data-i18n="现象：旧算法仍生效">现象：旧算法仍生效</span></dd></div>
+        <div class="ks-case-field "><dt>root_cause</dt><dd><span data-i18n="配置仍指向旧实现">配置仍指向旧实现</span></dd></div>
+        <div class="ks-case-field "><dt>solutions</dt><dd><span data-i18n="修复配置并验证真实调用">修复配置并验证真实调用</span></dd></div>
+        <div class="ks-case-field "><dt>validation</dt><dd><span data-i18n="对话自述：接口 / 运行 / 回归">对话自述：接口 / 运行 / 回归</span></dd></div>
+      </dl><footer><code>final_status</code><span class="ks-success">success</span></footer></article>
+      <div class="ks-station-label ks-chunk-label" style="left:1050px">03 / SCHEMA-ALIGNED CHUNKING</div>
+      <div class="ks-chunks" style="left:1050px;top:94px;width:280px">
+        <article class="ks-chunk chunk-task"><span>01</span><div><strong>task</strong><p><span data-i18n="任务 · 模块 · 新旧算法">任务 · 模块 · 新旧算法</span></p></div><code>↗</code></article>
+        <article class="ks-chunk chunk-constraint"><span>02</span><div><strong>constraint</strong><p><span data-i18n="接口兼容 · 回退约束">接口兼容 · 回退约束</span></p></div><code>↗</code></article>
+        <article class="ks-chunk chunk-solution"><span>03</span><div><strong>solution</strong><p><span data-i18n="问题 + 根因 + 方案 + 可复用经验">问题 + 根因 + 方案 + 可复用经验</span></p></div><code>↗</code></article>
+        <p class="ks-small-note"><span data-i18n="每块保留 case_id 与来源">每块保留 case_id 与来源</span></p>
+      </div>
+      <div class="ks-station-label" style="left:1450px">04 / TEXT → VECTORS</div>
+      <div class="ks-embedding ks-engine" style="left:1450px;top:110px;width:170px"><span class="ks-ai-icon">⠿</span><h3>BGE-M3</h3><p>Embedding</p><span class="ks-model-tag">Chunk → Vector</span></div>
+      <div class="ks-vectors" style="left:1660px;top:122px"><div class="ks-vector"><i style="--bar:14px"></i><i style="--bar:27px"></i><i style="--bar:20px"></i><i style="--bar:35px"></i><i style="--bar:12px"></i><i style="--bar:24px"></i><i style="--bar:31px"></i><i style="--bar:18px"></i></div><div class="ks-vector"><i style="--bar:30px"></i><i style="--bar:12px"></i><i style="--bar:24px"></i><i style="--bar:17px"></i><i style="--bar:33px"></i><i style="--bar:21px"></i><i style="--bar:14px"></i><i style="--bar:29px"></i></div><div class="ks-vector"><i style="--bar:18px"></i><i style="--bar:30px"></i><i style="--bar:12px"></i><i style="--bar:26px"></i><i style="--bar:21px"></i><i style="--bar:35px"></i><i style="--bar:16px"></i><i style="--bar:23px"></i></div><small><span data-i18n="向量示意 · 非实际数值">向量示意 · 非实际数值</span></small></div>
+      <span class="ks-bypass" style="left:1460px;top:325px"><span data-i18n="同源 Chunk 文本 → 分词">同源 Chunk 文本 → 分词</span><b>BM25</b></span>
+      <div class="ks-station-label" style="left:1840px">05 / KNOWLEDGE INDEX</div>
+      <article class="ks-index ks-panel" style="left:1840px;top:75px;width:270px"><header><span>▤</span> Knowledge Index</header><div class="ks-index-channel dense"><label>DENSE VECTOR INDEX</label><strong>FAISS <span>← BGE-M3</span></strong><div class="ks-index-grid"><i class=""></i><i class="relevant"></i><i class=""></i><i class=""></i><i class="relevant"></i><i class=""></i><i class=""></i><i class="relevant"></i><i class=""></i><i class=""></i><i class="relevant"></i><i class=""></i></div></div><div class="ks-index-channel lexical"><label>LEXICAL RETRIEVAL VIEW</label><strong>BM25 <span>← Chunk text</span></strong><div class="ks-keywords"><span>runtime</span><span>fallback</span><span>contract</span></div></div><footer><span data-i18n="向量持久化 · BM25 从元数据构建">向量持久化 · BM25 从元数据构建</span></footer></article>
+      <div class="ks-station-label" style="left:2220px">06 / A NEW ENGINEERING TASK</div>
+      <article class="ks-query ks-panel" style="left:2220px;top:74px;width:275px"><header>↗ User Task <span class="ks-badge">NEW</span></header><p>Upgrade WineService<br/><strong>Centroid →<br/>RandomForestClassifier</strong></p><footer><span data-i18n="保持接口兼容与旧算法回退">保持接口兼容与旧算法回退</span></footer></article>
+      <div class="ks-station-label" style="left:2530px">07 / HYBRID RETRIEVAL</div>
+      <article class="ks-retrieval dense" style="left:2530px;top:81px;width:280px"><span class="ks-channel-icon">⌕</span><div><h3>Dense Retrieval</h3><p>Query Embedding → FAISS</p><div class="ks-candidates"><b>A</b><b>C</b><b>B</b><i>…</i></div></div></article>
+      <article class="ks-retrieval lexical" style="left:2530px;top:239px;width:280px"><span class="ks-channel-icon">≡</span><div><h3>BM25 Retrieval</h3><p>Query Keywords → BM25</p><div class="ks-candidates"><b>B</b><b>A</b><b>D</b><i>…</i></div></div></article>
+      <div class="ks-rrf ks-engine" style="left:2900px;top:156px;width:180px"><span class="ks-ai-icon">⋈</span><h3>RRF Fusion</h3><p><span data-i18n="按排名融合两路结果">按排名融合两路结果</span></p><span class="ks-model-tag">Dense + BM25</span></div>
+      <article class="ks-results ks-panel" style="left:3160px;top:99px;width:260px"><header>↗ Relevant Experience</header><p class="ks-results-sub"><span data-i18n="Top-K Chunk · 关联工程 Case">Top-K Chunk · 关联工程 Case</span></p><div class="ks-result"><b>A</b><div><strong>Runtime activation</strong><small><span data-i18n="确认新算法真正被调用">确认新算法真正被调用</span></small></div><span>↗</span></div><div class="ks-result"><b>B</b><div><strong>Interface contract</strong><small><span data-i18n="保持输出字段与兼容性">保持输出字段与兼容性</span></small></div><span>↗</span></div><div class="ks-result"><b>C</b><div><strong>Legacy fallback</strong><small><span data-i18n="保留并独立检查旧路径">保留并独立检查旧路径</span></small></div><span>↗</span></div><footer><span data-i18n="排序与候选为示意，不展示虚构分数">排序与候选为示意，不展示虚构分数</span></footer></article>
+      <div class="ks-station-label" style="left:3500px">08 / MULTI-SOURCE CONTEXT</div>
+      <div class="ks-context-source source-task" style="left:3500px;top:88px">↗ <div><strong>User Task</strong><small>Upgrade WineService</small></div></div>
+      <div class="ks-context-source source-cases" style="left:3500px;top:190px">▧ <div><strong>Retrieved Cases</strong><small><span data-i18n="带来源的经验片段">带来源的经验片段</span></small></div></div>
+      <div class="ks-context-source source-facts" style="left:3500px;top:292px">≡ <div><strong>Repository Facts</strong><small><span data-i18n="当前代码与可编辑文件">当前代码与可编辑文件</span></small></div></div>
+      <div class="ks-context-source source-skill" style="left:3500px;top:374px">◇ <div><strong>Skill / Constraints</strong><small><span data-i18n="白名单与固定验收规则">白名单与固定验收规则</span></small></div></div>
+      <span class="ks-context-packet packet-0" style="top:104px">Task</span>
+      <span class="ks-context-packet packet-1" style="top:207px">Experience</span>
+      <span class="ks-context-packet packet-2" style="top:309px">Facts</span>
+      <span class="ks-context-packet packet-3" style="top:391px">Skill</span>
+      <article class="ks-prompt" style="left:3800px;top:70px;width:310px"><header><span>✧ Prompt Builder</span><code>context</code></header><div class="ks-prompt-block"><label>TASK</label><p>Upgrade WineService.</p></div><div class="ks-prompt-block"><label>RETRIEVED_EVIDENCE</label><p><span data-i18n="相关经验是参考，不是指令。">相关经验是参考，不是指令。</span></p></div><div class="ks-prompt-block"><label>CURRENT REPOSITORY FACTS</label><p>service.py · config.json</p></div><div class="ks-prompt-block"><label>SKILL / CONSTRAINTS</label><p><span data-i18n="保持协议与回退；训练仅用输入数据。">保持协议与回退；训练仅用输入数据。</span></p></div><div class="ks-prompt-block"><label>OUTPUT FORMAT</label><p>JSON plan + actions</p></div><footer><span data-i18n="Skill 在运行时并入 Repository Facts">Skill 在运行时并入 Repository Facts</span></footer></article>
+      <div class="ks-station-label" style="left:4240px">09 / FROM CONTEXT TO ACTION</div>
+      <div class="ks-planner ks-engine" style="left:4240px;top:138px;width:180px"><span class="ks-ai-icon">✧</span><h3>LLM Planner</h3><p>DeepSeek / API</p><span class="ks-model-tag">plan.json → actions</span></div>
+      <article class="ks-execution ks-panel" style="left:4520px;top:94px;width:250px"><header>↗ Execute &amp; Validate</header><pre><span>"tool"</span>: "write_file"
+<span>"path"</span>: "service.py"
+<span>"content"</span>: "…"</pre><div class="ks-execution-checks"><p>FileProjectAdapter <i>→</i></p><p>Independent Validator <b>✓</b></p><p>Interface · Runtime<br/>Regression · Fallback</p></div><footer><span class="ks-pass">PASS</span><span data-i18n="示意成功路径">示意成功路径</span></footer></article>
+      <p class="ks-final-line" style="left:4240px;top:412px">From historical experience to <strong>executable actions.</strong></p>
+    </div></div></div>
+    <div class="ks-mobile" aria-hidden="true">
+      <article data-mobile-phase="0"><span class="ks-mobile-kicker">AGENT WORKSPACE</span><h3><span data-i18n="让分散的工程经验，重新发挥作用。">让分散的工程经验，重新发挥作用。</span></h3><div class="ks-mobile-path">Conversations <b>→</b> Context <b>→</b> Actions</div><p><span data-i18n="一条从历史对话到执行动作的知识流水线。">一条从历史对话到执行动作的知识流水线。</span></p></article>
+      <article data-mobile-phase="1"><span class="ks-mobile-kicker">CONVERSATION → ENGINEERING CASE</span><div class="ks-mobile-chat">Engineer<span><span data-i18n="算法已替换，为什么还是旧实现？">算法已替换，为什么还是旧实现？</span></span></div><div class="ks-mobile-extract">✧ LLM Case Extractor ↓</div><div class="ks-mobile-case"><strong>EngineeringCase</strong><p>task · constraints · problems<br/>solutions · validation · final_status</p></div><p><span data-i18n="先理解并抽取案例，再进行切块。">先理解并抽取案例，再进行切块。</span></p></article>
+      <article data-mobile-phase="2"><span class="ks-mobile-kicker">CASE → CHUNKS → INDEX</span><div class="ks-mobile-chunks"><span>task</span><span>constraint</span><span>solution</span></div><div class="ks-mobile-index"><div>Chunk → <b>BGE-M3</b><br/>Vector → FAISS</div><div>Chunk text<br/>Tokens → <b>BM25</b></div></div><p><span data-i18n="同源文本，两条独立检索通道。">同源文本，两条独立检索通道。</span></p></article>
+      <article data-mobile-phase="3"><span class="ks-mobile-kicker">NEW TASK → HYBRID RETRIEVAL</span><div class="ks-mobile-task">WineService<br/><strong>Centroid → RandomForest</strong></div><div class="ks-mobile-index"><div>Query Embedding<br/><b>FAISS</b></div><div>Query Keywords<br/><b>BM25</b></div></div><div class="ks-mobile-fusion">↘ RRF Fusion ↙</div><p><span data-i18n="按名次融合，找回相关工程经验。">按名次融合，找回相关工程经验。</span></p></article>
+      <article data-mobile-phase="4"><span class="ks-mobile-kicker">MULTI-SOURCE → PROMPT</span><div class="ks-mobile-chunks"><span>User Task</span><span>Retrieved Cases</span><span>Repository Facts</span><span>Skill</span></div><div class="ks-mobile-prompt"><code>TASK<br/>RETRIEVED_EVIDENCE<br/>CURRENT REPOSITORY FACTS<br/>OUTPUT FORMAT</code><strong>Prompt Context →</strong></div><p><span data-i18n="历史经验与当前事实，一起交给规划器。">历史经验与当前事实，一起交给规划器。</span></p></article>
+      <article data-mobile-phase="5"><span class="ks-mobile-kicker">CONTEXT → EXECUTABLE ACTIONS</span><div class="ks-mobile-extract">✧ LLM Planner ↓</div><div class="ks-mobile-prompt"><code>plan.json<br/>write_file · service.py</code></div><div class="ks-mobile-fusion">Executor → Validator <b>✓</b></div><p><span data-i18n="模型提出动作，执行器修改文件，独立程序验收。">模型提出动作，执行器修改文件，独立程序验收。</span></p></article>
+    </div>
+    <div class="ks-loop-veil" aria-hidden="true"><span class="ks-loop-mark">⌘</span><small>EXPERIENCE-GUIDED CODE AGENT</small><strong>Experience <i>→</i> Context <i>→</i> Actions</strong><p><span data-i18n="从历史对话，到有依据的行动。">从历史对话，到有依据的行动。</span></p></div>
+  </div>
+  <div class="ks-caption"><div><span id="ks-phase-number">01 / 06</span><strong id="ks-phase-title"><span data-i18n="经验进入工作区">经验进入工作区</span></strong></div><p id="ks-phase-copy"><span data-i18n="从历史人机对话出发，追踪知识如何成为行动依据。">从历史人机对话出发，追踪知识如何成为行动依据。</span></p></div>
+  <div class="ks-controls"><div class="ks-phases" role="group" aria-label="选择动画阶段" data-i18n-aria-label="选择动画阶段">
+    <button type="button" data-ks-phase="0" aria-pressed="true"><i></i><span data-i18n="起点">起点</span></button><button type="button" data-ks-phase="1" aria-pressed="false"><i></i><span data-i18n="抽取">抽取</span></button><button type="button" data-ks-phase="2" aria-pressed="false"><i></i><span data-i18n="入库">入库</span></button><button type="button" data-ks-phase="3" aria-pressed="false"><i></i><span data-i18n="检索">检索</span></button><button type="button" data-ks-phase="4" aria-pressed="false"><i></i><span data-i18n="汇聚">汇聚</span></button><button type="button" data-ks-phase="5" aria-pressed="false"><i></i><span data-i18n="行动">行动</span></button>
+    </div><div class="ks-playback"><button type="button" id="ks-play" aria-label="暂停动画" data-i18n-aria-label="暂停动画"><span id="ks-play-icon" aria-hidden="true">Ⅱ</span><span id="ks-play-label"><span data-i18n="暂停">暂停</span></span></button><button type="button" id="ks-replay" aria-label="重新播放动画" data-i18n-aria-label="重新播放动画">↻</button><span class="ks-time"><span id="ks-time">00</span> / 24s</span></div></div>
+  <div class="ks-progress" aria-hidden="true"><i id="ks-progress-fill"></i></div>
+  <p class="ks-accessible-summary"><span data-i18n="动画使用模拟对话和候选展示真实架构，不是实际运行结果。历史对话先经 LLM 抽取为 Case，再生成三类 Chunk；向量进入 FAISS，同源文本用于 BM25。新任务经双路检索与 RRF 融合，与当前仓库事实和 Skill 一起构成 Prompt。LLM 生成结构化动作，执行器修改文件，独立验证器验收。失败进入重试，次数耗尽则恢复检查点。">动画使用模拟对话和候选展示真实架构，不是实际运行结果。历史对话先经 LLM 抽取为 Case，再生成三类 Chunk；向量进入 FAISS，同源文本用于 BM25。新任务经双路检索与 RRF 融合，与当前仓库事实和 Skill 一起构成 Prompt。LLM 生成结构化动作，执行器修改文件，独立验证器验收。失败进入重试，次数耗尽则恢复检查点。</span></p>
 </div>
 <div class="hero-proof"><span><b>12</b> <span data-i18n="项 Agent 能力映射">项 Agent 能力映射</span></span><i></i><span><b>2</b> <span data-i18n="条复现路线">条复现路线</span></span><i></i><span><b>4</b> <span data-i18n="组检索对照">组检索对照</span></span><a href="https://github.com/chaomacv/experience-guided-code-agent" rel="noopener" target="_blank">Python 3.10+ · MIT ↗</a></div>
 </section>
@@ -110,4 +200,5 @@ python scripts/run_practice.py</pre><p id="track-note"><span data-i18n="查看 C
 </main><footer><a class="brand" href="#main"><span class="mark">↗</span> Code Agent <span class="lab">LAB</span></a><span><span data-i18n="基于开源 RAG Planning Pipeline 的扩展展示 · MIT">基于开源 RAG Planning Pipeline 的扩展展示 · MIT</span></span><a href="https://github.com/chaomacv/experience-guided-code-agent" rel="noopener" target="_blank">Explore the source ↗</a></footer>
 <script src="i18n.js"></script><script src="app.js"></script>
 <script src="guide.js"></script>
+<script src="knowledge-story.js"></script>
 </body></html>
