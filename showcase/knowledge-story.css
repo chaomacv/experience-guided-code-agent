@@ -67,16 +67,21 @@ html[lang=en] .hero h1{font-size:clamp(38px,4vw,58px)}
 .ks-split-note{position:absolute;left:-215px;top:104px;width:190px;text-align:center;color:#6e85b1;opacity:0}.ks-split-note strong{display:block;font-size:14px;font-weight:600;line-height:1.7}.ks-split-note span{display:block;font-size:12px;line-height:1.8;color:#899ab8}.ks-split-note i{display:block;font-style:normal;font-size:24px;line-height:1.4;color:#a6bce5}
 
 /* Shared bilingual card headings, based on Knowledge Index. */
-.ks-track .ks-card-head{display:flex;align-items:center;gap:10px;min-height:60px;box-sizing:border-box;padding:12px 16px;border-bottom:1px solid #e9edf5;background:#fdfdff;text-align:left}
+.ks-track .ks-card-head{display:flex;align-items:center;gap:10px;min-height:60px;box-sizing:border-box;padding:8px 16px;border-bottom:1px solid #e9edf5;background:#fdfdff;text-align:left}
 .ks-track .ks-card-title{display:flex;flex-direction:column;gap:3px;min-width:0}
-.ks-track .ks-card-title>strong{display:block;font:500 12px/1.6 Consolas,monospace;letter-spacing:0;color:#6a85b3;margin:0}
-.ks-track .ks-card-title>small{display:block;font:400 10px/1.6 "Segoe UI",sans-serif;letter-spacing:0;color:#96a6c2;margin:0}
+.ks-track .ks-card-title>strong{display:block;font:700 14px/1.6 Consolas,monospace;letter-spacing:0;color:#6a85b3;margin:0}
+.ks-track .ks-card-title>small{display:block;font:500 11px/1.6 "Segoe UI",sans-serif;letter-spacing:0;color:#96a6c2;margin:0}
 .ks-engine .ks-card-title{align-items:center;text-align:center}.ks-engine .ks-card-title>strong{white-space:nowrap}
 .ks-enriched .ks-card-title>strong{color:#c6cfea}.ks-enriched .ks-card-title>small{color:#92a3c0}.ks-enriched .ks-card-head{background:#273249;border-color:#36425d}
 .ks-chat-window{height:300px}.ks-chat-file{font:8px/1.6 Consolas,monospace;color:#9aa8bf;text-align:center;margin-bottom:10px}
 .ks-unified-chunks>.ks-card-head{border-radius:10px 10px 0 0}.ks-chunk-shell{height:318px}.ks-unified-chunks .ks-small-note{margin-top:18px}.ks-split-note{top:94px}
 .ks-knowledge-link{position:absolute;right:100%;top:148px;width:478px;height:1.5px;background:#c7d6ef;z-index:-2;transform-origin:right center}
 
-.ks-unified-chunks .ks-chunk strong{font:500 12px/1.6 Consolas,monospace}.ks-vector-heading{position:absolute;left:0;bottom:calc(100% + 12px);width:175px}.ks-vector-heading>strong{white-space:nowrap}
+.ks-unified-chunks .ks-chunk strong{font:700 14px/1.6 Consolas,monospace}.ks-vector-heading{position:absolute;left:0;bottom:calc(100% + 12px);width:175px}.ks-vector-heading>strong{white-space:nowrap}
 
 .ks-unified-chunks>.ks-card-head{overflow:hidden}
+
+.ks-mobile-case>strong,.ks-mobile-task>strong,.ks-mobile-prompt>strong{font-size:14px;font-weight:700}
+
+/* Give the workspace more desktop width; its world scales all content together. */
+@media(min-width:1000px){.hero{max-width:1560px}.knowledge-story{max-width:1500px}.ks-toolbar{height:46px;font-size:12px}.ks-caption strong{font-size:14px}.ks-caption>p{font-size:12px}.ks-phases button{font-size:11px}}

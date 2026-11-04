@@ -82,8 +82,8 @@
     ]);
     // Keep the extraction heading, then fold it away as the knowledge card splits.
     add(".ks-unified-chunks > .ks-card-head",[
-      {opacity:1,height:"60px",minHeight:"60px",paddingTop:"12px",paddingBottom:"12px",borderBottomWidth:"1px",offset:0},
-      {opacity:1,height:"60px",minHeight:"60px",paddingTop:"12px",paddingBottom:"12px",borderBottomWidth:"1px",offset:7.5/24},
+      {opacity:1,height:"60px",minHeight:"60px",paddingTop:"8px",paddingBottom:"8px",borderBottomWidth:"1px",offset:0},
+      {opacity:1,height:"60px",minHeight:"60px",paddingTop:"8px",paddingBottom:"8px",borderBottomWidth:"1px",offset:7.5/24},
       {opacity:0,height:"0px",minHeight:"0px",paddingTop:"0px",paddingBottom:"0px",borderBottomWidth:"0px",offset:9/24},
       {opacity:0,height:"0px",minHeight:"0px",paddingTop:"0px",paddingBottom:"0px",borderBottomWidth:"0px",offset:1},
     ]);
