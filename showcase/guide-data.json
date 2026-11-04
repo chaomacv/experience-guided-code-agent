@@ -252,7 +252,7 @@
       "任务文本 + Repository Facts + Skill + 检查点",
       "algo_rag_demo/cli.py",
       [
-        "examples/custom_data/task.txt",
+        "examples/wine_service/task.txt",
         "examples/algorithm_upgrade/skill.md",
         "checkpoint/manifest.json"
       ]
@@ -261,7 +261,7 @@
       "Knowledge Preparation",
       "把历史对话准备成可检索的工程经验。",
       "历史对话，或已整理好的 EngineeringCase JSON。",
-      "LLMCaseExtractor 抽取任务、约束、问题与解决方案；Pydantic 校验后按任务、约束、解决方案分块。EmbeddingProvider 建立向量和 Chunk 元数据映射，检索时构建 BM25 词法通道。",
+      "prepare_wine.py 实际执行诊断并记录来源；DeepSeek 抽取 EngineeringCase，再分块并计算 BGE-M3 向量。当前案例有 4 条实测诊断、12 个 Chunk；用户也可以提供自己的历史对话。",
       "EngineeringCase → KnowledgeChunk → Index",
       "algo_rag_demo/case_pipeline/chunker.py",
       [
@@ -304,7 +304,7 @@
       "实际文件修改 + execution.json",
       "algo_rag_demo/agent/executor.py",
       [
-        "workspace/ranking.py",
+        "workspace/service.py",
         "workspace/config.json",
         "attempts/01/execution.json"
       ]
@@ -313,9 +313,9 @@
       "Independent Validator",
       "由独立测试决定修改能否交付。",
       "修改后的项目副本 + 配置中固定的验证命令。",
-      "adapter.validate() 使用 shell=False 启动子进程并收集真实结果。示例 validate.py 检查接口字段、实际新算法调用、排序与分数回归、旧算法回退。固定测试程序独立于 Planner 的成功声明；这不是另一个 LLM 审核员。",
+      "Wine 独立程序检查接口签名和字段、实际 RandomForest.fit/predict_proba、留出数据质量、批处理一致性与旧算法预测快照；固定命令返回退出码。验收文件和数据在执行前后比较原始字节。",
       "passed + checks + exit_code / stdout / stderr",
-      "examples/algorithm_upgrade/validate.py",
+      "examples/wine_service/validate.py",
       [
         "check_interface()",
         "check_runtime()",
@@ -327,7 +327,7 @@
       "PASS → Final Report",
       "把通过验证的代码与证据一起交付。",
       "validation.passed 必须严格为 True。",
-      "workflow.py 结束重试循环，记录 success。reporting.py 将每轮的检索、计划、执行和验证结果整理为可阅读报告；报告与项目副本保存在本次 run_dir。",
+      "PASS 后导出 delivery/ 中的代码、SHA-256 清单和 changes.patch；保存 final_report.json 和 report.html。原始模型响应、检索和验收记录可逐轮核对。",
       "成功状态 + 修改后的项目 + 可追溯报告",
       "algo_rag_demo/reporting.py",
       [

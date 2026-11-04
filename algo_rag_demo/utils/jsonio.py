@@ -18,7 +18,7 @@ def write_json(path: Path, data: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     if isinstance(data, BaseModel):
         data = data.model_dump()
-    with path.open("w", encoding="utf-8") as handle:
+    with path.open("w", encoding="utf-8", newline="\n") as handle:
         json.dump(data, handle, indent=2, ensure_ascii=False)
         handle.write("\n")
 
@@ -32,4 +32,3 @@ def parse_json_object(content: str) -> dict:
     if not isinstance(data, dict):
         raise ValueError("Model response must be a JSON object.")
     return data
-

@@ -55,7 +55,7 @@ function renderDemo() {
     attempt.validation.checks.forEach(check => {
       let parsed;
       try { parsed = JSON.parse(check.stdout || "{}"); } catch { parsed = {}; }
-      const checks = parsed.checks || [{name:check.command.join(" "),passed:check.passed,error:check.error || check.stderr}];
+      const checks = parsed.checks || [{name:check.name || (check.command || []).join(" "),passed:check.passed,error:check.error || check.stderr}];
       checks.forEach(result => {
         const row = node("div", undefined, "validation-row");
         row.append(node("span", result.name));

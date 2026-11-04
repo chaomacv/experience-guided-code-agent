@@ -1,76 +1,33 @@
-# 命令手册
+# 常用命令
 
-在仓库根目录执行。默认使用配置中的 DeepSeek 和 BGE-M3。
-
-## 完整算法升级演示
+默认完整实战：
 
 ```bash
-pip install -r requirements.txt
-source ./load_deepseek_env.sh
-bash scripts/run_demo.sh
+python -m pip install -r requirements-practice.txt
+# 设置 DEEPSEEK_API_KEY 后
+python scripts/run_practice.py
 ```
 
-对应命令：
+逐步运行：
 
 ```bash
-python -m algo_rag_demo.cli --config configs/deepseek_bge_m3.json run \
-  --case-dir examples/custom_data/cases \
-  --task-file examples/custom_data/task.txt \
-  --repository-facts examples/custom_data/repository_facts.txt
+python scripts/prepare_wine.py
+python -m algo_rag_demo.cli --config configs/wine_practice.json run
 ```
 
-默认配置包含 raw_dir，会重新抽取 Case 到运行目录，再建索引、规划、执行和验证。
-直接运行 run 也会使用配置中的任务。只使用已有 Case 时移除配置的 paths.raw_dir。
+自己的知识：[准备与检索命令](knowledge_preparation.md)。其他 API / Embedding：[配置接口](retriever_extensions.md)、[模型 API](llm_providers.md)。
 
-## 自定义数据完整运行
-
-根据[执行与验证接口](execution_validation.md)创建 configs/my_project.json：
-
-```bash
-python -m algo_rag_demo.cli --config configs/my_project.json run \
-  --case-dir my_data/cases --task-file my_data/task.txt \
-  --repository-facts my_data/repository_facts.txt
-```
-
-从历史对话开始可加 --raw-dir my_data/raw。自定义 Case 必须配置对应执行器，
-默认示例配置不会将任意数据拿到排名示例中执行。只规划可加 --plan-only。
-
-## 单步命令
-
-```bash
-python -m algo_rag_demo.cli extract-cases --raw-dir my_data/raw --case-dir my_data/cases
-python -m algo_rag_demo.cli build-index --case-dir my_data/cases
-python -m algo_rag_demo.cli search --case-dir my_data/cases --task "metadata schema mismatch" --top-k 5
-python -m algo_rag_demo.cli plan --case-dir my_data/cases --task-file my_data/task.txt \
-  --repository-facts my_data/repository_facts.txt
-```
-
-build-index/search/plan 默认使用 outputs/index，可指定 --index-dir。
-run 的索引和记录始终放在本次运行目录。
-
-## 模型切换与测试
-
-通过 --config configs/openai_compatible_example.json 切换 LLM；
-完整执行前也需加入 execution。Embedding 可用
---embedding-provider bge-m3 --embedding-model /path/to/local/model 覆盖。
+框架检查：
 
 ```bash
 python -m pytest -q
 ```
 
-测试使用受控模型响应与测试向量验证真实执行、失败再检索和回滚，
-不等于在线 DeepSeek + BGE-M3 验证。
-
-# 扩展命令
+单独重放旧分支测试夹具（受控响应，不作为模型能力证据）：
 
 ```bash
-python scripts/offline_demo.py outputs/repair
-python scripts/offline_demo.py outputs/rollback --scenario rollback
-python -m algo_rag_demo.evaluation --provider bge-m3 --output-dir outputs/evaluation
-python -m algo_rag_demo.reporting --run-dir outputs/repair --output outputs/repair/report.html
+python scripts/offline_demo.py outputs/branch-test-repair
+python scripts/offline_demo.py outputs/branch-test-rollback --scenario rollback
 ```
 
-search、plan、run 支持 --retrieval-mode dense/bm25/hybrid、--candidate-k 和 --max-per-case。
-也可在 JSON 的 retrieval 配置中设置 mode、candidate_k、rrf_constant、max_per_case。
-离线演示每次需指定新的输出目录。评测不调用规划 LLM。
-
+原检索消融实验仍使用独立 benchmarks 语料：[评测说明](evaluation.md)。

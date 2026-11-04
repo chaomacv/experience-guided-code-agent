@@ -59,7 +59,7 @@
     all("[data-filter]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.filter === filter)));
   }
 
-  const runState = { track: "offline", os: "posix" };
+  const runState = { track: "live", os: "posix" };
   function renderCommands() {
     const windows = runState.os === "windows";
     const setup = [
@@ -68,25 +68,23 @@
       windows ? "py -3.10 -m venv .venv" : "python3 -m venv .venv",
       windows ? ".\\.venv\\Scripts\\Activate.ps1" : "source .venv/bin/activate"
     ];
-    if (runState.track === "offline") {
+    if (runState.track === "tests") {
       setup.push(
-        "python -m pip install -r requirements-core.txt pytest",
-        "python scripts/offline_demo.py outputs/my-first-run",
-        "python scripts/offline_demo.py outputs/my-rollback-run --scenario rollback",
+        'python -m pip install -r requirements-core.txt "scikit-learn>=1.4,<1.8"',
         "python -m pytest -q"
       );
-      one("#terminal-label").textContent = tr("离线机制演示 / Python 3.10+ / 无需 API Key");
-      one("#track-description").textContent = tr("先验证机制：预设 Planner + Mock embedding。两轮动作由脚本预定；实际文件修改、独立验证、重试控制与恢复校验均会执行。每次请使用新的输出目录。");
-      one("#track-note").textContent = tr("查看 outputs/my-first-run/report.html 与 outputs/my-rollback-run/report.html。这条路线不评估 LLM 智能或语义检索质量。");
+      one("#terminal-label").textContent = tr("框架回归检查 / 无需 API Key");
+      one("#track-description").textContent = tr("运行机制回归测试，不调用模型 API；受控响应只用于测试分支，不作为真实模型能力证据。");
+      one("#track-note").textContent = tr("真实 API 实战记录在上方；回归测试覆盖成功、失败、重试、耗尽恢复与验收文件保护。");
     } else {
       setup.push(
-        "python -m pip install -r requirements.txt",
+        "python -m pip install -r requirements-practice.txt",
         windows ? '$env:DEEPSEEK_API_KEY="你的密钥"' : 'export DEEPSEEK_API_KEY="你的密钥"',
-        "python -m algo_rag_demo.cli --config configs/deepseek_bge_m3.json run --case-dir examples/custom_data/cases --task-file examples/custom_data/task.txt --repository-facts examples/custom_data/repository_facts.txt --retrieval-mode hybrid --max-per-case 1"
+        "python scripts/run_practice.py"
       );
-      one("#terminal-label").textContent = tr("真实模型路线 / DeepSeek + BGE-M3");
-      one("#track-description").textContent = tr("接入真实模型：LLMPlanner 实际调用 DeepSeek，BGE-M3 计算向量并参与混合检索。首次使用需要下载模型，API 请求按服务用量计费；不会保证固定两轮或必然成功。");
-      one("#track-note").textContent = tr("默认配置使用 deepseek-flash。可替换 OpenAI-compatible Provider；输出路径由 CLI 打印，查看其中的 final_report.json 和 report.html。");
+      one("#terminal-label").textContent = tr("真实实战 / DeepSeek + BGE-M3");
+      one("#track-description").textContent = tr("运行真实数据准备、知识抽取、检索、模型规划、代码修改和独立验收；首次需下载 BGE-M3 并配置 API Key。");
+      one("#track-note").textContent = tr("查看 CLI 打印的运行目录：report.html、每轮模型响应、delivery/changes.patch。成功轮数由实际验收决定。");
     }
     one("#quickstart").textContent = setup.join("\n").replaceAll("你的密钥", tr("你的密钥"));
     all("[data-track]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.track === runState.track)));

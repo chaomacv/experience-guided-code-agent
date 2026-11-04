@@ -20,7 +20,7 @@ def render_run(run_dir, output):
             raise ValueError("Attempt number must be a positive integer.")
         folder = run_dir / "attempts" / f"{number:02d}"
         contents = []
-        for name in ["query", "retrieval", "plan", "execution", "validation", "error_analysis"]:
+        for name in ["query", "retrieval", "model_exchange", "plan", "execution", "validation", "error_analysis"]:
             file = folder / (name+".json")
             if file.exists():
                 contents.append(block(name, read_json(file)))
@@ -34,6 +34,8 @@ def render_run(run_dir, output):
     metadata = run_dir / "demo_metadata.json"
     if metadata.exists():
         html += block("演示来源与限制", read_json(metadata))
+    if (run_dir / 'run_metadata.json').exists():
+        html += block('Real model run metadata', read_json(run_dir / 'run_metadata.json'))
     html += block("Final report", report)+"".join(sections)+"</main></html>"
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(html, encoding="utf-8")

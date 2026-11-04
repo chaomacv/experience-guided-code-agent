@@ -15,6 +15,7 @@ from algo_rag_demo.rag.index_builder import build_index_from_cases
 from algo_rag_demo.rag.prompt_builder import build_prompt
 from algo_rag_demo.rag.retriever import Retriever
 from algo_rag_demo.utils.jsonio import read_json, write_json
+from algo_rag_demo import plugins
 
 console = Console()
 
@@ -90,7 +91,7 @@ def cmd_extract_cases(args: argparse.Namespace) -> None:
     extractor = LLMCaseExtractor(provider)
     raw_dir = Path(args.raw_dir)
     case_dir = Path(args.case_dir)
-    for case, final_path in extract_case_directory(raw_dir, case_dir, extractor):
+    for case, final_path in extract_case_directory(raw_dir, case_dir, extractor, case_dir.parent / 'extraction_audit'):
         console.print(f"Extracted {case.case_id} -> {final_path}")
 
 
@@ -98,7 +99,7 @@ def cmd_build_index(args: argparse.Namespace) -> None:
     """Build chunks, embeddings, and a vector index from structured cases."""
     config = _load_config(args.config)
     embedding = _embedding_settings(config)
-    cases, chunks, dimension = build_index_from_cases(
+    cases, chunks, dimension = plugins.index_builder(config)(
         provider_name=args.embedding_provider or embedding["provider"],
         embedding_model=args.embedding_model or embedding["model"],
         case_dir=Path(args.case_dir),
@@ -117,7 +118,7 @@ def cmd_search(args: argparse.Namespace) -> None:
     embedding = _embedding_settings(config)
     query = _task_text(args)
     top_k = args.top_k or int(config.get("retrieval", {}).get("top_k", 5))
-    results = Retriever(
+    results = plugins.retriever(config,
         index_dir=Path(args.index_dir),
         provider_name=args.embedding_provider or embedding["provider"],
         embedding_model=args.embedding_model or embedding["model"],
@@ -142,7 +143,7 @@ def cmd_plan(args: argparse.Namespace) -> None:
     task = _task_text(args)
     top_k = args.top_k or int(config.get("retrieval", {}).get("top_k", 5))
     repository_facts = Path(args.repository_facts).read_text(encoding="utf-8") if args.repository_facts else ""
-    results = Retriever(
+    results = plugins.retriever(config,
         index_dir=Path(args.index_dir),
         provider_name=args.embedding_provider or embedding["provider"],
         embedding_model=args.embedding_model or embedding["model"],
@@ -166,6 +167,8 @@ def cmd_run(args: argparse.Namespace) -> None:
         if not report_path.exists():
             write_json(report_path, {"status": "failed", "error": str(exc) or type(exc).__name__,
                                     "attempts": [], "rollback": None})
+        from algo_rag_demo.reporting import render_run
+        render_run(run_dir, run_dir / 'report.html')
         console.print(f"Run artifacts: {run_dir}")
         raise
 
@@ -173,6 +176,21 @@ def cmd_run(args: argparse.Namespace) -> None:
 def _run_pipeline(args: argparse.Namespace, config: Dict[str, object], run_dir: Path) -> None:
     """Run case extraction, RAG planning, project execution, validation, and recovery."""
     paths = config.get("paths", {})
+    import hashlib
+    import platform
+    import importlib.metadata
+    write_json(run_dir / 'run_metadata.json', {
+        'live_llm': True, 'planner': 'LLMPlanner',
+        'llm': {key:config.get('llm', {}).get(key) for key in ('provider','model','base_url')},
+        'embedding': {'provider':args.embedding_provider or config.get('embedding', {}).get('provider'),
+                      'model':args.embedding_model or config.get('embedding', {}).get('model')},
+        'retrieval': _retrieval_options(config, args),
+        'python':platform.python_version(),
+        'packages':{name:importlib.metadata.version(name) for name in ('numpy','pydantic')},
+        'source_sha256':{p.as_posix():hashlib.sha256(p.read_bytes()).hexdigest()
+                         for directory in ('algo_rag_demo','examples/wine_service')
+                         for p in sorted(Path(directory).rglob('*')) if p.is_file() and '__pycache__' not in p.parts}
+    })
     case_dir = _path(args.case_dir, Path(paths.get("case_dir", CASE_DIR)))
     default_cases = Path(paths.get("case_dir", CASE_DIR))
     raw_value = args.raw_dir or (paths.get("raw_dir") if case_dir.resolve() == default_cases.resolve() else None)
@@ -198,12 +216,12 @@ def _run_pipeline(args: argparse.Namespace, config: Dict[str, object], run_dir: 
     if raw_dir:
         import shutil
         shutil.copytree(raw_dir, run_dir / "conversations")
-        for case, output in extract_case_directory(raw_dir, working_case_dir, LLMCaseExtractor(provider)):
+        for case, output in extract_case_directory(raw_dir, working_case_dir, LLMCaseExtractor(provider), run_dir / 'extraction_audit'):
             console.print(f"Extracted {case.case_id} -> {output}")
     embedding = _embedding_settings(config)
     index_dir = run_dir / "index"
     knowledge_dir = run_dir / "knowledge"
-    cases, chunks, dimension = build_index_from_cases(
+    cases, chunks, dimension = plugins.index_builder(config)(
         provider_name=args.embedding_provider or embedding["provider"],
         embedding_model=args.embedding_model or embedding["model"],
         case_dir=working_case_dir,
@@ -211,7 +229,7 @@ def _run_pipeline(args: argparse.Namespace, config: Dict[str, object], run_dir: 
         index_dir=index_dir,
     )
     top_k = args.top_k or int(config.get("retrieval", {}).get("top_k", 5))
-    retriever = Retriever(
+    retriever = plugins.retriever(config,
         index_dir=index_dir,
         provider_name=args.embedding_provider or embedding["provider"],
         embedding_model=args.embedding_model or embedding["model"],
@@ -238,6 +256,8 @@ def _run_pipeline(args: argparse.Namespace, config: Dict[str, object], run_dir: 
         write_json(run_dir / "final_report.json", report)
     console.print(f"Cases: {cases}, chunks: {chunks}, dimension: {dimension}")
     console.print(f"Status: {report['status']}")
+    from algo_rag_demo.reporting import render_run
+    render_run(run_dir, run_dir / 'report.html')
     console.print(f"Run artifacts: {run_dir}")
     if report["status"] not in {"success", "planned"}:
         raise SystemExit(1)
@@ -339,4 +359,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

@@ -1,0 +1,9 @@
+{
+  "observed_on": "2026-11-04",
+  "python": "3.10.22",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "packages": {"numpy":"2.2.6", "pydantic":"2.14.2", "rich":"15.0.0", "torch":"2.6.0+cu124", "transformers":"4.57.6", "huggingface-hub":"0.36.2", "scikit-learn":"1.7.2"},
+  "bge_m3_cached_main_revision": "5617a9f61b028005a4858fdac845db406aefb181",
+  "vector_backend": "numpy",
+  "note": "Package versions and cached BGE revision were inspected on the execution server after the recorded run. CPU/CUDA wheel builds differ by platform; requirements-practice.txt pins the corresponding public package versions. The default config now pins the inspected BGE snapshot."
+}

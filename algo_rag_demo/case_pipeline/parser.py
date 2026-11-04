@@ -46,13 +46,15 @@ Keep only reusable, sanitized engineering knowledge. Do not include secrets, pri
             ],
             response_format={"type": "json_object"},
         )
+        self.last_exchange = {'conversation_id': conversation.conversation_id, 'response': content,
+                              'metadata': getattr(self.provider, 'last_response_metadata', {})}
         data = parse_json_object(content)
         # Provenance comes from input identity rather than generated model text.
         data["source_conversation_id"] = conversation.conversation_id
         return EngineeringCase(**data)
 
 
-def extract_case_directory(raw_dir: Path, case_dir: Path, extractor: LLMCaseExtractor):
+def extract_case_directory(raw_dir: Path, case_dir: Path, extractor: LLMCaseExtractor, audit_dir=None):
     """Extract conversations to case-id filenames without temporary files or silent collisions."""
     raw_paths = sorted(raw_dir.glob("*.json"))
     if not raw_paths:
@@ -67,6 +69,8 @@ def extract_case_directory(raw_dir: Path, case_dir: Path, extractor: LLMCaseExtr
             raise ValueError(f"Case id already belongs to another conversation: {case.case_id}")
         seen.add(case.case_id)
         write_json(output, case)
+        if audit_dir and hasattr(extractor, 'last_exchange'):
+            write_json(Path(audit_dir) / (raw_path.stem + '.json'), extractor.last_exchange)
         yield case, output
 
 

@@ -102,8 +102,10 @@ class BgeM3EmbeddingProvider:
         if not os.path.exists(model_name):
             # Download only the files needed for PyTorch inference; some mirrors
             # reject auxiliary repository artifacts such as imgs/.DS_Store.
+            repo_id, separator, revision = model_name.partition('@')
             resolved_model_path = snapshot_download(
-                repo_id=model_name,
+                repo_id=repo_id,
+                revision=revision if separator else None,
                 ignore_patterns=[
                     "imgs/*",
                     "*.DS_Store",
@@ -172,5 +174,25 @@ def get_embedding_provider(name: str = "mock", model_name: str = None) -> Embedd
         return BgeM3EmbeddingProvider(model_name or "BAAI/bge-m3")
     if name == "mock":
         return MockEmbeddingProvider()
+    if name == "sentence-transformer":
+        return SentenceTransformerProvider(model_name)
+    if ":" in name:
+        from importlib import import_module
+        module, factory = name.split(":", 1)
+        return getattr(import_module(module), factory)(model_name=model_name)
     raise ValueError(f"Unknown embedding provider: {name}")
 
+
+class SentenceTransformerProvider:
+    """Swap embedding models without changing the retrieval/planning workflow."""
+    def __init__(self, model_name=None):
+        from sentence_transformers import SentenceTransformer
+        if not model_name:
+            raise ValueError('Set embedding.model for sentence-transformer')
+        self.model = SentenceTransformer(model_name)
+
+    def encode_documents(self, texts):
+        return self.model.encode(texts, normalize_embeddings=True).astype('float32')
+
+    def encode_query(self, text):
+        return self.encode_documents([text])[0]

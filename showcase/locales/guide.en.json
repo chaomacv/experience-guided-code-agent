@@ -252,7 +252,7 @@
       "Task + Repository facts + Skill + Checkpoint",
       "algo_rag_demo/cli.py",
       [
-        "examples/custom_data/task.txt",
+        "examples/wine_service/task.txt",
         "examples/algorithm_upgrade/skill.md",
         "checkpoint/manifest.json"
       ]
@@ -261,7 +261,7 @@
       "Knowledge Preparation",
       "Turn historical conversations into retrievable engineering experience.",
       "Historical conversations or existing EngineeringCase JSON records.",
-      "LLMCaseExtractor extracts goals, constraints, problems and solutions. Pydantic validates the records; chunking creates task, constraint and solution views. EmbeddingProvider builds vectors and chunk metadata; retrieval constructs the BM25 lexical channel.",
+      "prepare_wine.py executes diagnostic probes with provenance. DeepSeek extracts EngineeringCases, followed by chunking and BGE-M3 embeddings. This case uses four measured records and 12 chunks; users can supply their own historical conversations.",
       "EngineeringCase → KnowledgeChunk → Index",
       "algo_rag_demo/case_pipeline/chunker.py",
       [
@@ -304,7 +304,7 @@
       "Real file changes + execution.json",
       "algo_rag_demo/agent/executor.py",
       [
-        "workspace/ranking.py",
+        "workspace/service.py",
         "workspace/config.json",
         "attempts/01/execution.json"
       ]
@@ -313,9 +313,9 @@
       "Independent Validator",
       "Use independent tests to decide whether an edit can be delivered.",
       "The modified project copy and fixed validation commands from configuration.",
-      "adapter.validate() launches subprocesses with shell=False and collects actual outcomes. The example validate.py checks interface fields, real new-algorithm invocation, ranking and score regressions, and the legacy fallback. A fixed test program is independent of Planner claims; it is not another LLM reviewer.",
+      "The Wine validator checks signatures and fields, actual RandomForest.fit/predict_proba calls, holdout quality, batch consistency and legacy prediction snapshots. Fixed commands return real exit codes. Protected acceptance files and data are compared byte for byte.",
       "passed + checks + exit_code / stdout / stderr",
-      "examples/algorithm_upgrade/validate.py",
+      "examples/wine_service/validate.py",
       [
         "check_interface()",
         "check_runtime()",
@@ -327,7 +327,7 @@
       "PASS → Final Report",
       "Deliver validated code with its execution evidence.",
       "validation.passed must be exactly True.",
-      "workflow.py ends the retry loop and records success. reporting.py renders the retrieval, plan, execution and validation artifacts from each attempt. The report and project copy remain in the run directory.",
+      "After PASS, export code, SHA-256 manifests and changes.patch in delivery/. Save final_report.json and report.html with model responses, retrieval and acceptance evidence for each attempt.",
       "Success status + Modified project + Traceable report",
       "algo_rag_demo/reporting.py",
       [

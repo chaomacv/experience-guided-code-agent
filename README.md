@@ -1,150 +1,94 @@
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/readme-banner-dark.svg">
-    <img src="assets/readme-banner-light.svg" alt="RAG Planning Lab — 工程经验驱动的代码演进" width="1200">
-  </picture>
-</p>
+# Algorithm Upgrade RAG Agent
 
-# RAG Planning Lab
+从工程任务出发，检索经验、调用 LLM 生成修改、实际执行，再由独立程序决定交付、重试或回滚。
 
-**让历史工程经验，成为下一次代码变更的依据。**
+默认实战：在 **UCI Wine 真实化学测量数据**上，把现有分类服务的标准化最近质心算法升级为 **RandomForestClassifier**，保持接口、返回字段和旧算法回退兼容。模型生成代码，项目不注入正确补丁，也不要求先失败再成功。
 
-一个可配置的 RAG Planning 与代码执行参考实现：从历史对话抽取工程案例，
-结合混合检索、当前仓库事实与 Skill 生成修改计划，
-用真实的文件修改和独立验证决定交付、修复或回滚。
+[展示页面](https://chaomacv.github.io/algorithm-upgrade-rag-agent-demo-zh/) · [实战全过程](docs/live_practice.md) · [通用架构](docs/architecture.md)
 
-[项目展示页](https://chaomacv.github.io/algorithm-upgrade-rag-agent-demo-zh/) ·
-[Agent 架构与实现对照](docs/agent_module_mapping.md) · [架构说明](docs/architecture.md) · [评测与取舍](docs/evaluation.md) ·
-[接入自己的项目](docs/execution_validation.md) · [技术讲解](docs/project_story.md)
+## Quick start：复现真实模型实战
 
-> 展示页通过 GitHub Pages 部署。`showcase/` 保存静态源码，修改 main 后由 Actions 自动发布。
-> 当前提供轻量工程参考实现与合成开发集实验，尚无真实业务任务成功率结论。
-
-## 项目解决什么问题
-
-工程经验常散落在历史对话里：字段不兼容、配置没生效、向量模型换了却没重建索引。
-单次代码生成容易重复踩坑；单纯检索问答又无法证明修改有效。
-
-这里把“经验检索”嵌入代码修改的闭环，每一轮保留查询、依据、计划、动作与验证结果。
-
-```mermaid
-flowchart LR
-    A[历史对话] --> B[EngineeringCase]
-    B --> C[任务 / 约束 / 解决方案 Chunk]
-    C --> D[BGE-M3 Dense]
-    C --> E[BM25]
-    D --> F[RRF 融合与 Case 限额]
-    E --> F
-    Q[当前任务 / 失败证据] --> F
-    F --> P[经验 + 仓库事实 + Skill → Planner]
-    P --> X[项目副本中的白名单编辑]
-    X --> V[独立验证]
-    V -->|通过| R[运行报告与事件记录]
-    V -->|失败，仍可重试| Q
-    V -->|次数耗尽| K[恢复并核验检查点]
-    K --> R
-```
-
-## 值得深入看的设计
-
-| 设计 | 实现 | 为什么需要 |
-| --- | --- | --- |
-| Schema 对齐的经验建模 | EngineeringCase / KnowledgeChunk | 保留任务、约束、问题、方案与来源 |
-| 混合检索 | BGE-M3 + BM25 + RRF | 同时利用语义相似与错误信息、标识符匹配 |
-| 上下文覆盖控制 | max_per_case | 避免一个 Case 的多个 Chunk 占满 Top-K |
-| 验证驱动的修复 | task + validation failure 再检索 | 下一轮规划带上实际失败证据 |
-| 项目适配边界 | ProjectAdapter Protocol | 替换项目执行、验证与回滚实现 |
-| 可追溯执行 | JSON 产物 + events.jsonl + HTML 报告 | 从最终状态回查每轮依据及阶段耗时 |
-
-## 先用离线演示理解机制
-
-Python 3.10+，无需下载模型或填写 API Key：
+Python 3.10–3.12；需要 DeepSeek API Key，首次运行会下载 BGE-M3（CPU 可运行，GPU 更快）。在仓库根目录执行：
 
 ```bash
+git clone https://github.com/chaomacv/algorithm-upgrade-rag-agent-demo-zh.git
+cd algorithm-upgrade-rag-agent-demo-zh
 python -m venv .venv
-# Linux/macOS: source .venv/bin/activate
-# Windows PowerShell: .venv\Scripts\Activate.ps1
-python -m pip install -r requirements-core.txt
-python scripts/offline_demo.py outputs/my-first-run
-python scripts/offline_demo.py outputs/my-rollback-run --scenario rollback
+# Linux / macOS
+source .venv/bin/activate
+# Windows PowerShell 改为：.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements-practice.txt
+export DEEPSEEK_API_KEY="your-key"
+# PowerShell 改为：$env:DEEPSEEK_API_KEY="your-key"
+python scripts/run_practice.py
+```
+
+这一条命令实际完成：加载 178 条 UCI Wine 数据 → 固定分层划分 124 条训练 / 54 条验收 → 运行原服务与目标库 API 诊断 → 形成 4 份带来源的实验记录 → DeepSeek 提取 EngineeringCase → Chunk → BGE-M3 / BM25 / RRF → DeepSeek 生成 Plan / write_file Actions → 写入项目副本 → 独立验收 → 按结果交付或重试，耗尽后恢复检查点。
+
+输出目录由 CLI 打印，为 `outputs/runs/<唯一运行ID>/`：
+
+| 产物 | 用途 |
+| --- | --- |
+| `run_metadata.json` / `task.json` | 模型配置、源码哈希、环境及原始任务 |
+| `conversations/` / `extraction_audit/` / `cases/` | 实测诊断记录、抽取响应和结构化知识 |
+| `knowledge/chunks.json` / `index/` | 实际构建的知识块与索引 |
+| `attempts/NN/` | 查询、检索、Prompt、原始模型响应、计划、执行、验收和失败信息 |
+| `workspace/` / `checkpoint/` | 修改后的项目副本和修改前字节快照 |
+| `delivery/` | 仅在验收通过后导出的文件、SHA-256 清单、`changes.patch` |
+| `final_report.json` / `report.html` | 最终状态及可查看的逐轮证据 |
+
+成功次数和尝试轮数不固定。运行失败也会保存证据，不会用脚本补丁改写成成功。API 按实际调用计费。
+
+## 把框架用于自己的业务
+
+按以下入口替换数据和业务适配层，复用检索、规划与流程控制代码：
+
+1. **[Knowledge Preparation：准备自己的知识](docs/knowledge_preparation.md)** — 历史对话、工单、实验日志如何转为有来源的 Case；Schema、Chunk、索引的实际命令。
+2. **[RAG Retriever：替换 Embedding / 检索 / 索引](docs/retriever_extensions.md)** — BGE-M3、SentenceTransformers、自定义 Embedding Provider，以及外部检索系统的工厂接口。
+3. **[LLM Planner：替换 API](docs/llm_providers.md)** — 更改 Base URL、模型、密钥环境变量；非兼容协议通过 ChatProvider 工厂适配。
+4. **[Project Adapter / Executor：接入自己的工程与工具](docs/project_adapter.md)** — 工作副本、白名单文件动作、检查点和交付；Git、Docker、工具框架的接入位置。
+5. **[Independent Validator：设计业务验收](docs/validator.md)** — 接口、运行、质量、回归、旧算法兼容；pytest、Hypothesis 等参考与命令接入。
+6. **[流程控制与恢复](docs/execution_validation.md)** — PASS / Retry / Exhausted / Rollback 的实际分支及失败产物。
+
+## 可复用架构
+
+```mermaid
+flowchart TD
+    K[历史记录 / 实测诊断] --> C[EngineeringCase → Chunk → Index]
+    T[User Task] --> R[RAG Retriever]
+    C --> R
+    R --> P[LLM Planner + Repository Facts + Skill]
+    P --> E[Project Adapter / Executor]
+    E --> V[Independent Validator]
+    V -->|PASS| D[交付代码 + Patch + Final Report]
+    V -->|FAIL 且可重试| F[失败证据进入查询与上下文]
+    F --> R
+    V -->|次数耗尽| B[恢复检查点 → 比较原始字节 → 报告]
+```
+
+`workflow.py` 不包含 Wine 的模型实现或修复答案。业务任务、训练数据和验收程序位于 `examples/wine_service/`；Embedding、检索、ChatProvider 和 ProjectAdapter 均有明确接口。
+
+## 数据与运行证据
+
+业务数据来自 [UCI Wine](https://archive.ics.uci.edu/dataset/109/wine)，178 个样本、13 个化学特征、3 个类别，CC BY 4.0；由 `sklearn.datasets.load_wine` 加载。来源、行划分与文件哈希见 `examples/wine_service/data/manifest.json`。这是公开数据上的工程迁移案例，业务场景由项目设计，不代表客户生产系统。
+
+知识库使用 `prepare_wine.py` 真正执行产生的诊断记录；它们不是虚构的客户聊天或历史成功事故。LLM 只抽取已有观测，原始记录和响应可核对。分类器质量的验收数据与 RAG 的知识库是两类数据。
+
+已发布的真实运行证据见 [实战记录](docs/live_practice.md)。固定留出集用于本案例的验收，重复尝试会接触其汇总反馈；不能将其分数视作独立泛化评估或 RAG 增益实验。
+
+旧的 20 Case / 30 Query 检索实验保留在 `benchmarks/` 与 [检索评测](docs/evaluation.md)，与 Wine 实战独立。`scripts/offline_demo.py` 仅保留为**流程回归用脚本夹具**，不再是默认 Quick start；其中的 ScriptedPlanner / Mock embedding 不参与实战运行。
+
+## 开发检查
+
+```bash
+python -m pip install pytest
 python -m pytest -q
 ```
 
-打开 `outputs/my-first-run/report.html` 查看运行证据。每次使用新的输出目录。
-离线演示使用 **预设 Planner + Mock embedding**，两轮动作是脚本预定的；
-项目副本的文件修改、验证子进程、失败状态与恢复校验实际执行。
-它用于演示工作流机制，不衡量 LLM 智能或语义检索质量。
+单元测试可以使用受控模型响应来验证失败、重试和回滚分支；这些测试不冒充真实模型实战证据。
 
-## 接入真实模型
+文件白名单、受保护验收文件的字节检查和固定命令用于限制操作范围。当前本地执行器不是操作系统沙箱；接入不可信代码时，应在独立容器或虚拟机运行目标工程，并使用外部验收器。[接入说明](docs/project_adapter.md)
 
-默认配置为 DeepSeek + BGE-M3；可以更换 OpenAI-compatible 服务与本地 Embedding：
+## 目录
 
-```bash
-python -m pip install -r requirements.txt
-# Linux/macOS，填写自己的 key 后加载：
-cp .env.example password.txt
-source ./load_deepseek_env.sh
-python -m algo_rag_demo.cli --config configs/deepseek_bge_m3.json run \
-  --case-dir examples/custom_data/cases \
-  --task-file examples/custom_data/task.txt \
-  --repository-facts examples/custom_data/repository_facts.txt \
-  --retrieval-mode hybrid --max-per-case 1
-```
-
-PowerShell 可使用 `$env:DEEPSEEK_API_KEY="your-key"` 设置密钥，再运行 Python 命令。
-API 请求按所用服务计费；BGE-M3 首次使用需下载模型。
-示例 `NeuralScorer` 是加权打分函数，用于暴露接口迁移问题，并非训练后的神经排序模型。
-完整接入自己的目标项目时，应配置可编辑文件与验证命令，或实现 ProjectAdapter。
-只检索和规划可添加 `--plan-only`。
-
-## 在同一数据上比较四组检索方案
-
-```bash
-python -m algo_rag_demo.evaluation --provider bge-m3 --output-dir outputs/evaluation
-# 仅检查评测通路，不用于模型质量比较：
-python -m algo_rag_demo.evaluation --provider mock --output-dir outputs/evaluation-smoke
-```
-
-20 个手工合成案例，60 个 Chunk，30 条带分级相关性标注的开发查询。
-RTX 4090 上实际运行 BGE-M3；各方案关闭成功案例先验，使用相同 Top-5 上下文预算。
-
-| 方案 | Recall@5 | MRR@5 | nDCG@5 | 平均不同 Case 数 |
-| --- | ---: | ---: | ---: | ---: |
-| Dense | 0.9333 | 0.9111 | 0.9194 | 3.23 |
-| BM25 | 0.8667 | 0.9111 | 0.9086 | 3.10 |
-| Hybrid / RRF | 0.8833 | 0.9667 | 0.9483 | 3.00 |
-| Hybrid + 每 Case 1 条 | 0.9000 | 0.9667 | 0.9516 | 5.00 |
-
-融合与去重改善了首条相关位置和上下文覆盖，但没有全面提高 Recall。
-数据与查询共同编写，尚无独立测试集；不能把这些数字理解为业务泛化收益或 Agent 任务成功率。
-[指标定义、原始数据和复现条件](docs/evaluation.md)。
-
-## 目录与文档
-
-```text
-algo_rag_demo/
-  case_pipeline/     对话抽取、Schema、分块
-  rag/               Embedding、BM25、索引、RRF、Prompt
-  agent/             Planner、Adapter、执行闭环、阶段事件
-  evaluation.py      四组消融与逐查询报告
-  reporting.py       可独立打开的 HTML 运行报告
-benchmarks/          20 个合成案例、30 条分级标注查询
-examples/            算法替换示例与自定义数据模板
-showcase/            项目展示页静态源码与证据数据
-docs/                接入、设计取舍、实验与项目讲解
-scripts/             离线演示和真实模型启动脚本
-tests/               核心检索、执行、回滚、指标与报告检查
-```
-
-- [自定义数据到 Case](docs/03_architecture_for_reuse.md)
-- [Case Schema](docs/case_schema.md)
-- [RAG Pipeline](docs/rag_pipeline.md)
-- [执行与验证接口](docs/execution_validation.md)
-- [完整命令](docs/commands.md)
-- [展示页部署](showcase/README.md)
-
-文件白名单约束编辑入口，验证命令来自用户配置；执行器不提供操作系统沙箱。
-可通过自定义 Adapter 在容器中运行不可信代码。
-API key、`password.txt`、`.env`、模型缓存与原始运行目录不提交。
-演示和实验数据采用 MIT 许可；保留原仓库版权与贡献记录。
-
+`algo_rag_demo/` 通用链路 · `examples/wine_service/` 当前业务 · `configs/wine_practice.json` 实战配置 · `scripts/prepare_wine.py` 数据与诊断 · `scripts/run_practice.py` 默认入口 · `tests/` 机制回归 · `showcase/` 中英文展示页

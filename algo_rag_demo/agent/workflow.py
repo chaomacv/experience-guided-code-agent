@@ -44,7 +44,11 @@ def run_agent(task, retriever, planner, adapter, run_dir: Path,
             (attempt_dir / "prompt.md").write_text(build_prompt(task, results, facts), encoding="utf-8")
             try:
                 with trace.span("planning", number):
-                    plan = planner.plan(task, results, facts)
+                    try:
+                        plan = planner.plan(task, results, facts)
+                    finally:
+                        if getattr(planner, 'last_exchange', None):
+                            write_json(attempt_dir / 'model_exchange.json', planner.last_exchange)
                 write_json(attempt_dir / "plan.json", plan)
                 with trace.span("execution", number):
                     execution = adapter.execute(plan)
@@ -58,6 +62,8 @@ def run_agent(task, retriever, planner, adapter, run_dir: Path,
                              "retrieved_cases": list(dict.fromkeys(item.case_id for item in results))})
             if validation.get("passed") is True:
                 report = {"status": "success", "attempts": attempts, "rollback": None}
+                if hasattr(adapter, 'deliver'):
+                    report['delivery'] = adapter.deliver(run_dir / 'delivery')
                 report["telemetry"] = trace.summary()
                 write_json(run_dir / "final_report.json", report)
                 return report
@@ -78,4 +84,3 @@ def run_agent(task, retriever, planner, adapter, run_dir: Path,
     report["telemetry"] = trace.summary()
     write_json(run_dir / "final_report.json", report)
     return report
-

@@ -7,7 +7,7 @@ SOURCE_DIRS = {'algo_rag_demo', 'assets', 'benchmarks', 'configs', 'docs', 'exam
                'scripts', 'tests', 'showcase', '.github'}
 SOURCE_FILES = {'README.md', 'LICENSE', 'CONTRIBUTING.md', 'CODE_OF_CONDUCT.md',
                 'SECURITY.md', '.env.example', '.gitignore', '.gitattributes',
-                'pytest.ini', 'requirements.txt', 'requirements-core.txt', 'load_deepseek_env.sh'}
+                'pytest.ini', 'requirements.txt', 'requirements-core.txt', 'requirements-practice.txt', 'load_deepseek_env.sh'}
 
 
 def source_files():

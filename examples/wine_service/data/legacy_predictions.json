@@ -1,0 +1,434 @@
+[
+  {
+    "label": 0,
+    "confidence": 0.9999953073051688,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 1,
+    "confidence": 0.9999987148567901,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 0,
+    "confidence": 0.9999999999993889,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 0,
+    "confidence": 0.9999999300473867,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 0,
+    "confidence": 0.888023835559273,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 0,
+    "confidence": 0.9999999985748229,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 2,
+    "confidence": 0.9999999997058706,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 1,
+    "confidence": 0.9999999831085499,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 1,
+    "confidence": 0.7238305842197669,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 2,
+    "confidence": 0.967243458288408,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 2,
+    "confidence": 0.9016568297630811,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 1,
+    "confidence": 0.7705879376571407,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 2,
+    "confidence": 0.9999999999986857,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 1,
+    "confidence": 0.999990277983884,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 0,
+    "confidence": 0.9999270763116653,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 2,
+    "confidence": 0.9999999999768701,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 1,
+    "confidence": 0.9999876837473971,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 0,
+    "confidence": 0.9598048046274342,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 2,
+    "confidence": 0.9999999988762012,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 2,
+    "confidence": 0.9999999992500854,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 1,
+    "confidence": 0.999970637304046,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 2,
+    "confidence": 0.9999988351138469,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 2,
+    "confidence": 0.9999995119372453,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 2,
+    "confidence": 0.999970790750022,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 1,
+    "confidence": 0.7867541668321199,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 2,
+    "confidence": 0.9999999986308732,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 0,
+    "confidence": 0.9979064962515449,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 1,
+    "confidence": 0.9986153031431435,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 0,
+    "confidence": 0.9999999999995894,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 1,
+    "confidence": 0.9838580323331274,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 0,
+    "confidence": 0.9040296133896256,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 1,
+    "confidence": 0.9214322050048329,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 2,
+    "confidence": 0.9984040204501237,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 1,
+    "confidence": 0.9999974672553179,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 1,
+    "confidence": 0.999988035297673,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 2,
+    "confidence": 0.9999999999950979,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 1,
+    "confidence": 0.9725120930236273,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 1,
+    "confidence": 0.9589652184274365,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 1,
+    "confidence": 0.9998630462274887,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 0,
+    "confidence": 0.9999991648558169,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 2,
+    "confidence": 0.9999955500373209,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 0,
+    "confidence": 0.9999996148485346,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 0,
+    "confidence": 0.9999998992112559,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 0,
+    "confidence": 0.9999946581671991,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 0,
+    "confidence": 0.9999999977440357,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 1,
+    "confidence": 0.9815195774450367,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 1,
+    "confidence": 0.9999998731341454,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 0,
+    "confidence": 0.9999999896280044,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 2,
+    "confidence": 0.9999999995992952,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 0,
+    "confidence": 0.999999959670472,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 1,
+    "confidence": 0.9999998999077477,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 1,
+    "confidence": 0.9992607752973787,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 2,
+    "confidence": 0.9999999953203758,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  },
+  {
+    "label": 0,
+    "confidence": 0.9999783127135016,
+    "metadata": {
+      "algorithm": "centroid",
+      "reason": "standardized nearest centroid"
+    }
+  }
+]

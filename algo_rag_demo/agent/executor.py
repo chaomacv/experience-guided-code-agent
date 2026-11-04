@@ -1,4 +1,6 @@
 import importlib
+import hashlib
+import difflib
 import os
 import shutil
 import subprocess
@@ -46,6 +48,9 @@ class FileProjectAdapter:
         self.commands = config["validation_commands"]
         self.timeout = int(config.get("timeout", 60))
         self.original = {}
+        self.protected = {p.relative_to(self.workspace).as_posix(): p.read_bytes()
+                          for p in self.workspace.rglob('*') if p.is_file()
+                          and p.relative_to(self.workspace).as_posix() not in self.allowed_files}
         # Resolve all edit paths before either checkpointing or mutation.
         for name in self.allowed_files:
             self._path(name)
@@ -107,12 +112,17 @@ class FileProjectAdapter:
             pending.append((self._path(action.get("path", "")), content))
         for path, content in pending:
             path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(content, encoding="utf-8")
+            path.write_text(content, encoding="utf-8", newline="\n")
         return {"applied": True, "files": [str(path.relative_to(self.workspace)) for path, _ in pending]}
 
     def validate(self) -> Dict[str, object]:
         """Run every fixed validation command and preserve actual process output."""
         checks = []
+        def unchanged():
+            return all((self.workspace / name).is_file() and (self.workspace / name).read_bytes() == data
+                       for name, data in self.protected.items())
+        if not unchanged():
+            return {'passed': False, 'checks': [], 'error': 'Protected validator or data changed'}
         if not self.commands:
             raise ValueError("At least one validation command is required.")
         for command in self.commands:
@@ -131,6 +141,7 @@ class FileProjectAdapter:
                 })
             except subprocess.TimeoutExpired:
                 checks.append({"command": command, "passed": False, "error": "Validation timed out."})
+        checks.append({'name': 'protected_files_unchanged', 'passed': unchanged()})
         return {"passed": all(check["passed"] for check in checks), "checks": checks}
 
     def rollback(self) -> Dict[str, object]:
@@ -141,11 +152,33 @@ class FileProjectAdapter:
                 path.unlink(missing_ok=True)
             else:
                 path.write_bytes(content)
+        for name, data in self.protected.items():
+            path = self.workspace / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(data)
         restored = all(
             (self._path(name).read_bytes() if self._path(name).exists() else None) == content
             for name, content in self.original.items()
         )
+        restored = restored and all((self.workspace / name).read_bytes() == data for name, data in self.protected.items())
         return {"restored": restored, "files": list(self.original)}
+
+    def deliver(self, output):
+        """Export validated files, hashes and a reviewable patch from the checkpoint."""
+        from algo_rag_demo.utils.jsonio import write_json
+        output.mkdir(parents=True, exist_ok=True)
+        manifest, patches = {}, []
+        for name, before in self.original.items():
+            after = self._path(name).read_bytes()
+            target = output / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(after)
+            manifest[name] = {'changed': before != after, 'sha256': hashlib.sha256(after).hexdigest()}
+            patches.extend(difflib.unified_diff((before or b'').decode().splitlines(True), after.decode().splitlines(True),
+                                                fromfile='a/' + name, tofile='b/' + name))
+        (output / 'changes.patch').write_text(''.join(patches), encoding='utf-8')
+        write_json(output / 'manifest.json', manifest)
+        return {'directory': str(output), 'files': manifest, 'patch': str(output / 'changes.patch')}
 
 
 def build_project_adapter(config: Dict[str, object], run_dir: Path) -> ProjectAdapter:

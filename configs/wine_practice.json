@@ -1,0 +1,19 @@
+{
+  "llm": {"provider":"deepseek", "base_url":"https://api.deepseek.com", "model":"deepseek-flash", "api_key_env":"DEEPSEEK_API_KEY", "timeout":180, "verify_ssl":true},
+  "embedding": {"provider":"bge-m3", "model":"BAAI/bge-m3@5617a9f61b028005a4858fdac845db406aefb181"},
+  "retrieval": {"mode":"hybrid", "top_k":5, "max_per_case":1, "candidate_k":30},
+  "paths": {
+    "case_dir":"outputs/wine_preparation/cases",
+    "raw_dir":"outputs/wine_preparation/conversations",
+    "task_file":"examples/wine_service/task.txt",
+    "repository_facts":"examples/wine_service/repository_facts.txt"
+  },
+  "execution": {
+    "factory":"algo_rag_demo.agent.executor:FileProjectAdapter",
+    "template_dir":"examples/wine_service",
+    "allowed_files":["service.py", "config.json"],
+    "validation_commands":[["{python}","validate.py"]],
+    "skill_file":"examples/wine_service/skill.md",
+    "max_attempts":3, "timeout":120
+  }
+}

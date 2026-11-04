@@ -30,6 +30,7 @@ class OpenAICompatibleChatProvider:
         self.model = model
         self.timeout = timeout
         self.verify_ssl = verify_ssl
+        self.last_response_metadata = {}
         if not self.api_key:
             raise ValueError(f"{api_key_env} is required for LLM calls.")
 
@@ -58,12 +59,18 @@ class OpenAICompatibleChatProvider:
         except urllib.error.HTTPError as exc:
             detail = exc.read().decode("utf-8", errors="replace")
             raise RuntimeError(f"LLM request failed: HTTP {exc.code}: {detail}") from exc
+        self.last_response_metadata = {key: payload[key] for key in ('id', 'model', 'usage', 'created') if key in payload}
+        self.last_response_metadata['finish_reason'] = payload['choices'][0].get('finish_reason')
         return payload["choices"][0]["message"]["content"]
 
 
 def build_chat_provider(config: Dict[str, object]) -> ChatProvider:
     """Create a chat provider from a config dictionary."""
     provider = str(config.get("provider", "openai-compatible"))
+    if config.get('factory'):
+        from importlib import import_module
+        module, name = config['factory'].split(':', 1)
+        return getattr(import_module(module), name)(config)
     if provider not in {"deepseek", "openai-compatible"}:
         raise ValueError(f"Unsupported LLM provider: {provider}")
     return OpenAICompatibleChatProvider(

@@ -1,35 +1,17 @@
-# 架构概览
+# 通用架构与业务边界
 
-默认提供完整算法升级案例，通用闭环与具体项目通过接口连接。
+控制层 `run_agent()` 管理检索 → 规划 → 执行 → 验收 → 成功 / 重试 / 恢复，不包含 Wine 算法或正确补丁。
 
-```text
-Conversation -> LLMCaseExtractor -> EngineeringCase -> chunk_cases
--> EmbeddingProvider -> Index -> Retriever.search
--> build_prompt -> LLMPlanner -> ProjectAdapter.execute
--> ProjectAdapter.validate
-   Pass: Final Report
-   Fail: Error Analysis -> error query -> Retrieval -> repair plan
-   Attempts exhausted: ProjectAdapter.rollback -> Final Report
-```
+| Agent 职责 | 通用实现 | 当前业务提供 |
+| --- | --- | --- |
+| Input | CLI / config | Wine 升级任务与工程事实 |
+| Memory / Knowledge | Conversation、Case Schema、抽取、Chunk | 实际诊断记录及来源 |
+| RAG | BGE-M3、BM25、RRF、工厂接口 | 从 Case 构建的经验索引 |
+| LLM / Planning | ChatProvider、LLMPlanner | 模型配置、业务 Skill |
+| Tool Use / Execution | ProjectAdapter、write_file | service.py / config.json 白名单 |
+| Observation | 退出码、日志、trace、模型响应 | 业务验收结果 |
+| Reflection | 失败进入下一轮查询和上下文 | 接口/运行/质量/兼容性错误 |
+| Evaluation / Guardrails | 固定命令、受保护文件检查 | Wine 独立验收与阈值 |
+| Output | delivery、changes.patch、final_report、HTML | 经验证的分类服务修改 |
 
-| 位置 | 职责 |
-| --- | --- |
-| case_pipeline/parser.py | 历史对话抽取与 Schema 校验 |
-| case_pipeline/chunker.py | 按任务、约束、解决方案创建 Chunk |
-| rag/embedding.py | EmbeddingProvider，文档与查询使用同一向量空间 |
-| rag/index_builder.py | 索引与向量行到 Chunk 元数据映射 |
-| rag/retriever.py | 检索并返回可溯源的 RetrievalResult |
-| rag/prompt_builder.py | 合并任务、经验、Skill、事实和错误上下文 |
-| agent/llm_provider.py | 可替换 OpenAI-compatible 模型服务 |
-| agent/planner.py | LLMPlanner 返回计划与结构化 actions |
-| agent/executor.py | ProjectAdapter 协议、白名单编辑与固定验证命令 |
-| agent/workflow.py | 检索、执行、验证、错误反馈、重试和回滚 |
-| cli.py | 抽取、建索引、检索、规划和完整 run 命令 |
-
-FileProjectAdapter 在运行目录复制项目，读取实际文件作为仓库事实。
-LLM 的 write_file 动作只能编辑白名单文件；验证命令来自配置而非模型。
-实际运行 Python 代码仍具有当前用户权限，该执行器不等同沙箱。
-
-自己的数据映射到 EngineeringCase 后，Chunk 到规划步骤自动适配。
-项目工具和验证通过 [ProjectAdapter 接口](execution_validation.md) 适配。
-run_agent 接收 retriever、planner、adapter，不绑定示例算法或 DeepSeek。
+扩展入口按顺序见 [README](../README.md#把框架用于自己的业务)。旧 ranking 示例和离线脚本是机制测试资产，不参与默认实战执行。

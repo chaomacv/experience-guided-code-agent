@@ -11,5 +11,4 @@ RAW_DIR = CUSTOM_DATA_DIR / "raw"
 KNOWLEDGE_DIR = OUTPUTS_DIR / "knowledge"
 INDEX_DIR = OUTPUTS_DIR / "index"
 RUNS_DIR = OUTPUTS_DIR / "runs"
-DEFAULT_CONFIG = CONFIG_DIR / "deepseek_bge_m3.json"
-
+DEFAULT_CONFIG = CONFIG_DIR / "wine_practice.json"

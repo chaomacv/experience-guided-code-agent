@@ -1,0 +1,6 @@
+Business: identify wine cultivar from 13 measured chemical features (UCI Wine, three classes).
+Existing service: examples/wine_service/service.py, standardized nearest-centroid classifier.
+Requested upgrade: real sklearn RandomForestClassifier training/inference; retain centroid fallback.
+Data preparation, protected independent validator and diagnostic provenance are maintained by the project owner.
+The executor copies this project into a fresh run workspace; only service.py and config.json are writable actions.
+The validator loads train.csv and holdout.csv locally. The planner gets current editable files and measured diagnostics; it must not read holdout labels.

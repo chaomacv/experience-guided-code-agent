@@ -21,6 +21,7 @@ class LLMPlanner:
 
     def plan(self, task: str, results: List[RetrievalResult], repository_facts: str = "") -> Dict[str, object]:
         """Ask an LLM to create a structured plan from RAG evidence."""
+        self.last_exchange = None
         messages = [
             {
                 "role": "system",
@@ -36,6 +37,8 @@ class LLMPlanner:
             },
         ]
         content = self.provider.complete(messages, response_format={"type": "json_object"})
+        self.last_exchange = {'messages': messages, 'response': content,
+                              'metadata': getattr(self.provider, 'last_response_metadata', {})}
         return _normalize_plan(parse_json_object(content), results)
 
 
