@@ -80,6 +80,13 @@
       {opacity:1,transform:"translateX(400px)",offset:10.3/24},
       {opacity:1,transform:"translateX(400px)",offset:1},
     ]);
+    // Keep the extraction heading, then fold it away as the knowledge card splits.
+    add(".ks-unified-chunks > .ks-card-head",[
+      {opacity:1,height:"60px",minHeight:"60px",paddingTop:"12px",paddingBottom:"12px",borderBottomWidth:"1px",offset:0},
+      {opacity:1,height:"60px",minHeight:"60px",paddingTop:"12px",paddingBottom:"12px",borderBottomWidth:"1px",offset:7.5/24},
+      {opacity:0,height:"0px",minHeight:"0px",paddingTop:"0px",paddingBottom:"0px",borderBottomWidth:"0px",offset:9/24},
+      {opacity:0,height:"0px",minHeight:"0px",paddingTop:"0px",paddingBottom:"0px",borderBottomWidth:"0px",offset:1},
+    ]);
     add(".ks-chunk-shell",[{opacity:1,offset:0},{opacity:1,offset:7.5/24},{opacity:0,offset:9/24},{opacity:0,offset:1}]);
     [".chunk-task",".chunk-constraint",".chunk-solution"].forEach((selector,i)=>{
       const split={opacity:1,transform:`translateY(${i*15}px)`,borderRadius:"8px",borderColor:["#d9e4f7","#e1d7f2","#d0e8e3"][i],backgroundColor:"#ffffff",boxShadow:"0 3px 8px #2f4d8708"};
@@ -96,9 +103,9 @@
     [0,1,2].forEach(i=>{
       const delay=i*.22;
       add(`.ks-knowledge-packet.flow-${i}`,[
-        {opacity:0,transform:`translate(1330px,${197+i*101}px) scale(1)`,offset:0},
-        {opacity:0,transform:`translate(1330px,${197+i*101}px) scale(1)`,offset:(9.4+delay)/24},
-        {opacity:1,transform:`translate(1355px,${197+i*96}px) scale(1)`,offset:(9.55+delay)/24},
+        {opacity:0,transform:`translate(1330px,${137+i*101}px) scale(1)`,offset:0},
+        {opacity:0,transform:`translate(1330px,${137+i*101}px) scale(1)`,offset:(9.4+delay)/24},
+        {opacity:1,transform:`translate(1355px,${137+i*96}px) scale(1)`,offset:(9.55+delay)/24},
         {opacity:1,transform:`translate(1460px,${170+i*12}px) scale(.9)`,offset:(10+delay)/24},
         {opacity:1,transform:`translate(1650px,${140+i*55}px) scale(.9)`,offset:(10.6+delay)/24},
         {opacity:1,transform:`translate(1870px,${190+i*16}px) scale(.75)`,offset:(11.45+delay)/24},

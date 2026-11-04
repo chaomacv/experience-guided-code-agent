@@ -78,3 +78,5 @@ html[lang=en] .hero h1{font-size:clamp(38px,4vw,58px)}
 .ks-knowledge-link{position:absolute;right:100%;top:148px;width:478px;height:1.5px;background:#c7d6ef;z-index:-2;transform-origin:right center}
 
 .ks-unified-chunks .ks-chunk strong{font:500 12px/1.6 Consolas,monospace}.ks-vector-heading{position:absolute;left:0;bottom:calc(100% + 12px);width:175px}.ks-vector-heading>strong{white-space:nowrap}
+
+.ks-unified-chunks>.ks-card-head{overflow:hidden}
