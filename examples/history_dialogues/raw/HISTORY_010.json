@@ -1,0 +1,39 @@
+{
+  "conversation_id": "HISTORY_010",
+  "provenance": "synthetic_authored_human_assistant_dialogue",
+  "task": "最短路径从 Dijkstra 替换为 A*",
+  "messages": [
+    {
+      "role": "user",
+      "content": "地图路径规划想从 Dijkstra 换为 A*，返回路径和总成本字段要保留。"
+    },
+    {
+      "role": "assistant",
+      "content": "需要约束启发式函数，并检查不可达节点、起终点相同和代价计算。"
+    },
+    {
+      "role": "user",
+      "content": "用了高估距离的启发式，速度快了，但路径不是最优。"
+    },
+    {
+      "role": "assistant",
+      "content": "应检查启发式的可采纳性或明确次优容忍度；用小图上的参考最短路径做回归。"
+    },
+    {
+      "role": "user",
+      "content": "这个服务没有类别标签或概率矩阵。"
+    },
+    {
+      "role": "assistant",
+      "content": "对，输出契约是路径序列和代价；验收重点是合法路径、成本与搜索开销。"
+    },
+    {
+      "role": "user",
+      "content": "我调整启发式后，小图成本比较通过，大地图性能还待评估。"
+    },
+    {
+      "role": "assistant",
+      "content": "保存图数据版本及性能基准，不要只用一张图宣布整体升级成功。"
+    }
+  ]
+}

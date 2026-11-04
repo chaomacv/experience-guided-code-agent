@@ -23,14 +23,14 @@ export DEEPSEEK_API_KEY="your-key"
 python scripts/run_practice.py
 ```
 
-这一条命令实际完成：加载 178 条 UCI Wine 数据 → 固定分层划分 124 条训练 / 54 条验收 → 运行原服务与目标库 API 诊断 → 形成 4 份带来源的实验记录 → DeepSeek 提取 EngineeringCase → Chunk → BGE-M3 / BM25 / RRF → DeepSeek 生成 Plan / write_file Actions → 写入项目副本 → 独立验收 → 按结果交付或重试，耗尽后恢复检查点。
+这一条命令实际完成：加载 178 条 UCI Wine 数据 → 固定分层划分 124 条训练 / 54 条验收 → 读取 12 段人工编写的人机历史对话样例（96 条消息，含相关与干扰内容） → DeepSeek 提取 EngineeringCase → Chunk → BGE-M3 / BM25 / RRF → DeepSeek 生成 Plan / write_file Actions → 写入项目副本 → 独立验收 → 按结果交付或重试，耗尽后恢复检查点。
 
 输出目录由 CLI 打印，为 `outputs/runs/<唯一运行ID>/`：
 
 | 产物 | 用途 |
 | --- | --- |
 | `run_metadata.json` / `task.json` | 模型配置、源码哈希、环境及原始任务 |
-| `conversations/` / `extraction_audit/` / `cases/` | 实测诊断记录、抽取响应和结构化知识 |
+| `conversations/` / `extraction_audit/` / `cases/` | 原始历史对话样例、抽取响应和结构化知识 |
 | `knowledge/chunks.json` / `index/` | 实际构建的知识块与索引 |
 | `attempts/NN/` | 查询、检索、Prompt、原始模型响应、计划、执行、验收和失败信息 |
 | `workspace/` / `checkpoint/` | 修改后的项目副本和修改前字节快照 |
@@ -54,7 +54,7 @@ python scripts/run_practice.py
 
 ```mermaid
 flowchart TD
-    K[历史记录 / 实测诊断] --> C[EngineeringCase → Chunk → Index]
+    K[历史人机对话] --> C[EngineeringCase → Chunk → Index]
     T[User Task] --> R[RAG Retriever]
     C --> R
     R --> P[LLM Planner + Repository Facts + Skill]
@@ -72,9 +72,9 @@ flowchart TD
 
 业务数据来自 [UCI Wine](https://archive.ics.uci.edu/dataset/109/wine)，178 个样本、13 个化学特征、3 个类别，CC BY 4.0；由 `sklearn.datasets.load_wine` 加载。来源、行划分与文件哈希见 `examples/wine_service/data/manifest.json`。这是公开数据上的工程迁移案例，业务场景由项目设计，不代表客户生产系统。
 
-知识库使用 `prepare_wine.py` 真正执行产生的诊断记录；它们不是虚构的客户聊天或历史成功事故。LLM 只抽取已有观测，原始记录和响应可核对。分类器质量的验收数据与 RAG 的知识库是两类数据。
+知识库默认读取 [12 段历史人机对话样例](examples/history_dialogues/README.md)：6 段与分类服务迁移相关、6 段为其他算法迁移的干扰项。它们是人工编写的样例，不冒充真实客户记录；对话中测试反馈不等于独立验收证据。原始对话经 DeepSeek 抽取为 Case，之后分块、建立索引；相关性标注不参与抽取与检索。分类业务数据与 RAG 对话知识完全分开，`prepare_wine.py` 不再生成知识消息。
 
-已发布的真实运行证据见 [实战记录](docs/live_practice.md)。固定留出集用于本案例的验收，重复尝试会接触其汇总反馈；不能将其分数视作独立泛化评估或 RAG 增益实验。
+当前对话语料与 RAG 运行见 [历史对话建库记录](docs/history_dialogues.md)。此前使用诊断知识的运行证据保留在 [早期实战记录](docs/live_practice.md)，不代表当前知识来源。固定留出集用于本案例的验收，重复尝试会接触其汇总反馈；不能将其分数视作独立泛化评估或 RAG 增益实验。
 
 旧的 20 Case / 30 Query 检索实验保留在 `benchmarks/` 与 [检索评测](docs/evaluation.md)，与 Wine 实战独立。`scripts/offline_demo.py` 仅保留为**流程回归用脚本夹具**，不再是默认 Quick start；其中的 ScriptedPlanner / Mock embedding 不参与实战运行。
 
@@ -91,4 +91,4 @@ python -m pytest -q
 
 ## 目录
 
-`algo_rag_demo/` 通用链路 · `examples/wine_service/` 当前业务 · `configs/wine_practice.json` 实战配置 · `scripts/prepare_wine.py` 数据与诊断 · `scripts/run_practice.py` 默认入口 · `tests/` 机制回归 · `showcase/` 中英文展示页
+`algo_rag_demo/` 通用链路 · `examples/wine_service/` 当前业务 · `configs/wine_practice.json` 实战配置 · `scripts/prepare_wine.py` 业务数据与基线快照 · `scripts/run_practice.py` 默认入口 · `tests/` 机制回归 · `showcase/` 中英文展示页

@@ -1,0 +1,176 @@
+{
+  "scope": "One authored mixed-corpus sanity check, not an independent retrieval benchmark or RAG benefit study.",
+  "label_source": "examples/history_dialogues/manifest.json; labels not used during extraction/indexing/search",
+  "corpus_dialogues": 12,
+  "query": "Upgrade WineService from the centroid classifier to sklearn.ensemble.RandomForestClassifier for the UCI Wine classification service.\nImplement actual training and inference; set the default algorithm in config.json to random_forest. Keep WineService(algorithm=None), fit(X,y)->self and predict(X)->list[dict] compatible. Each result must have an integer label, float confidence in [0,1], and metadata.algorithm plus a nonempty metadata.reason. Keep algorithm='centroid' as an explicit fallback with identical predictions and confidences to the original service.\nUse only the caller-supplied training data in fit. Do not read holdout labels or hard-code predictions. Preserve input ordering, return [] for empty predict input, and reject wrong feature counts or non-finite inputs with ValueError. The fixed validator checks actual RandomForest fit and predict_proba calls, interface signatures, output types, holdout balanced accuracy >= max(0.95, baseline balanced accuracy minus 0.02), batch/single-row consistency, determinism and legacy fallback. Use random_state=42 and n_jobs=1 for reproducibility.\nOnly edit service.py and config.json through write_file actions. Do not modify the validator, data or any other files. There is no prescribed number of attempts: deliver if independent validation passes; otherwise use actual failures to revise the implementation.",
+  "modes": {
+    "dense": {
+      "related_in_top5": 5,
+      "returned": 5,
+      "results": [
+        {
+          "source": "HISTORY_001",
+          "case_id": "CASE_HISTORY_001",
+          "chunk_type": "task",
+          "score": 0.6353777647018433,
+          "dense_rank": 1,
+          "lexical_rank": null,
+          "grade": 3,
+          "title": "分类服务从线性模型迁移到随机森林时保留响应协议"
+        },
+        {
+          "source": "HISTORY_005",
+          "case_id": "CASE_HISTORY_005",
+          "chunk_type": "task",
+          "score": 0.6269126534461975,
+          "dense_rank": 2,
+          "lexical_rank": null,
+          "grade": 2,
+          "title": "替换分类算法后批量与逐条预测不一致"
+        },
+        {
+          "source": "HISTORY_003",
+          "case_id": "CASE_HISTORY_003",
+          "chunk_type": "task",
+          "score": 0.6192617416381836,
+          "dense_rank": 3,
+          "lexical_rank": null,
+          "grade": 3,
+          "title": "替换分类器后空批次与异常数值处理发生变化"
+        },
+        {
+          "source": "HISTORY_006",
+          "case_id": "CASE_MODEL_REPLACEMENT_PROBE",
+          "chunk_type": "task",
+          "score": 0.6151957511901855,
+          "dense_rank": 4,
+          "lexical_rank": null,
+          "grade": 3,
+          "title": "证明模型替换真正生效而不是只改算法标签"
+        },
+        {
+          "source": "HISTORY_004",
+          "case_id": "CASE_HISTORY_004",
+          "chunk_type": "constraint",
+          "score": 0.5984190106391907,
+          "dense_rank": 5,
+          "lexical_rank": null,
+          "grade": 3,
+          "title": "分类算法升级时避免训练测试泄漏并固定验收标准"
+        }
+      ]
+    },
+    "bm25": {
+      "related_in_top5": 2,
+      "returned": 5,
+      "results": [
+        {
+          "source": "HISTORY_006",
+          "case_id": "CASE_MODEL_REPLACEMENT_PROBE",
+          "chunk_type": "solution",
+          "score": 92.21451536101421,
+          "dense_rank": null,
+          "lexical_rank": 1,
+          "grade": 3,
+          "title": "证明模型替换真正生效而不是只改算法标签"
+        },
+        {
+          "source": "HISTORY_010",
+          "case_id": "CASE_HISTORY_010",
+          "chunk_type": "solution",
+          "score": 68.30224953179123,
+          "dense_rank": null,
+          "lexical_rank": 3,
+          "grade": 0,
+          "title": "最短路径从 Dijkstra 替换为 A*"
+        },
+        {
+          "source": "HISTORY_008",
+          "case_id": "CASE_IMAGE_RESIZE_LANCZOS_001",
+          "chunk_type": "solution",
+          "score": 61.41053705176076,
+          "dense_rank": null,
+          "lexical_rank": 5,
+          "grade": 0,
+          "title": "图像缩放从双线性替换为 Lanczos"
+        },
+        {
+          "source": "HISTORY_009",
+          "case_id": "CASE_HISTORY_009",
+          "chunk_type": "solution",
+          "score": 50.396949533903886,
+          "dense_rank": null,
+          "lexical_rank": 6,
+          "grade": 0,
+          "title": "缓存淘汰从 LRU 替换为 LFU"
+        },
+        {
+          "source": "HISTORY_001",
+          "case_id": "CASE_HISTORY_001",
+          "chunk_type": "task",
+          "score": 25.62051621616956,
+          "dense_rank": null,
+          "lexical_rank": 10,
+          "grade": 3,
+          "title": "分类服务从线性模型迁移到随机森林时保留响应协议"
+        }
+      ]
+    },
+    "hybrid": {
+      "related_in_top5": 5,
+      "returned": 5,
+      "results": [
+        {
+          "source": "HISTORY_006",
+          "case_id": "CASE_MODEL_REPLACEMENT_PROBE",
+          "chunk_type": "solution",
+          "score": 0.03131881575727918,
+          "dense_rank": 7,
+          "lexical_rank": 1,
+          "grade": 3,
+          "title": "证明模型替换真正生效而不是只改算法标签"
+        },
+        {
+          "source": "HISTORY_001",
+          "case_id": "CASE_HISTORY_001",
+          "chunk_type": "task",
+          "score": 0.030679156908665108,
+          "dense_rank": 1,
+          "lexical_rank": 10,
+          "grade": 3,
+          "title": "分类服务从线性模型迁移到随机森林时保留响应协议"
+        },
+        {
+          "source": "HISTORY_003",
+          "case_id": "CASE_HISTORY_003",
+          "chunk_type": "task",
+          "score": 0.029571646010002173,
+          "dense_rank": 3,
+          "lexical_rank": 13,
+          "grade": 3,
+          "title": "替换分类器后空批次与异常数值处理发生变化"
+        },
+        {
+          "source": "HISTORY_004",
+          "case_id": "CASE_HISTORY_004",
+          "chunk_type": "constraint",
+          "score": 0.028371628371628373,
+          "dense_rank": 5,
+          "lexical_rank": 17,
+          "grade": 3,
+          "title": "分类算法升级时避免训练测试泄漏并固定验收标准"
+        },
+        {
+          "source": "HISTORY_005",
+          "case_id": "CASE_HISTORY_005",
+          "chunk_type": "task",
+          "score": 0.027893738140417457,
+          "dense_rank": 2,
+          "lexical_rank": 25,
+          "grade": 2,
+          "title": "替换分类算法后批量与逐条预测不一致"
+        }
+      ]
+    }
+  }
+}

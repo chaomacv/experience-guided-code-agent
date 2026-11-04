@@ -208,5 +208,5 @@
     "legacy_predictions.json": "8a6f882be30b865ee4664765a30adac003ec18c40be1ac1c74b2094a8252f5a8",
     "train.csv": "1a5bf6d33a8912155b74f5aa0bec43bc12eea9f35f0bd756edb96483c2ba4b6d"
   },
-  "knowledge_origin": "Freshly executed diagnostic experiments; not customer conversations or fabricated incident histories."
+  "preparation_note": "Business training/acceptance data only. RAG knowledge is loaded separately from historical human-assistant dialogues."
 }

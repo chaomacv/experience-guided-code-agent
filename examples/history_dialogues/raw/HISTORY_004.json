@@ -1,0 +1,39 @@
+{
+  "conversation_id": "HISTORY_004",
+  "provenance": "synthetic_authored_human_assistant_dialogue",
+  "task": "分类算法升级时避免训练测试泄漏并固定验收标准",
+  "messages": [
+    {
+      "role": "user",
+      "content": "准备把一个分类算法升级，模型能输出结果就算完成吗？"
+    },
+    {
+      "role": "assistant",
+      "content": "还需要提前约定质量阈值。训练集和验收集必须分离，不能把测试标签用于 fit，也不能在看过结果后降低阈值。"
+    },
+    {
+      "role": "user",
+      "content": "新算法总体准确率很高，但少数类别几乎全错了。"
+    },
+    {
+      "role": "assistant",
+      "content": "查看每类召回、混淆矩阵和 balanced accuracy，防止多数类掩盖失败。和旧算法比较时使用相同划分与指标。"
+    },
+    {
+      "role": "user",
+      "content": "第一次验收不通过，我可以不断看这个集合上的结果调模型吗？"
+    },
+    {
+      "role": "assistant",
+      "content": "它可以作为反馈验收集，但反复调整后不能当独立泛化测试。另留最终不可见测试集，并把每次尝试和阈值记录下来。"
+    },
+    {
+      "role": "user",
+      "content": "我已固定分层划分、随机种子和验收阈值，训练只接收传入的 X、y。"
+    },
+    {
+      "role": "assistant",
+      "content": "再检查预处理只在训练集拟合。保存划分和数据版本，避免不同模型用不同样本造成假提升。"
+    }
+  ]
+}

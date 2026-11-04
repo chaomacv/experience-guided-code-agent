@@ -1,0 +1,39 @@
+{
+  "conversation_id": "HISTORY_009",
+  "provenance": "synthetic_authored_human_assistant_dialogue",
+  "task": "缓存淘汰从 LRU 替换为 LFU",
+  "messages": [
+    {
+      "role": "user",
+      "content": "我们的缓存准备把 LRU 淘汰换成 LFU，get 和 put 接口不能变化。"
+    },
+    {
+      "role": "assistant",
+      "content": "先定义访问频率更新、频率相同时的淘汰规则、容量和过期时间语义。"
+    },
+    {
+      "role": "user",
+      "content": "并发压测时容量超限，相同访问频率的 key 淘汰顺序也不稳定。"
+    },
+    {
+      "role": "assistant",
+      "content": "检查计数与淘汰是否原子化，加入确定性的平局规则，并在相同访问轨迹上比较命中率。"
+    },
+    {
+      "role": "user",
+      "content": "这里的训练数据应该怎么划分？"
+    },
+    {
+      "role": "assistant",
+      "content": "这个缓存策略不训练分类模型。使用访问轨迹和并发压力场景，不应套用监督学习训练集。"
+    },
+    {
+      "role": "user",
+      "content": "我补了过期与并发测试，但吞吐有下降。"
+    },
+    {
+      "role": "assistant",
+      "content": "记录性能回归，结合延迟、命中率和资源预算决定是否保留新策略。"
+    }
+  ]
+}

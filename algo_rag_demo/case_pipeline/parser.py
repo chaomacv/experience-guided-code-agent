@@ -26,7 +26,9 @@ Return exactly one JSON object matching this schema:
   "reusable_experience": ["lesson"],
   "source_conversation_id": "conversation id"
 }
-Keep only reusable, sanitized engineering knowledge. Do not include secrets, private paths, customer data, or raw internal logs."""
+Keep only reusable, sanitized engineering knowledge. Do not include secrets, private paths, customer data, or raw internal logs.
+Preserve the scope of evidence: user-reported tests are reported outcomes, not independently verified executions.
+If provenance marks an authored/synthetic dialogue, do not portray it as a real customer incident or verified production result."""
 
     def __init__(self, provider: ChatProvider) -> None:
         """Store the LLM provider used for schema-driven extraction."""
@@ -51,6 +53,7 @@ Keep only reusable, sanitized engineering knowledge. Do not include secrets, pri
         data = parse_json_object(content)
         # Provenance comes from input identity rather than generated model text.
         data["source_conversation_id"] = conversation.conversation_id
+        data['source_provenance'] = conversation.provenance
         return EngineeringCase(**data)
 
 

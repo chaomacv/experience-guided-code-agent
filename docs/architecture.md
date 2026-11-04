@@ -5,7 +5,7 @@
 | Agent 职责 | 通用实现 | 当前业务提供 |
 | --- | --- | --- |
 | Input | CLI / config | Wine 升级任务与工程事实 |
-| Memory / Knowledge | Conversation、Case Schema、抽取、Chunk | 实际诊断记录及来源 |
+| Memory / Knowledge | Conversation、Case Schema、抽取、Chunk | 历史人机对话样例、来源与 provenance |
 | RAG | BGE-M3、BM25、RRF、工厂接口 | 从 Case 构建的经验索引 |
 | LLM / Planning | ChatProvider、LLMPlanner | 模型配置、业务 Skill |
 | Tool Use / Execution | ProjectAdapter、write_file | service.py / config.json 白名单 |

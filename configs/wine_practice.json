@@ -3,8 +3,9 @@
   "embedding": {"provider":"bge-m3", "model":"BAAI/bge-m3@5617a9f61b028005a4858fdac845db406aefb181"},
   "retrieval": {"mode":"hybrid", "top_k":5, "max_per_case":1, "candidate_k":30},
   "paths": {
-    "case_dir":"outputs/wine_preparation/cases",
-    "raw_dir":"outputs/wine_preparation/conversations",
+    "case_dir":"outputs/history_cases",
+    "raw_dir":"examples/history_dialogues/raw",
+    "preparation_dir":"outputs/wine_preparation",
     "task_file":"examples/wine_service/task.txt",
     "repository_facts":"examples/wine_service/repository_facts.txt"
   },

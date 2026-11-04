@@ -4,9 +4,11 @@
 
 ## 默认业务数据与知识来源
 
-`python scripts/prepare_wine.py` 从 sklearn 内置 UCI Wine 数据生成训练 / 验收 CSV、原算法预测快照、行号划分、来源与 SHA-256。随后实际运行四组诊断：原服务基线、RandomForest 原生输出 API、异常输入、旧算法兼容快照。原始结果写入 `outputs/wine_preparation/observations/`；对应 `conversations/` 里的 user/tool 消息是这些真实实验的结构化记录。
+业务数据由 `python scripts/prepare_wine.py` 单独准备：UCI Wine 训练 / 验收 CSV、原算法预测快照、行号划分与哈希。这一步不再生成 RAG 知识消息。
 
-这些记录是当前项目的诊断证据，没有伪装成历史生产事故。知识抽取任务要求模型不得虚构已完成的迁移；保留 partial / not_run 状态。
+默认知识来自 [历史人机对话样例](../examples/history_dialogues/README.md)：12 段、96 条 user/assistant 消息，6 段与当前分类任务相关，6 段为其他算法替换任务。全部进入抽取与索引，不按相关性预过滤。语料为人工编写样例；其叙述性反馈不冒充实测日志。
+
+CLI 对每段原始对话调用 LLMCaseExtractor，保存 Case 与原始抽取响应，随后生成 task / constraint / solution 三类 Chunk。12 个 Case 应形成 36 个 Chunk。每个 Case、Chunk 和检索结果都延续来源 ID 与 source_provenance。
 
 ## 使用自己的历史记录
 

@@ -14,6 +14,7 @@ def chunk_case(case: EngineeringCase) -> List[KnowledgeChunk]:
             module=case.module,
             final_status=case.final_status,
             source=case.source_conversation_id,
+            source_provenance=case.source_provenance,
             text=(
                 f"Module: {case.module}. Task: {case.task}. "
                 f"Replace {case.old_algorithm} with {case.new_algorithm}."
@@ -26,6 +27,7 @@ def chunk_case(case: EngineeringCase) -> List[KnowledgeChunk]:
             module=case.module,
             final_status=case.final_status,
             source=case.source_conversation_id,
+            source_provenance=case.source_provenance,
             text=" ".join(
                 item
                 for group in case.constraints.values()
@@ -39,6 +41,7 @@ def chunk_case(case: EngineeringCase) -> List[KnowledgeChunk]:
             module=case.module,
             final_status=case.final_status,
             source=case.source_conversation_id,
+            source_provenance=case.source_provenance,
             text=" ".join(
                 [p.get("symptom", "") + " " + p.get("root_cause", "") for p in case.problems]
                 + [s.get("solution", "") for s in case.solutions]
@@ -56,4 +59,3 @@ def chunk_cases(cases: Iterable[EngineeringCase]) -> List[KnowledgeChunk]:
     for case in cases:
         chunks.extend(chunk_case(case))
     return chunks
-

@@ -261,7 +261,7 @@
       "Knowledge Preparation",
       "Turn historical conversations into retrievable engineering experience.",
       "Historical conversations or existing EngineeringCase JSON records.",
-      "prepare_wine.py executes diagnostic probes with provenance. DeepSeek extracts EngineeringCases, followed by chunking and BGE-M3 embeddings. This case uses four measured records and 12 chunks; users can supply their own historical conversations.",
+      "Load 12 authored human-assistant history examples (96 messages with related and unrelated algorithm migrations). DeepSeek extracts Cases, followed by chunking and BGE-M3 embeddings. Relevance labels do not enter the index; Wine business data is prepared separately.",
       "EngineeringCase → KnowledgeChunk → Index",
       "algo_rag_demo/case_pipeline/chunker.py",
       [

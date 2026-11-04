@@ -1,0 +1,39 @@
+{
+  "conversation_id": "HISTORY_007",
+  "provenance": "synthetic_authored_human_assistant_dialogue",
+  "task": "全文搜索从 TF-IDF 替换为 BM25 并保留分页",
+  "messages": [
+    {
+      "role": "user",
+      "content": "搜索模块想从 TF-IDF 换成 BM25，搜索接口和分页参数要保持兼容。"
+    },
+    {
+      "role": "assistant",
+      "content": "保持 query、limit、offset 的接口，将 BM25 原始得分适配到原结果结构，并明确新旧 score 不可直接比较。"
+    },
+    {
+      "role": "user",
+      "content": "新实现先截取第一页候选，再做过滤，后面的相关文档就搜不到了。"
+    },
+    {
+      "role": "assistant",
+      "content": "应先确定过滤语义，再检索和排序；分页还需要稳定的相同分数打破规则，例如文档 ID。"
+    },
+    {
+      "role": "user",
+      "content": "这个模块是文本文档搜索，不涉及分类概率。"
+    },
+    {
+      "role": "assistant",
+      "content": "验收重点放在 qrels 排序指标、过滤、分页和空查询，不要套用分类准确率或 predict_proba。"
+    },
+    {
+      "role": "user",
+      "content": "我补充了分页去重测试，准备做离线检索评测。"
+    },
+    {
+      "role": "assistant",
+      "content": "记录排序评测尚未执行；验证后再决定是否切换默认搜索算法。"
+    }
+  ]
+}

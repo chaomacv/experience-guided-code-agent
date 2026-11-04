@@ -279,5 +279,8 @@
   "工程与验收": "Project and acceptance",
   "脚本夹具归档": "Archived scripted fixture",
   "真实实战 · 第 1 轮": "Live practice · Attempt 1",
-  "查看流程回归夹具（归档）": "Open archived workflow regression fixtures"
+  "查看流程回归夹具（归档）": "Open archived workflow regression fixtures",
+  "178 条 UCI 业务数据；RAG 从含相关和干扰项的人机对话样例构建，DeepSeek 生成代码，独立程序验收。": "178 UCI business records. RAG uses authored human-assistant dialogues with related and distracting topics; DeepSeek writes code and independent checks decide acceptance.",
+  "12 段对话 → 12 Case → 36 Chunk": "12 dialogues → 12 Cases → 36 Chunks",
+  "对话语料为人工编写样例，包含 6 段相关与 6 段不相关内容；不是客户原始聊天。": "The corpus contains 6 related and 6 unrelated authored dialogue examples, not original customer chats."
 }

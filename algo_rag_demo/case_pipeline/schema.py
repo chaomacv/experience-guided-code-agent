@@ -11,6 +11,7 @@ class Message(BaseModel):
 
 class Conversation(BaseModel):
     conversation_id: str
+    provenance: Optional[str] = None
     task: str
     messages: List[Message]
 
@@ -29,6 +30,7 @@ class EngineeringCase(BaseModel):
     final_status: Literal["success", "failed", "partial"]
     reusable_experience: List[str] = Field(default_factory=list)
     source_conversation_id: str
+    source_provenance: Optional[str] = None
 
 
 class KnowledgeChunk(BaseModel):
@@ -39,6 +41,7 @@ class KnowledgeChunk(BaseModel):
     module: str
     final_status: str
     source: str
+    source_provenance: Optional[str] = None
 
 
 class CaseExtractor(Protocol):
@@ -49,4 +52,3 @@ class CaseExtractor(Protocol):
 def model_to_dict(model: BaseModel) -> Dict[str, Any]:
     """Convert validated models to plain dictionaries."""
     return model.model_dump()
-

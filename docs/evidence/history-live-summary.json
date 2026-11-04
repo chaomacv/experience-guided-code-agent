@@ -1,0 +1,243 @@
+{
+  "run_id": "20261104-071820-algorithm-upgrade-13a34a2f",
+  "knowledge_origin": "12 authored human-assistant dialogue examples; not genuine customer history",
+  "corpus_messages": 96,
+  "related_dialogues": 6,
+  "unrelated_dialogues": 6,
+  "report": {
+    "status": "success",
+    "attempts": [
+      {
+        "attempt": 1,
+        "passed": true,
+        "retrieved_cases": [
+          "CASE_MODEL_REPLACEMENT_PROBE",
+          "CASE_HISTORY_001",
+          "CASE_HISTORY_003",
+          "CASE_HISTORY_004",
+          "CASE_HISTORY_005"
+        ]
+      }
+    ],
+    "rollback": null,
+    "delivery": {
+      "directory": "<run_dir>/delivery",
+      "files": {
+        "service.py": {
+          "changed": true,
+          "sha256": "412cf13f90263f3ecf8dd64511887c10d5ad46e4fa94adb02712c74f24a2e7a6"
+        },
+        "config.json": {
+          "changed": true,
+          "sha256": "f4f0ed59b182316ea6b7dcb2136f8058fbd9537da90abce8e9ef39e5ebe98eba"
+        }
+      },
+      "patch": "<run_dir>/delivery/changes.patch"
+    },
+    "telemetry": {
+      "elapsed_ms": 67691.88260287046,
+      "stage_ms": {
+        "checkpoint": 0.845104455947876,
+        "retrieval": 16.52389019727707,
+        "planning": 65023.98271858692,
+        "execution": 1.6851574182510376,
+        "validation": 2642.3208713531494
+      },
+      "event_count": 5
+    },
+    "cases_loaded": 12,
+    "chunks_generated": 36,
+    "embedding_dimension": 1024,
+    "case_dir": "<run_dir>/cases",
+    "index_dir": "<run_dir>/index",
+    "knowledge_dir": "<run_dir>/knowledge"
+  },
+  "validation": {
+    "passed": true,
+    "checks": [
+      {
+        "command": [
+          "{python}",
+          "validate.py"
+        ],
+        "passed": true,
+        "exit_code": 0,
+        "stdout": "{\n  \"passed\": true,\n  \"checks\": [\n    {\n      \"name\": \"interface\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"actual_random_forest_runtime\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"holdout_quality_and_regression\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"edge_cases\",\n      \"passed\": true\n    },\n    {\n      \"name\": \"legacy_fallback\",\n      \"passed\": true\n    }\n  ],\n  \"metrics\": {\n    \"runtime_calls\": {\n      \"fit\": 1,\n      \"predict_proba\": 1\n    },\n    \"balanced_accuracy\": 1.0,\n    \"holdout_size\": 54,\n    \"confusion_matrix\": [\n      [\n        18,\n        0,\n        0\n      ],\n      [\n        0,\n        21,\n        0\n      ],\n      [\n        0,\n        0,\n        15\n      ]\n    ],\n    \"acceptance_threshold\": 0.9641269841269842\n  }\n}\n",
+        "stderr": ""
+      },
+      {
+        "name": "protected_files_unchanged",
+        "passed": true
+      }
+    ]
+  },
+  "model_metadata": {
+    "id": "9ce69754-3fdb-4bd3-afe8-259376a2fc08",
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 2233,
+      "completion_tokens": 12538,
+      "total_tokens": 14771,
+      "prompt_tokens_details": {
+        "cached_tokens": 384
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 10790
+      },
+      "prompt_cache_hit_tokens": 384,
+      "prompt_cache_miss_tokens": 1849
+    },
+    "created": 1793776857,
+    "finish_reason": "stop"
+  },
+  "retrieval": [
+    {
+      "score": 0.03131881575727918,
+      "case_id": "CASE_MODEL_REPLACEMENT_PROBE",
+      "chunk_id": "CASE_MODEL_REPLACEMENT_PROBE_solution",
+      "chunk_type": "solution",
+      "text": "Returned algorithm label changed, but training did not actually create the new model Default configuration was not read, so the new model instance was never constructed or used Checking only the returned algorithm string could falsely suggest replacement The label is not tied to actual fit/predict_proba invocation Concern that the service could secretly read acceptance labels when generating answers No independent data/test permission isolation; call probes do not fully prove absence of leakage Fix constructor/default configuration wiring so the configured model is instantiated and participates in fit and prediction Use isolated wrappers around fit and predict_proba to record actual target-model calls Check fit inputs are caller-supplied data and enforce independent permissions for data and test assets; do not treat probes alone as complete proof A reported algorithm name is not proof of runtime model replacement; instrument the model's fit/predict_proba calls. Configuration bugs can change labels while leaving the old implementation active, so verify constructor/default branches and explicit overrides. Probe tests should also inspect whether fit receives the caller's training data. Call instrumentation does not replace permission isolation when checking for label leakage. User-reported probe success covers only the reported Runtime check; continue quality, boundary, and legacy-branch validation.",
+      "module": "classifier configuration and runtime model selection",
+      "final_status": "partial",
+      "source": "HISTORY_006",
+      "source_provenance": "synthetic_authored_human_assistant_dialogue",
+      "case_path": "<run_dir>/cases/CASE_MODEL_REPLACEMENT_PROBE.json",
+      "dense_score": 0.5821496248245239,
+      "lexical_score": 92.21451536101424,
+      "dense_rank": 7,
+      "lexical_rank": 1,
+      "retrieval_mode": "hybrid"
+    },
+    {
+      "score": 0.030679156908665108,
+      "case_id": "CASE_HISTORY_001",
+      "chunk_id": "CASE_HISTORY_001_task",
+      "chunk_type": "task",
+      "text": "Module: 分类服务模型迁移适配层. Task: 把分类服务的逻辑回归替换为随机森林，同时保持原有 label/confidence/metadata.reason 响应协议和调用方式不变. Replace 逻辑回归（线性模型）；服务自身封装 predict 输出，返回包含 label、confidence、metadata.reason 的字典列表 with 随机森林 + 输出适配层：调用 predict_proba，取每行最大概率作为 confidence，用 estimator.classes_[argmax_index] 映射真实类别标签，将 numpy 标量转换为 Python int/float 后组装回原字典列表结构.",
+      "module": "分类服务模型迁移适配层",
+      "final_status": "partial",
+      "source": "HISTORY_001",
+      "source_provenance": "synthetic_authored_human_assistant_dialogue",
+      "case_path": "<run_dir>/cases/CASE_HISTORY_001.json",
+      "dense_score": 0.6353777647018433,
+      "lexical_score": 25.620516216169555,
+      "dense_rank": 1,
+      "lexical_rank": 10,
+      "retrieval_mode": "hybrid"
+    },
+    {
+      "score": 0.029571646010002173,
+      "case_id": "CASE_HISTORY_003",
+      "chunk_id": "CASE_HISTORY_003_task",
+      "chunk_type": "task",
+      "text": "Module: 分类器预测服务. Task: 替换为随机森林分类器时保持空批次和异常输入行为兼容. Replace 旧分类服务；predict([]) 返回 [] with 随机森林分类器；对空数组默认抛 ValueError.",
+      "module": "分类器预测服务",
+      "final_status": "partial",
+      "source": "HISTORY_003",
+      "source_provenance": "synthetic_authored_human_assistant_dialogue",
+      "case_path": "<run_dir>/cases/CASE_HISTORY_003.json",
+      "dense_score": 0.6192617416381836,
+      "lexical_score": 14.494939325975682,
+      "dense_rank": 3,
+      "lexical_rank": 13,
+      "retrieval_mode": "hybrid"
+    },
+    {
+      "score": 0.028371628371628373,
+      "case_id": "CASE_HISTORY_004",
+      "chunk_id": "CASE_HISTORY_004_constraint",
+      "chunk_type": "constraint",
+      "text": "验收前约定质量阈值，不能看到结果后降低阈值 不能仅以模型能输出结果作为完成标准 类别不均衡时需检查逐类召回、混淆矩阵和 balanced accuracy 训练集、验收集和最终测试集必须分离 最终测试集保持不可见，不能用于反复调参 新旧算法比较需使用相同数据划分和指标 固定分层划分、随机种子和数据版本 记录每次尝试及对应阈值 测试标签不能用于 fit 预处理只能在训练集上拟合 训练入口只接收传入的 X、y",
+      "module": "分类算法升级与模型验收",
+      "final_status": "partial",
+      "source": "HISTORY_004",
+      "source_provenance": "synthetic_authored_human_assistant_dialogue",
+      "case_path": "<run_dir>/cases/CASE_HISTORY_004.json",
+      "dense_score": 0.5984190106391907,
+      "lexical_score": 11.743733951992287,
+      "dense_rank": 5,
+      "lexical_rank": 17,
+      "retrieval_mode": "hybrid"
+    },
+    {
+      "score": 0.027893738140417457,
+      "case_id": "CASE_HISTORY_005",
+      "chunk_id": "CASE_HISTORY_005_task",
+      "chunk_type": "task",
+      "text": "Module: 分类服务. Task: 修复替换为随机森林后批量预测与逐条预测标签不一致. Replace 预测适配代码在每个批次调用 fit_transform，导致输入预处理状态随批次变化 with 训练阶段拟合预处理器，预测阶段仅复用已拟合状态；树模型避免引入随批次变化的额外转换.",
+      "module": "分类服务",
+      "final_status": "partial",
+      "source": "HISTORY_005",
+      "source_provenance": "synthetic_authored_human_assistant_dialogue",
+      "case_path": "<run_dir>/cases/CASE_HISTORY_005.json",
+      "dense_score": 0.6269126534461975,
+      "lexical_score": 2.985332875171958,
+      "dense_rank": 2,
+      "lexical_rank": 25,
+      "retrieval_mode": "hybrid"
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "CASE_011",
+      "source": "HISTORY_011",
+      "provenance": "synthetic_authored_human_assistant_dialogue"
+    },
+    {
+      "case_id": "CASE_HISTORY_001",
+      "source": "HISTORY_001",
+      "provenance": "synthetic_authored_human_assistant_dialogue"
+    },
+    {
+      "case_id": "CASE_HISTORY_003",
+      "source": "HISTORY_003",
+      "provenance": "synthetic_authored_human_assistant_dialogue"
+    },
+    {
+      "case_id": "CASE_HISTORY_004",
+      "source": "HISTORY_004",
+      "provenance": "synthetic_authored_human_assistant_dialogue"
+    },
+    {
+      "case_id": "CASE_HISTORY_005",
+      "source": "HISTORY_005",
+      "provenance": "synthetic_authored_human_assistant_dialogue"
+    },
+    {
+      "case_id": "CASE_HISTORY_007_BM25_SEARCH",
+      "source": "HISTORY_007",
+      "provenance": "synthetic_authored_human_assistant_dialogue"
+    },
+    {
+      "case_id": "CASE_HISTORY_009",
+      "source": "HISTORY_009",
+      "provenance": "synthetic_authored_human_assistant_dialogue"
+    },
+    {
+      "case_id": "CASE_HISTORY_010",
+      "source": "HISTORY_010",
+      "provenance": "synthetic_authored_human_assistant_dialogue"
+    },
+    {
+      "case_id": "CASE_HISTORY_012",
+      "source": "HISTORY_012",
+      "provenance": "synthetic_authored_human_assistant_dialogue"
+    },
+    {
+      "case_id": "CASE_IMAGE_RESIZE_LANCZOS_001",
+      "source": "HISTORY_008",
+      "provenance": "synthetic_authored_human_assistant_dialogue"
+    },
+    {
+      "case_id": "CASE_MODEL_REPLACEMENT_PROBE",
+      "source": "HISTORY_006",
+      "provenance": "synthetic_authored_human_assistant_dialogue"
+    },
+    {
+      "case_id": "CASE_MODEL_ROLLBACK_SNAPSHOT",
+      "source": "HISTORY_002",
+      "provenance": "synthetic_authored_human_assistant_dialogue"
+    }
+  ],
+  "extraction_calls": 12
+}

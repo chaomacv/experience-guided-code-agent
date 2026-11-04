@@ -10,7 +10,8 @@ def build_prompt(
 ) -> str:
     """Combine task, retrieved cases, and repository facts into one planner prompt."""
     cases = "\n".join(
-        f"- {item.case_id}/{item.chunk_type} score={item.score}: {item.text}"
+        f"- {item.case_id}/{item.chunk_type} score={item.score} "
+        f"[source={item.source}; provenance={item.source_provenance or 'unspecified'}]: {item.text}"
         for item in retrieved_cases
     )
     return f"""SYSTEM ROLE

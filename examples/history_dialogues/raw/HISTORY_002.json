@@ -1,0 +1,39 @@
+{
+  "conversation_id": "HISTORY_002",
+  "provenance": "synthetic_authored_human_assistant_dialogue",
+  "task": "模型替换时保存旧分类器回退与输出快照",
+  "messages": [
+    {
+      "role": "user",
+      "content": "我要将最近质心分类器换成树模型，但上线后必须能切回旧模型。"
+    },
+    {
+      "role": "assistant",
+      "content": "先在修改前对固定样本保存旧分支的完整输出，再增加显式 algorithm 参数，避免默认配置覆盖调用方指定的旧模型。"
+    },
+    {
+      "role": "user",
+      "content": "我保留了旧分支，不过两个分支共享了新的归一化方式，旧模型预测置信度和以前不一样。"
+    },
+    {
+      "role": "assistant",
+      "content": "回退兼容包括数值行为。保留旧分支的 StandardScaler、质心和概率计算路径，不要为了复用代码改变旧计算公式。"
+    },
+    {
+      "role": "user",
+      "content": "默认配置已经变成新模型。如果传 algorithm=\"centroid\"，怎样确认不是只改了返回名字？"
+    },
+    {
+      "role": "assistant",
+      "content": "用旧输出快照比较标签、置信度和 reason，另外观察旧计算路径是否真的调用。业务回退和恢复工程文件是两种不同的检查。"
+    },
+    {
+      "role": "user",
+      "content": "我比较了固定样本，旧分支输出与快照一致。新分支还要继续测试。"
+    },
+    {
+      "role": "assistant",
+      "content": "将快照和比较规则保留在独立验收里，新旧分支分别验收。"
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "provenance": "synthetic_authored_human_assistant_dialogues",
+  "disclosure": "人工编写的历史人机对话样例，不是真实客户记录。对话中的测试反馈是样例叙述，不是本项目实际运行证据。",
+  "reference_task": "分类服务从 centroid 升级到 RandomForest，保持接口、概率、异常输入和旧算法兼容。",
+  "records": [
+    {
+      "conversation_id": "HISTORY_001",
+      "file": "raw/HISTORY_001.json",
+      "title": "分类服务从线性模型迁移到随机森林时保留响应协议",
+      "relevance_to_reference_task": 3,
+      "messages": 8
+    },
+    {
+      "conversation_id": "HISTORY_002",
+      "file": "raw/HISTORY_002.json",
+      "title": "模型替换时保存旧分类器回退与输出快照",
+      "relevance_to_reference_task": 3,
+      "messages": 8
+    },
+    {
+      "conversation_id": "HISTORY_003",
+      "file": "raw/HISTORY_003.json",
+      "title": "替换分类器后空批次与异常数值处理发生变化",
+      "relevance_to_reference_task": 3,
+      "messages": 8
+    },
+    {
+      "conversation_id": "HISTORY_004",
+      "file": "raw/HISTORY_004.json",
+      "title": "分类算法升级时避免训练测试泄漏并固定验收标准",
+      "relevance_to_reference_task": 3,
+      "messages": 8
+    },
+    {
+      "conversation_id": "HISTORY_005",
+      "file": "raw/HISTORY_005.json",
+      "title": "替换分类算法后批量与逐条预测不一致",
+      "relevance_to_reference_task": 2,
+      "messages": 8
+    },
+    {
+      "conversation_id": "HISTORY_006",
+      "file": "raw/HISTORY_006.json",
+      "title": "证明模型替换真正生效而不是只改算法标签",
+      "relevance_to_reference_task": 3,
+      "messages": 8
+    },
+    {
+      "conversation_id": "HISTORY_007",
+      "file": "raw/HISTORY_007.json",
+      "title": "全文搜索从 TF-IDF 替换为 BM25 并保留分页",
+      "relevance_to_reference_task": 0,
+      "messages": 8
+    },
+    {
+      "conversation_id": "HISTORY_008",
+      "file": "raw/HISTORY_008.json",
+      "title": "图像缩放从双线性替换为 Lanczos",
+      "relevance_to_reference_task": 0,
+      "messages": 8
+    },
+    {
+      "conversation_id": "HISTORY_009",
+      "file": "raw/HISTORY_009.json",
+      "title": "缓存淘汰从 LRU 替换为 LFU",
+      "relevance_to_reference_task": 0,
+      "messages": 8
+    },
+    {
+      "conversation_id": "HISTORY_010",
+      "file": "raw/HISTORY_010.json",
+      "title": "最短路径从 Dijkstra 替换为 A*",
+      "relevance_to_reference_task": 0,
+      "messages": 8
+    },
+    {
+      "conversation_id": "HISTORY_011",
+      "file": "raw/HISTORY_011.json",
+      "title": "音频重采样算法升级后修复采样率与长度",
+      "relevance_to_reference_task": 0,
+      "messages": 8
+    },
+    {
+      "conversation_id": "HISTORY_012",
+      "file": "raw/HISTORY_012.json",
+      "title": "数值求解从梯度下降替换为 L-BFGS",
+      "relevance_to_reference_task": 0,
+      "messages": 8
+    }
+  ]
+}

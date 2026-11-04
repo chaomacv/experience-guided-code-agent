@@ -261,7 +261,7 @@
       "Knowledge Preparation",
       "把历史对话准备成可检索的工程经验。",
       "历史对话，或已整理好的 EngineeringCase JSON。",
-      "prepare_wine.py 实际执行诊断并记录来源；DeepSeek 抽取 EngineeringCase，再分块并计算 BGE-M3 向量。当前案例有 4 条实测诊断、12 个 Chunk；用户也可以提供自己的历史对话。",
+      "从 examples/history_dialogues/raw 读取 12 段人工编写的人机历史对话样例（96 条消息，含相关与不相关算法替换主题）；DeepSeek 抽取 Case，再分块并计算 BGE-M3 向量。相关性标签不参与建库，Wine 业务数据另行准备。",
       "EngineeringCase → KnowledgeChunk → Index",
       "algo_rag_demo/case_pipeline/chunker.py",
       [

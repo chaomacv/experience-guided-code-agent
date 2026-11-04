@@ -19,7 +19,7 @@ def main():
     key_env = config['llm'].get('api_key_env', 'DEEPSEEK_API_KEY')
     if not os.environ.get(key_env):
         raise SystemExit('Set ' + key_env + ' before running real-model practice.')
-    subprocess.run([sys.executable, 'scripts/prepare_wine.py', '--output', str(Path(config['paths']['raw_dir']).parent)], check=True)
+    subprocess.run([sys.executable, 'scripts/prepare_wine.py', '--output', config['paths'].get('preparation_dir', 'outputs/wine_preparation')], check=True)
     subprocess.run([sys.executable, '-m', 'algo_rag_demo.cli', '--config', args.config, 'run'], check=True)
 
 

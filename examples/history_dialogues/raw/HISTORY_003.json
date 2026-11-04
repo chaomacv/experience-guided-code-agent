@@ -1,0 +1,39 @@
+{
+  "conversation_id": "HISTORY_003",
+  "provenance": "synthetic_authored_human_assistant_dialogue",
+  "task": "替换分类器后空批次与异常数值处理发生变化",
+  "messages": [
+    {
+      "role": "user",
+      "content": "旧分类服务要换成随机森林，我希望空输入和错误输入的行为保持兼容。"
+    },
+    {
+      "role": "assistant",
+      "content": "先记录原服务对空列表、错误维数、NaN 和 Inf 的行为，再设计新实现。"
+    },
+    {
+      "role": "user",
+      "content": "原 predict([]) 返回 []。新模型对空数组抛 ValueError，调用方批任务失败了。"
+    },
+    {
+      "role": "assistant",
+      "content": "在调用模型前处理空批次，直接返回空列表；非空输入再检查二维形状、固定特征数量和有限值。"
+    },
+    {
+      "role": "user",
+      "content": "现在有人传了含 NaN 的矩阵。不同 sklearn 版本对它的支持不一样，我应该交给库处理吗？"
+    },
+    {
+      "role": "assistant",
+      "content": "以服务原契约为准。如果原来拒绝非有限值，就显式 np.isfinite 检查并抛 ValueError，避免库版本变化改变服务行为。"
+    },
+    {
+      "role": "user",
+      "content": "我补充了空批次、维度错误、NaN 和 Inf 的参数化接口测试。"
+    },
+    {
+      "role": "assistant",
+      "content": "迁移后重跑这些检查，并保留原异常类型；如果要改变异常语义，应当作为接口变更单独约定。"
+    }
+  ]
+}

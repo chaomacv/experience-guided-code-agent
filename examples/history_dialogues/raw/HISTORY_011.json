@@ -1,0 +1,39 @@
+{
+  "conversation_id": "HISTORY_011",
+  "provenance": "synthetic_authored_human_assistant_dialogue",
+  "task": "音频重采样算法升级后修复采样率与长度",
+  "messages": [
+    {
+      "role": "user",
+      "content": "音频处理链准备替换重采样算法，但输入输出仍是波形和采样率。"
+    },
+    {
+      "role": "assistant",
+      "content": "先保持声道、dtype、目标采样率和输出长度约定，再检查频谱与时延。"
+    },
+    {
+      "role": "user",
+      "content": "新库默认采样率不同，输出播放速度变了。"
+    },
+    {
+      "role": "assistant",
+      "content": "必须显式传原采样率与目标采样率，不要依赖库默认值。增加脉冲、正弦和多声道测试。"
+    },
+    {
+      "role": "user",
+      "content": "我看到有人建议检查模型 classes_，这和音频重采样有关吗？"
+    },
+    {
+      "role": "assistant",
+      "content": "无关，这里没有分类器。应测量输出长度、频率保持和抗混叠特性。"
+    },
+    {
+      "role": "user",
+      "content": "修正采样率参数后长度正确了，听感和频谱检查还没有全部结束。"
+    },
+    {
+      "role": "assistant",
+      "content": "把尚未完成的检查记录清楚，保留旧处理路径。"
+    }
+  ]
+}

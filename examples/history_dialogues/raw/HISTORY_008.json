@@ -1,0 +1,39 @@
+{
+  "conversation_id": "HISTORY_008",
+  "provenance": "synthetic_authored_human_assistant_dialogue",
+  "task": "图像缩放从双线性替换为 Lanczos",
+  "messages": [
+    {
+      "role": "user",
+      "content": "图片服务想把双线性插值换成 Lanczos，接口仍然传图片和目标尺寸。"
+    },
+    {
+      "role": "assistant",
+      "content": "保留输入输出色彩模式、透明通道和尺寸语义，再比较缩放效果和吞吐。"
+    },
+    {
+      "role": "user",
+      "content": "小图放大后边缘有振铃，部分透明 PNG 的边缘发黑。"
+    },
+    {
+      "role": "assistant",
+      "content": "检查 alpha 是否预乘以及插值的边界策略。视觉质量不能只用尺寸相等来验收。"
+    },
+    {
+      "role": "user",
+      "content": "能不能把这些问题归到分类器 confidence？"
+    },
+    {
+      "role": "assistant",
+      "content": "不能。这里要检查像素、透明度和图像质量，分类标签和概率不是这个模块的输出。"
+    },
+    {
+      "role": "user",
+      "content": "我已恢复透明通道处理，但还在对比效果。"
+    },
+    {
+      "role": "assistant",
+      "content": "保留旧插值开关，在代表性图像集上做质量和性能验收。"
+    }
+  ]
+}

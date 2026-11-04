@@ -1,0 +1,39 @@
+{
+  "conversation_id": "HISTORY_006",
+  "provenance": "synthetic_authored_human_assistant_dialogue",
+  "task": "证明模型替换真正生效而不是只改算法标签",
+  "messages": [
+    {
+      "role": "user",
+      "content": "配置写成 random_forest 了，但我担心运行时还是旧分类器。"
+    },
+    {
+      "role": "assistant",
+      "content": "不要只检查返回的 algorithm 字符串。可以在独立测试里包装目标模型的 fit 和 predict_proba，记录是否调用。"
+    },
+    {
+      "role": "user",
+      "content": "我发现默认配置没读到，返回标签改了，但训练实际没有创建新模型。"
+    },
+    {
+      "role": "assistant",
+      "content": "检查构造函数的显式参数和默认配置分支，让新模型实例真正参与训练与预测；同时保留显式旧算法覆盖。"
+    },
+    {
+      "role": "user",
+      "content": "如何防止服务偷偷读取验收标签来生成答案？"
+    },
+    {
+      "role": "assistant",
+      "content": "检查目标 fit 收到的数组是否就是调用方传入的训练数据。数据和测试应由独立权限控制；仅靠调用探针并不能证明完全没有泄漏。"
+    },
+    {
+      "role": "user",
+      "content": "修复配置加载后，新模型训练和预测探针都被触发了。"
+    },
+    {
+      "role": "assistant",
+      "content": "继续做质量、边界和旧分支检查。目标库调用成功只是 Runtime 验收的一部分。"
+    }
+  ]
+}
