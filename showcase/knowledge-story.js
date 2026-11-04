@@ -83,6 +83,7 @@
         {...joined,opacity:1,offset:7.4/24},{...split,offset:9/24},{...split,offset:1}]);
     });
     appear(".ks-chunk-label",7.6,8.3);
+    appear(".ks-split-note",7.6,8.3,"translateX(-8px)");
     appear(".ks-small-note",8.4,8.9);
     // Carry text through the model, turn it into vector strips, and store it.
     [0,1,2].forEach(i=>{

@@ -10,7 +10,7 @@
 <link href="style.css" rel="stylesheet"/>
 <link href="guide.css" rel="stylesheet"/>
 <link href="theme.css" rel="stylesheet"/>
-<link href="knowledge-story.css?v=2c6842dc085c" rel="stylesheet"/>
+<link href="knowledge-story.css?v=f3b0c6e1336c" rel="stylesheet"/>
 </head>
 <body>
 <a class="skip" href="#main"><span data-i18n="跳到内容">跳到内容</span></a>
@@ -40,7 +40,7 @@ return loss.mean()</code></pre><time>09:42 <i></i></time></div></div><div class=
       <span class="ks-fragment ks-fragment-one">mean reduction</span><span class="ks-fragment ks-fragment-two">function signature</span>
       <div class="ks-station-label" style="left:650px">02 / STRUCTURED KNOWLEDGE</div>
       <div class="ks-station-label ks-chunk-label" style="left:1050px">03 / KNOWLEDGE CHUNKS</div>
-      <div class="ks-chunks ks-unified-chunks" style="left:650px;top:94px;width:300px"><div class="ks-chunk-shell"></div>
+      <div class="ks-chunks ks-unified-chunks" style="left:650px;top:94px;width:300px"><div class="ks-chunk-shell"></div><div class="ks-split-note"><strong data-i18n="按语义拆分">按语义拆分</strong><span data-i18n="分别向量化">分别向量化</span><i aria-hidden="true">⟶</i></div>
         <article class="ks-chunk chunk-task"><span>01</span><div><strong>task</strong><p><span data-i18n="任务 · loss 模块 · 替换目标">任务 · loss 模块 · 替换目标</span></p></div><code>↗</code></article>
         <article class="ks-chunk chunk-constraint"><span>02</span><div><strong>constraint</strong><p><span data-i18n="参数签名 · scalar output · fallback">参数签名 · scalar output · fallback</span></p></div><code>↗</code></article>
         <article class="ks-chunk chunk-solution"><span>03</span><div><strong>solution</strong><p><span data-i18n="mean reduction · 参数对齐 · 修复经验">mean reduction · 参数对齐 · 修复经验</span></p></div><code>↗</code></article>
@@ -162,7 +162,7 @@ return loss.mean()</code></pre><time>09:42 <i></i></time></div></div><div class=
 python scripts/run_practice.py</pre><p id="track-note"><span data-i18n="查看 CLI 打印的运行目录：report.html、每轮模型响应、delivery/changes.patch。成功轮数由实际验收决定。">查看 CLI 打印的运行目录：report.html、每轮模型响应、delivery/changes.patch。成功轮数由实际验收决定。</span></p></div><div class="next-links"><a download="" href="experience-guided-code-agent-source.zip"><span>01 / SOURCE</span><strong><span data-i18n="下载升级源码">下载升级源码</span> <b>↓</b></strong><small><span data-i18n="完整 Python 实现、案例、测试与复现文档">完整 Python 实现、案例、测试与复现文档</span></small></a><a href="https://github.com/chaomacv/experience-guided-code-agent" rel="noopener" target="_blank"><span>02 / GITHUB</span><strong><span data-i18n="查看 GitHub 仓库">查看 GitHub 仓库</span> <b>↗</b></strong><small><span data-i18n="浏览源码、评测与运行文档">浏览源码、评测与运行文档</span></small></a><a href="history-live-report.html" target="_blank"><span>03 / EVIDENCE</span><strong><span data-i18n="打开运行报告">打开运行报告</span> <b>↗</b></strong><small><span data-i18n="追溯检索、计划、执行与验证">追溯检索、计划、执行与验证</span></small></a></div></div></section>
 <section class="section adapt-project"><div class="adapt-grid"><div><span class="section-label">NEXT / BRING YOUR OWN PROJECT</span><h3><span data-i18n="把算法示例，换成你的工程任务。">把算法示例，换成你的工程任务。</span></h3></div><ol><li><strong><span data-i18n="准备经验">准备经验</span></strong><span><span data-i18n="历史对话抽取为 Case，或直接提供符合 Schema 的案例。">历史对话抽取为 Case，或直接提供符合 Schema 的案例。</span></span></li><li><strong><span data-i18n="定义边界">定义边界</span></strong><span><span data-i18n="配置 template_dir、allowed_files、validation_commands 与 Skill。">配置 template_dir、allowed_files、validation_commands 与 Skill。</span></span></li><li><strong><span data-i18n="运行并查证据">运行并查证据</span></strong><span><span data-i18n="接入 Provider；查看每轮产物与 report.html，继续调整经验和测试。">接入 Provider；查看每轮产物与 report.html，继续调整经验和测试。</span></span></li></ol></div><a class="source-link" href="https://github.com/chaomacv/experience-guided-code-agent/blob/main/docs/execution_validation.md" rel="noopener" target="_blank"><span data-i18n="查看 ProjectAdapter 接入指南 ↗">查看 ProjectAdapter 接入指南 ↗</span></a><div class="practice-extension-links"><a href="https://github.com/chaomacv/experience-guided-code-agent/blob/main/docs/knowledge_preparation.md" target="_blank"><span data-i18n="自己的知识">自己的知识</span> ↗</a><a href="https://github.com/chaomacv/experience-guided-code-agent/blob/main/docs/retriever_extensions.md" target="_blank"><span data-i18n="检索与模型">检索与模型</span> ↗</a><a href="https://github.com/chaomacv/experience-guided-code-agent/blob/main/docs/project_adapter.md" target="_blank"><span data-i18n="工程与验收">工程与验收</span> ↗</a></div></section><section class="end-note"><span class="end-mark">↗</span><p><span data-i18n="让经验留下来。">让经验留下来。</span><br/><strong><span data-i18n="让下一次修改，更有依据。">让下一次修改，更有依据。</span></strong></p><a class="button dark" href="#workflow"><span data-i18n="回到工作流">回到工作流</span> <span>↑</span></a></section>
 </main><footer><a class="brand" href="#main"><span class="mark">↗</span> Code Agent <span class="lab">LAB</span></a><span><span data-i18n="基于开源 RAG Planning Pipeline 的扩展展示 · MIT">基于开源 RAG Planning Pipeline 的扩展展示 · MIT</span></span><a href="https://github.com/chaomacv/experience-guided-code-agent" rel="noopener" target="_blank">Explore the source ↗</a></footer>
-<script src="i18n.js?v=25fc2623ce07"></script><script src="app.js"></script>
+<script src="i18n.js?v=f0b692cabcb7"></script><script src="app.js"></script>
 <script src="guide.js"></script>
-<script src="knowledge-story.js?v=64a65f180351"></script>
+<script src="knowledge-story.js?v=90875b529a75"></script>
 </body></html>
