@@ -6,11 +6,11 @@
   const DURATION = 24000;
   const phases = [
     [0, "经验进入工作区", "Experience enters the workspace", "从历史人机对话出发，追踪知识如何成为行动依据。", "Follow how historical human–agent dialogue becomes actionable context."],
-    [2, "LLM 抽取结构化案例", "An LLM extracts structured cases", "抽取任务、约束、问题与方案；保留来源和对话自述的验证范围。", "Extract tasks, constraints, problems and solutions; preserve provenance and reported validation scope."],
-    [8, "三类 Chunk，双路知识索引", "Three chunk types, two retrieval channels", "Case 拆为 task / constraint / solution；BGE-M3 向量进入 FAISS，同源文本用于 BM25。", "Cases become task / constraint / solution chunks. BGE-M3 vectors feed FAISS; the same text feeds BM25."],
-    [13, "新任务，找回相关经验", "A new task retrieves relevant experience", "WineService 升级任务进入 Dense 与 BM25 两路检索，RRF 按名次融合候选。", "A WineService upgrade queries Dense and BM25 in parallel. RRF fuses the candidate rankings."],
-    [17.5, "多源信息汇聚为 Prompt", "Multiple sources converge into a prompt", "任务、检索经验、当前仓库事实与 Skill 汇入上下文；失败信息仅在重试时追加。", "Task, retrieved experience, repository facts and Skill form the context. Failure feedback is added only on retries."],
-    [21, "规划动作，执行后独立验收", "Plan actions, execute, validate independently", "LLM 提出 write_file 动作；执行器修改文件，独立程序决定交付、重试或恢复。", "The LLM proposes write_file actions. The executor edits files; an independent program determines delivery, retry or recovery."],
+    [2, "LLM 抽取 loss 替换经验", "An LLM extracts loss-replacement experience", "从长对话中留下 task、problems、solutions 与 constraint，保留必要的 loss 术语和来源。", "Extract task, problems, solutions and constraints from a long conversation, keeping relevant loss terminology and provenance."],
+    [8, "工程经验进入 Knowledge Index", "Engineering experience enters the Knowledge Index", "Case 拆为 task / constraint / solution，经 Embedding Model 编码；经验库保留内容与来源，支持语义和关键词查找。", "Cases become task / constraint / solution chunks. An embedding model encodes text; the index keeps content and provenance for semantic and keyword lookup."],
+    [13, "新任务，找回相关经验", "A new task retrieves relevant experience", "下一次用户提问进入经验库，经过检索、匹配、排名、选择，得到相关任务的历史经验。", "The next request searches the experience library. Retrieve, match, rank and select useful historical experience."],
+    [17.5, "多源信息汇聚为增强任务", "Multiple sources enrich the task", "任务、检索经验、当前仓库事实与 Skill 汇入上下文；失败信息仅在重试时追加。", "Task, retrieved experience, repository facts and Skill form the context. Failure feedback is added only on retries."],
+    [21, "增强任务交给模型推进", "Pass the enriched task to the model", "带有历史经验的任务交给模型；当前 demo 使用 LLM，代码修改与独立验收由工具完成，MLLM 可扩展。", "The model receives the experience-enriched task. This demo uses an LLM, while tools edit and independently validate code; MLLM support can be added."],
   ];
   const text = (zh, en) => window.siteI18n?.language === "en" ? en : zh;
   const animations = [];
@@ -47,16 +47,16 @@
   if (capable) {
     // The camera eases between adjacent spaces, then holds at the key transformations.
     const stops = [[0,0],[1.6,0],[6.7,0],[8,600],[9,600],[10.2,1010],[12.8,1010],
-      [14.2,1810],[15,1810],[16,2380],[17.5,2380],[18.7,3100],[20.6,3100],
-      [21.8,3690],[23.65,3690],[23.75,3690],[23.76,0],[24,0]];
+      [14.2,2180],[15,2180],[16,2180],[17.5,2180],[18.7,3450],[20.6,3450],
+      [21.8,3450],[23.65,3450],[23.75,3450],[23.76,0],[24,0]];
     add(".ks-track", stops.map(([time,x]) => ({offset:time / 24,transform:`translateX(${-x}px)`,easing:"cubic-bezier(.45,0,.2,1)"})));
     // An opaque bookend covers only the loop reset. The pipeline itself never cuts between slides.
     add(".ks-loop-veil", [{opacity:1,offset:0},{opacity:1,offset:.026},{opacity:0,offset:.071},
       {opacity:0,offset:.958},{opacity:1,offset:.986},{opacity:1,offset:1}]);
-    add(".ks-chat-scroll", [{transform:"translateY(28px)",offset:0},{transform:"translateY(28px)",offset:.065},
-      {transform:"translateY(-292px)",offset:.3},{transform:"translateY(-292px)",offset:1}]);
-    add(".ks-highlight", [{backgroundColor:"#f2f5fc",offset:0},{backgroundColor:"#f2f5fc",offset:.13},
-      {backgroundColor:"#dce8ff",offset:.17},{backgroundColor:"#edf3ff",offset:.27},{backgroundColor:"#edf3ff",offset:1}]);
+    add(".ks-chat-scroll", [{transform:"translateY(0px)",offset:0},{transform:"translateY(0px)",offset:.065},
+      {transform:"translateY(-380px)",offset:.265},{transform:"translateY(-380px)",offset:1}]);
+    add(".ks-highlight", [{boxShadow:"none",offset:0},{boxShadow:"none",offset:.13},
+      {boxShadow:"0 0 0 2px #dfe8fa",offset:.17},{boxShadow:"0 0 0 2px #dfe8fa",offset:1}]);
     add(".ks-fragment-one", [{opacity:0,transform:"translate(0,0)",offset:0},{opacity:0,transform:"translate(0,0)",offset:.14},
       {opacity:1,transform:"translate(50px,-8px)",offset:.17},{opacity:0,transform:"translate(180px,28px) scale(.75)",offset:.225},{opacity:0,offset:1}]);
     add(".ks-fragment-two", [{opacity:0,transform:"translate(0,0)",offset:0},{opacity:0,transform:"translate(0,0)",offset:.18},
@@ -64,14 +64,6 @@
     appear(".ks-extractor",2.5,3.2,"scale(.94)");
     appear(".ks-case",4.3,5.1,"translateX(-18px) scale(.97)");
     selectAll(".ks-case-field").forEach((item,i) => appear(`.ks-case-field:nth-child(${i+1})`,4.7 + i*.27,5.1 + i*.27,"translateX(-9px)"));
-    [".back-one", ".back-two"].forEach((selector,i) => add(selector,[
-      {opacity:0,transform:"translateX(-20px)",offset:0},
-      {opacity:0,transform:"translateX(-20px)",offset:(5.6+i*.3)/24},
-      {opacity:1,transform:"translateX(0)",offset:(6+i*.3)/24},
-      {opacity:1,transform:"translateX(0)",offset:6.7/24},
-      {opacity:0,transform:"translateX(-12px)",offset:7.35/24},
-      {opacity:0,offset:1},
-    ]));
     appear(".ks-chunk-label",7.1,7.5);
     appear(".chunk-task",7.3,8.1,"translate(-180px,-15px) scale(.85)");
     appear(".chunk-constraint",7.6,8.4,"translate(-180px,-32px) scale(.85)");
@@ -84,19 +76,18 @@
     selectAll(".ks-index-grid i").forEach((item,i) => appear(`.ks-index-grid i:nth-child(${i+1})`,10.9+i*.07,11.25+i*.07,"translate(-12px,-6px) scale(.5)"));
     appear(".ks-keywords",11.3,12.1,"translateX(-25px)");
     appear(".ks-query",13,13.7,"translateY(20px)");
-    appear(".ks-retrieval.dense",13.7,14.4,"translateX(-25px)");
-    appear(".ks-retrieval.lexical",13.9,14.6,"translateX(-25px)");
+    appear(".ks-search",13.6,14.25,"translateX(-25px)");
+    selectAll(".ks-search-steps>div").forEach((item,i)=>appear(`.ks-search-steps>div:nth-child(${i+1})`,14+i*.25,14.45+i*.25,"translateX(-12px)"));
     add(".ks-index-grid i.relevant", [{boxShadow:"none",offset:0},{boxShadow:"none",offset:.57},
       {boxShadow:"0 0 0 3px #a0b8f4",backgroundColor:"#9db9f6",offset:.61},
       {boxShadow:"0 0 0 1px #a0b8f4",backgroundColor:"#b4caf8",offset:1}]);
-    appear(".ks-rrf",15.1,15.7,"scale(.9)");
-    appear(".ks-results",16,16.6,"translateX(-30px)");
-    selectAll(".ks-result").forEach((item,i) => appear(`.ks-result:nth-of-type(${i+1})`,16.15+i*.2,16.7+i*.2,"translateX(-15px)"));
+    appear(".ks-results",15.3,15.95,"translateX(-30px)");
+    selectAll(".ks-result").forEach((item,i) => appear(`.ks-result:nth-of-type(${i+1})`,15.55+i*.2,16.1+i*.2,"translateX(-15px)"));
     appear(".source-task",17.35,18,"translate(95px,45px)");
     appear(".source-cases",17.55,18.2,"translate(-90px,0)");
     appear(".source-facts",17.75,18.4,"translate(95px,-25px)");
     appear(".source-skill",17.95,18.6,"translate(95px,-45px)");
-    appear(".ks-prompt",18.1,18.7,"scale(.97)");
+    appear(".ks-enriched",18.1,18.7,"scale(.97)");
     [35,-5,-59,-78].forEach((dy,i) => {
       const at = 18.35 + i*.32;
       add(`.ks-context-packet.packet-${i}`, [
@@ -107,12 +98,8 @@
         {opacity:0,offset:1},
       ]);
     });
-    selectAll(".ks-prompt-block").forEach((item,i) => appear(`.ks-prompt-block:nth-of-type(${i+1})`,18.4+i*.32,18.8+i*.32,"translateX(-12px)"));
-    appear(".ks-planner",20.5,21.2,"translateX(-20px) scale(.95)");
-    appear(".ks-execution",21.35,22.05,"translateX(-35px)");
-    appear(".ks-execution-checks",21.9,22.4);
-    appear(".ks-pass",22.25,22.7,"scale(.75)");
-    appear(".ks-final-line",22.2,22.75);
+    selectAll(".ks-enriched-block").forEach((item,i) => appear(`.ks-enriched-block:nth-of-type(${i+1})`,18.4+i*.32,18.8+i*.32,"translateX(-12px)"));
+    appear(".ks-model-handoff",20.45,21.2,"translateX(-22px) scale(.96)");
     add(".ks-moving-line", [{strokeDashoffset:0},{strokeDashoffset:-1600}]);
     add("#ks-progress-fill", [{transform:"scaleX(0)"},{transform:"scaleX(1)"}]);
   }
@@ -168,7 +155,7 @@
   selectAll("[data-ks-phase]").forEach(button => button.addEventListener("click",() => {
     userPaused = true;
     // Seek to a readable settled view, rather than the beginning of a camera move.
-    seek([1.8,6.4,12.3,16.9,20.3,23.05][Number(button.dataset.ksPhase)]);
+    seek([1.8,6.4,12.3,16.9,20.3,22.6][Number(button.dataset.ksPhase)]);
   }));
   root.addEventListener("pointerenter",event => { if (event.pointerType === "mouse") { hovered = true; sync(); } });
   root.addEventListener("pointerleave",() => { hovered = false; sync(); });
