@@ -45,14 +45,15 @@
     } else select(".ks-viewport").style.height = "";
   }
   if (capable) {
-    // The camera eases between adjacent spaces, then holds at the key transformations.
-    const stops = [[0,0],[1.6,0],[6.7,0],[8,600],[9,600],[10.2,1010],[12.8,1010],
-      [20.8,3450],[23.65,3450],[23.75,3450],[23.76,0],[24,0]];
-    add(".ks-track", stops.map(([time,x]) => ({
-      offset:time / 24,transform:`translateX(${-x}px)`,
-      // One continuous move from the index through retrieval to context assembly.
-      easing:time===12.8 ? "cubic-bezier(.25,.12,.6,1)" : "cubic-bezier(.45,0,.2,1)",
-    })));
+    // Preserve the opening, then follow one continuous camera path to the handoff.
+    add(".ks-track",[
+      {offset:0,transform:"translateX(0)"},
+      {offset:6.7/24,transform:"translateX(0)",easing:"cubic-bezier(.25,0,.75,1)"},
+      {offset:20.8/24,transform:"translateX(-3450px)"},
+      {offset:23.75/24,transform:"translateX(-3450px)"},
+      {offset:23.76/24,transform:"translateX(0)"},
+      {offset:1,transform:"translateX(0)"},
+    ]);
     // An opaque bookend covers only the loop reset. The pipeline itself never cuts between slides.
     add(".ks-loop-veil", [{opacity:1,offset:0},{opacity:1,offset:.026},{opacity:0,offset:.071},
       {opacity:0,offset:.958},{opacity:1,offset:.986},{opacity:1,offset:1}]);
@@ -70,25 +71,60 @@
       {opacity:0,transform:"translateX(0)",offset:4.3/24},
       {opacity:1,transform:"translateX(0)",offset:5/24},
       {opacity:1,transform:"translateX(0)",offset:7.2/24,easing:"cubic-bezier(.4,0,.2,1)"},
-      {opacity:1,transform:"translateX(400px)",offset:8.8/24},
+      {opacity:1,transform:"translateX(400px)",offset:10.3/24},
       {opacity:1,transform:"translateX(400px)",offset:1},
     ]);
-    add(".ks-chunk-shell",[{opacity:1,offset:0},{opacity:1,offset:7.25/24},{opacity:0,offset:8.3/24},{opacity:0,offset:1}]);
+    add(".ks-chunk-shell",[{opacity:1,offset:0},{opacity:1,offset:7.5/24},{opacity:0,offset:9/24},{opacity:0,offset:1}]);
     [".chunk-task",".chunk-constraint",".chunk-solution"].forEach((selector,i)=>{
       const split={opacity:1,transform:`translateY(${i*15}px)`,borderRadius:"8px",borderColor:["#d9e4f7","#e1d7f2","#d0e8e3"][i],backgroundColor:"#ffffff",boxShadow:"0 3px 8px #2f4d8708"};
       const joined={opacity:0,transform:"translateY(0)",borderRadius:"0px",borderColor:"transparent",backgroundColor:"transparent",boxShadow:"none"};
       add(selector,[{...joined,offset:0},{...joined,offset:(4.65+i*.22)/24},
         {...joined,opacity:1,offset:(5.05+i*.22)/24},
-        {...joined,opacity:1,offset:7.3/24},{...split,offset:8.4/24},{...split,offset:1}]);
+        {...joined,opacity:1,offset:7.4/24},{...split,offset:9/24},{...split,offset:1}]);
     });
     appear(".ks-chunk-label",7.6,8.3);
     appear(".ks-small-note",8.4,8.9);
-    appear(".ks-embedding",9.1,9.7,"scale(.9)");
-    selectAll(".ks-vector").forEach((item,i) => appear(`.ks-vector:nth-child(${i+1})`,9.7 + i*.35,10.4 + i*.35,"translateX(-45px) scaleX(.6)"));
-    appear(".ks-bypass",9.6,10.2);
-    appear(".ks-index",10.7,11.35,"translateX(-18px)");
-    selectAll(".ks-index-grid i").forEach((item,i) => appear(`.ks-index-grid i:nth-child(${i+1})`,10.9+i*.07,11.25+i*.07,"translate(-12px,-6px) scale(.5)"));
-    appear(".ks-keywords",11.3,12.1,"translateX(-25px)");
+    // Carry text through the model, turn it into vector strips, and store it.
+    [0,1,2].forEach(i=>{
+      const delay=i*.22;
+      add(`.ks-knowledge-packet.flow-${i}`,[
+        {opacity:0,transform:`translate(1330px,${137+i*101}px) scale(1)`,offset:0},
+        {opacity:0,transform:`translate(1330px,${137+i*101}px) scale(1)`,offset:(9.4+delay)/24},
+        {opacity:1,transform:`translate(1355px,${137+i*96}px) scale(1)`,offset:(9.55+delay)/24},
+        {opacity:1,transform:`translate(1460px,${170+i*12}px) scale(.9)`,offset:(10+delay)/24},
+        {opacity:1,transform:`translate(1650px,${140+i*55}px) scale(.9)`,offset:(10.6+delay)/24},
+        {opacity:1,transform:`translate(1870px,${190+i*16}px) scale(.75)`,offset:(11.45+delay)/24},
+        {opacity:0,transform:`translate(1910px,${190+i*16}px) scale(.55)`,offset:(11.7+delay)/24},
+        {opacity:0,offset:1},
+      ]);
+      add(`.flow-${i} .ks-packet-text`,[
+        {opacity:1,offset:0},{opacity:1,offset:(10+delay)/24},
+        {opacity:0,offset:(10.4+delay)/24},{opacity:0,offset:1},
+      ]);
+      add(`.flow-${i} .ks-packet-vector`,[
+        {opacity:0,offset:0},{opacity:0,offset:(10+delay)/24},
+        {opacity:1,offset:(10.4+delay)/24},{opacity:1,offset:1},
+      ]);
+      add(`.ks-index-grid i:nth-child(${i+1})`,[
+        {backgroundColor:"#e8edf7",borderColor:"#dce5f5",offset:0},
+        {backgroundColor:"#e8edf7",borderColor:"#dce5f5",offset:(11.2+delay)/24},
+        {backgroundColor:"#b6cafa",borderColor:"#96b4ed",offset:(11.7+delay)/24},
+        {backgroundColor:"#cedafb",borderColor:"#b4c8f1",offset:1},
+      ]);
+    });
+    add(".ks-embedding",[
+      {borderColor:"#d5c9ef",offset:0},{borderColor:"#d5c9ef",offset:9.7/24},
+      {borderColor:"#ae93dd",offset:10.5/24},{borderColor:"#d5c9ef",offset:11.6/24},
+      {borderColor:"#d5c9ef",offset:1},
+    ]);
+    add(".ks-retrieved-packet",[
+      {opacity:0,transform:"translateX(0)",offset:0},
+      {opacity:0,transform:"translateX(0)",offset:17/24},
+      {opacity:1,transform:"translateX(15px)",offset:17.15/24},
+      {opacity:1,transform:"translateX(100px)",offset:17.65/24},
+      {opacity:0,transform:"translateX(145px)",offset:17.95/24},
+      {opacity:0,offset:1},
+    ]);
     // Keep card contents present. Highlight activity without exposing empty panels.
     selectAll(".ks-search-steps>div").forEach((item,i)=>add(`.ks-search-steps>div:nth-child(${i+1})`,[
       {borderColor:"#e1e8f7",offset:0},{borderColor:"#e1e8f7",offset:(14.2+i*.5)/24},
@@ -180,7 +216,7 @@
   selectAll("[data-ks-phase]").forEach(button => button.addEventListener("click",() => {
     userPaused = true;
     // Seek to a readable settled view, rather than the beginning of a camera move.
-    seek([1.8,6.4,12.3,16.0,20.6,22.6][Number(button.dataset.ksPhase)]);
+    seek([1.8,6.4,11.5,15.2,20.6,22.6][Number(button.dataset.ksPhase)]);
   }));
   document.addEventListener("visibilitychange",sync);
   document.addEventListener("site-language-change",() => { render(true); sync(); });
