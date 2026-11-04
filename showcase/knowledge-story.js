@@ -45,11 +45,17 @@
     } else select(".ks-viewport").style.height = "";
   }
   if (capable) {
-    // Preserve the opening, then follow one continuous camera path to the handoff.
+    // One horizontal journey, with eased arrivals and short reading pauses.
     add(".ks-track",[
       {offset:0,transform:"translateX(0)"},
       {offset:6.7/24,transform:"translateX(0)",easing:"cubic-bezier(.25,0,.75,1)"},
-      {offset:20.8/24,transform:"translateX(-3450px)"},
+      {offset:11.1/24,transform:"translateX(-1010px)"},
+      {offset:11.7/24,transform:"translateX(-1010px)",easing:"cubic-bezier(.25,0,.75,1)"},
+      {offset:15.1/24,transform:"translateX(-2180px)"},
+      {offset:15.7/24,transform:"translateX(-2180px)",easing:"cubic-bezier(.25,0,.75,1)"},
+      {offset:19.8/24,transform:"translateX(-3280px)"},
+      {offset:20.4/24,transform:"translateX(-3280px)",easing:"cubic-bezier(.25,0,.75,1)"},
+      {offset:21.3/24,transform:"translateX(-3450px)"},
       {offset:23.75/24,transform:"translateX(-3450px)"},
       {offset:23.76/24,transform:"translateX(0)"},
       {offset:1,transform:"translateX(0)"},
@@ -82,6 +88,7 @@
         {...joined,opacity:1,offset:(5.05+i*.22)/24},
         {...joined,opacity:1,offset:7.4/24},{...split,offset:9/24},{...split,offset:1}]);
     });
+    add(".ks-knowledge-link",[{transform:"scaleX(.16318)",offset:0},{transform:"scaleX(.16318)",offset:7.2/24,easing:"cubic-bezier(.4,0,.2,1)"},{transform:"scaleX(1)",offset:10.3/24},{transform:"scaleX(1)",offset:1}]);
     appear(".ks-chunk-label",7.6,8.3);
     appear(".ks-split-note",7.6,8.3,"translateX(-8px)");
     appear(".ks-small-note",8.4,8.9);
@@ -89,9 +96,9 @@
     [0,1,2].forEach(i=>{
       const delay=i*.22;
       add(`.ks-knowledge-packet.flow-${i}`,[
-        {opacity:0,transform:`translate(1330px,${137+i*101}px) scale(1)`,offset:0},
-        {opacity:0,transform:`translate(1330px,${137+i*101}px) scale(1)`,offset:(9.4+delay)/24},
-        {opacity:1,transform:`translate(1355px,${137+i*96}px) scale(1)`,offset:(9.55+delay)/24},
+        {opacity:0,transform:`translate(1330px,${197+i*101}px) scale(1)`,offset:0},
+        {opacity:0,transform:`translate(1330px,${197+i*101}px) scale(1)`,offset:(9.4+delay)/24},
+        {opacity:1,transform:`translate(1355px,${197+i*96}px) scale(1)`,offset:(9.55+delay)/24},
         {opacity:1,transform:`translate(1460px,${170+i*12}px) scale(.9)`,offset:(10+delay)/24},
         {opacity:1,transform:`translate(1650px,${140+i*55}px) scale(.9)`,offset:(10.6+delay)/24},
         {opacity:1,transform:`translate(1870px,${190+i*16}px) scale(.75)`,offset:(11.45+delay)/24},
@@ -217,7 +224,7 @@
   selectAll("[data-ks-phase]").forEach(button => button.addEventListener("click",() => {
     userPaused = true;
     // Seek to a readable settled view, rather than the beginning of a camera move.
-    seek([1.8,6.4,11.5,15.2,20.6,22.6][Number(button.dataset.ksPhase)]);
+    seek([1.8,6.4,11.4,15.4,20.1,22.6][Number(button.dataset.ksPhase)]);
   }));
   document.addEventListener("visibilitychange",sync);
   document.addEventListener("site-language-change",() => { render(true); sync(); });

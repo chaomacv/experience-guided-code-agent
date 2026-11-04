@@ -401,5 +401,16 @@
   "新任务": "New task",
   "新任务：接入新的 loss，保留原来的调用方式。": "New task: integrate a new loss and keep existing call sites.",
   "按语义拆分": "Split by meaning",
-  "分别向量化": "Embed each chunk"
+  "分别向量化": "Embed each chunk",
+  "历史人机对话": "Past human–AI conversations",
+  "相关经验检索": "Find experience for this task",
+  "可复用的历史经验": "Reusable past experience",
+  "带有历史经验的任务": "Task enriched with past experience",
+  "从对话中提取的工程经验": "Engineering experience from dialogue",
+  "语义理解与知识抽取": "Understand and extract knowledge",
+  "将每个片段编码为向量": "Encode each chunk as a vector",
+  "根据增强任务规划与执行": "Plan and act on the enriched task",
+  "本次用户需求": "Current user request",
+  "带来源的历史经验": "Past experience with provenance",
+  "每个知识片段的向量表示": "A vector for each knowledge chunk"
 }
