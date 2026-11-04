@@ -45,13 +45,13 @@ Agent 思想对照与实现范围见 [架构映射文档](../docs/agent_module_m
 
 保留蓝白画布、浅紫模型节点、深色上下文面板与横向连续镜头。技术名称作为标题和关键词，中文解释内容与因果；英文模式同步切换说明。聊天、Case、Chunk、索引与上下文都是可编辑的 HTML，不是静态图片。
 
-首屏使用人工编写的 loss 替换对话：短用户消息、较长助手回复、代码块与消息间留白；聊天气泡参考常见即时通信布局。LLM 节点只展示“理解语义 → 结构化抽取”。EngineeringCase 展示 task / 任务、problems / 问题、solutions / 解决方案、constraint / 约束，涉及 mean reduction、函数签名和 legacy fallback。
+首屏使用人工编写的 loss 替换对话：短用户消息、较长助手回复、代码块与消息间留白；聊天气泡参考常见即时通信布局。LLM 节点只展示“理解语义 → 结构化抽取”。LLM 后不再单列 EngineeringCase 详情卡；task、constraint、solution 先合为一张知识卡，进入向量化时由同一组 HTML 元素拆成三张 Chunk。字段标题使用 13px，摘要正文使用 10px。聊天人物在左、机器人在右，气泡尾角与角色位置一致。
 
 | 时间 | 叙事 |
 | --- | --- |
 | 0–2 秒 | 工作区进入历史聊天 |
-| 2–8 秒 | loss 对话 → LLM → EngineeringCase |
-| 8–13 秒 | task / constraint / solution Chunk → Embedding Model → Knowledge Index |
+| 2–8 秒 | loss 对话 → LLM → 一整张知识卡 |
+| 8–13 秒 | 知识卡展开为三张 Chunk → Embedding Model → Knowledge Index |
 | 13–17.5 秒 | 下一次 User Task → 检索 / 匹配 / 排名 / 选择 → 相关历史经验 |
 | 17.5–21 秒 | 保留 Task、Retrieved Cases、Repository Facts、Skill 四路汇入增强任务 |
 | 21–24 秒 | 带历史经验的任务 → LLM / MLLM 后续工作；遮罩覆盖循环复位 |
@@ -63,3 +63,5 @@ Knowledge Index 使用经验条目与中文说明解释语义、关键词查找�
 实现文件：`index.html` 的 `#knowledge-story`、`knowledge-story.css`、`knowledge-story.js` 与 `locales/en.json`。所有动画共用原生 Web Animations API 的 24 秒时间轴；无外部 CDN 或新增构建依赖。保留自动播放、暂停、重播、阶段跳转、悬停暂停、后台和离屏暂停；窄屏简化分镜，减少动态效果时手动阅读。
 
 本地预览：仓库根目录运行 `python -m http.server 8765 --bind 127.0.0.1 --directory showcase`，打开 `http://127.0.0.1:8765/`。发布沿用 GitHub Pages，源码下载包由 `scripts/package_showcase.py` 生成。
+
+镜头节奏：保留起点至入库段；12.8–20.8 秒以一次连续右移串起知识库、User Task、检索与多源汇聚。后半段卡片预先位于轨道中，不再整块淡入；信息匹配和汇入动画在同一空间里发生。
