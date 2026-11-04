@@ -60,8 +60,10 @@ Knowledge Index 使用经验条目与中文说明解释语义、关键词查找�
 
 当前代码使用文本 LLM，修改文件与独立验收由工具执行。MLLM 在交接节点明确标为可扩展方向，不表示已经接入多模态模型，也不表示模型直接写入文件或访问受保护验收标签。
 
-实现文件：`index.html` 的 `#knowledge-story`、`knowledge-story.css`、`knowledge-story.js` 与 `locales/en.json`。所有动画共用原生 Web Animations API 的 24 秒时间轴；无外部 CDN 或新增构建依赖。保留自动播放、暂停、重播、阶段跳转、悬停暂停、后台和离屏暂停；窄屏简化分镜，减少动态效果时手动阅读。
+实现文件：`index.html` 的 `#knowledge-story`、`knowledge-story.css`、`knowledge-story.js` 与 `locales/en.json`。所有动画共用原生 Web Animations API 的 24 秒时间轴；无外部 CDN 或新增构建依赖。保留自动播放、暂停、重播、阶段跳转、后台和离屏暂停；窄屏简化分镜，减少动态效果时手动阅读。
 
 本地预览：仓库根目录运行 `python -m http.server 8765 --bind 127.0.0.1 --directory showcase`，打开 `http://127.0.0.1:8765/`。发布沿用 GitHub Pages，源码下载包由 `scripts/package_showcase.py` 生成。
 
 镜头节奏：保留起点至入库段；12.8–20.8 秒以一次连续右移串起知识库、User Task、检索与多源汇聚。后半段卡片预先位于轨道中，不再整块淡入；信息匹配和汇入动画在同一空间里发生。
+
+动画检查修正：检索结果与增强任务内容预先完整显示，过程只用轻微高亮和信息流表示，不再让空卡片进入视口。鼠标悬停不自动暂停，避免阅读时意外停走；暂停/播放按钮仍可控制。打包会为样式、脚本和语言包生成内容版本号，避免连续发布后混用新旧资源。

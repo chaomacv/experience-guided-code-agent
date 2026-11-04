@@ -1,5 +1,7 @@
 """Create the showcase download without secrets, runtime data or recursive ZIPs."""
 from pathlib import Path
+import hashlib
+import re
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -8,6 +10,22 @@ SOURCE_DIRS = {'experience_guided_code_agent', 'benchmarks', 'configs', 'docs', 
 SOURCE_FILES = {'README.md', 'LICENSE', 'CONTRIBUTING.md', 'CODE_OF_CONDUCT.md',
                 'SECURITY.md', '.env.example', '.gitignore', '.gitattributes',
                 'pytest.ini', 'requirements.txt', 'requirements-core.txt'}
+
+
+def stamp_assets():
+    """Keep deployed HTML, motion styles, scripts and locale data in sync."""
+    page = ROOT / 'showcase/index.html'
+    content = page.read_text(encoding='utf-8')
+    for attr, name in [('href', 'knowledge-story.css'), ('src', 'knowledge-story.js'),
+                       ('src', 'i18n.js')]:
+        payload = (ROOT / 'showcase' / name).read_bytes().replace(b'\r\n', b'\n')
+        if name == 'i18n.js':
+            payload += (ROOT / 'showcase/locales/en.json').read_bytes().replace(b'\r\n', b'\n')
+        version = hashlib.sha256(payload).hexdigest()[:12]
+        pattern = rf'({attr}="{re.escape(name)})(?:\?v=[^"]*)?(\")'
+        content = re.sub(pattern, lambda m: m[1] + '?v=' + version + m[2], content)
+    if content != page.read_text(encoding='utf-8'):
+        page.write_text(content, encoding='utf-8')
 
 
 def source_files():
@@ -25,6 +43,7 @@ def source_files():
 
 
 if __name__ == '__main__':
+    stamp_assets()
     output = ROOT / 'showcase/experience-guided-code-agent-source.zip'
     output.parent.mkdir(exist_ok=True)
     with zipfile.ZipFile(output, 'w', zipfile.ZIP_DEFLATED) as archive:

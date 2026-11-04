@@ -34,7 +34,11 @@
     get language() { return language; },
     caseSummary(id) { return messages._caseSummaries?.[id] || id; },
   };
-  fetch("locales/en.json").then(response => {
+  const localeUrl = new URL("locales/en.json", document.baseURI);
+  const localeVersion = document.currentScript?.src
+    ? new URL(document.currentScript.src).searchParams.get("v") : null;
+  if (localeVersion) localeUrl.searchParams.set("v", localeVersion);
+  fetch(localeUrl).then(response => {
     if (!response.ok) throw new Error("English locale unavailable");
     return response.json();
   }).then(value => {

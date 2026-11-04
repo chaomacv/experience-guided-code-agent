@@ -17,7 +17,7 @@
   const select = value => root.querySelector(value);
   const selectAll = value => [...root.querySelectorAll(value)];
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-  let userPaused = reduced.matches, hovered = false, onScreen = true, frame = 0, phase = -1;
+  let userPaused = reduced.matches, onScreen = true, frame = 0, phase = -1;
   let lastClock = -1;
   const capable = typeof Element.prototype.animate === "function";
   const mobile = matchMedia("(max-width: 760px)");
@@ -89,11 +89,20 @@
     appear(".ks-index",10.7,11.35,"translateX(-18px)");
     selectAll(".ks-index-grid i").forEach((item,i) => appear(`.ks-index-grid i:nth-child(${i+1})`,10.9+i*.07,11.25+i*.07,"translate(-12px,-6px) scale(.5)"));
     appear(".ks-keywords",11.3,12.1,"translateX(-25px)");
-    selectAll(".ks-search-steps>div").forEach((item,i)=>appear(`.ks-search-steps>div:nth-child(${i+1})`,14+i*.25,14.45+i*.25,"translateX(-12px)"));
+    // Keep card contents present. Highlight activity without exposing empty panels.
+    selectAll(".ks-search-steps>div").forEach((item,i)=>add(`.ks-search-steps>div:nth-child(${i+1})`,[
+      {borderColor:"#e1e8f7",offset:0},{borderColor:"#e1e8f7",offset:(14.2+i*.5)/24},
+      {borderColor:"#95b2e9",offset:(14.45+i*.5)/24},{borderColor:"#e1e8f7",offset:(14.9+i*.5)/24},
+      {borderColor:"#e1e8f7",offset:1},
+    ]));
     add(".ks-index-grid i.relevant", [{boxShadow:"none",offset:0},{boxShadow:"none",offset:.57},
       {boxShadow:"0 0 0 3px #a0b8f4",backgroundColor:"#9db9f6",offset:.61},
       {boxShadow:"0 0 0 1px #a0b8f4",backgroundColor:"#b4caf8",offset:1}]);
-    selectAll(".ks-result").forEach((item,i) => appear(`.ks-result:nth-of-type(${i+1})`,15.55+i*.2,16.1+i*.2,"translateX(-15px)"));
+    selectAll(".ks-result").forEach((item,i)=>add(`.ks-result:nth-of-type(${i+1})`,[
+      {backgroundColor:"#ffffff",offset:0},{backgroundColor:"#ffffff",offset:(15.9+i*.25)/24},
+      {backgroundColor:"#f0f5ff",offset:(16.15+i*.25)/24},{backgroundColor:"#ffffff",offset:(16.7+i*.25)/24},
+      {backgroundColor:"#ffffff",offset:1},
+    ]));
     [35,-5,-59,-78].forEach((dy,i) => {
       const at = 18.35 + i*.32;
       add(`.ks-context-packet.packet-${i}`, [
@@ -104,8 +113,16 @@
         {opacity:0,offset:1},
       ]);
     });
-    selectAll(".ks-enriched-block").forEach((item,i) => appear(`.ks-enriched-block:nth-of-type(${i+1})`,18.4+i*.32,18.8+i*.32,"translateX(-12px)"));
-    appear(".ks-model-handoff",20.45,21.2,"translateX(-22px) scale(.96)");
+    selectAll(".ks-enriched-block").forEach((item,i)=>add(`.ks-enriched-block:nth-of-type(${i+1})`,[
+      {backgroundColor:"transparent",offset:0},{backgroundColor:"transparent",offset:(18.4+i*.32)/24},
+      {backgroundColor:"rgba(190,205,239,.06)",offset:(18.7+i*.32)/24},
+      {backgroundColor:"transparent",offset:(19.1+i*.32)/24},{backgroundColor:"transparent",offset:1},
+    ]));
+    add(".ks-model-handoff",[
+      {borderColor:"#d5c9ef",offset:0},{borderColor:"#d5c9ef",offset:20.45/24},
+      {borderColor:"#a28bd1",offset:21.2/24},{borderColor:"#d5c9ef",offset:22/24},
+      {borderColor:"#d5c9ef",offset:1},
+    ]);
     add(".ks-moving-line", [{strokeDashoffset:0},{strokeDashoffset:-1600}]);
     add("#ks-progress-fill", [{transform:"scaleX(0)"},{transform:"scaleX(1)"}]);
   }
@@ -127,13 +144,15 @@
   }
   function tick() { render(); frame = requestAnimationFrame(tick); }
   function sync() {
-    const running = capable && !userPaused && !hovered && onScreen && !document.hidden && !reduced.matches;
+    const running = capable && !userPaused && onScreen && !document.hidden && !reduced.matches;
     cancelAnimationFrame(frame);
     const commonStart = document.timeline.currentTime - (animations[0]?.currentTime || 0);
-    animations.forEach(animation => {
-      if (running) { animation.play(); animation.startTime = commonStart; }
-      else animation.pause();
-    });
+    if (running !== (animations[0]?.playState === "running")) {
+      animations.forEach(animation => {
+        if (running) { animation.play(); animation.startTime = commonStart; }
+        else animation.pause();
+      });
+    }
     select("#ks-play-icon").textContent = userPaused || reduced.matches ? "▶" : "Ⅱ";
     select("#ks-play-label").textContent = userPaused || reduced.matches ? text("播放","Play") : text("暂停","Pause");
     select("#ks-play").setAttribute("aria-label",userPaused || reduced.matches ? text("播放动画","Play animation") : text("暂停动画","Pause animation"));
@@ -156,15 +175,13 @@
     }
     sync();
   }
-  select("#ks-play").addEventListener("click",() => { userPaused = !userPaused; hovered = false; sync(); });
-  select("#ks-replay").addEventListener("click",() => { userPaused = reduced.matches; hovered = false; seek(0); });
+  select("#ks-play").addEventListener("click",() => { userPaused = !userPaused; sync(); });
+  select("#ks-replay").addEventListener("click",() => { userPaused = reduced.matches; seek(0); });
   selectAll("[data-ks-phase]").forEach(button => button.addEventListener("click",() => {
     userPaused = true;
     // Seek to a readable settled view, rather than the beginning of a camera move.
     seek([1.8,6.4,12.3,16.0,20.6,22.6][Number(button.dataset.ksPhase)]);
   }));
-  root.addEventListener("pointerenter",event => { if (event.pointerType === "mouse") { hovered = true; sync(); } });
-  root.addEventListener("pointerleave",() => { hovered = false; sync(); });
   document.addEventListener("visibilitychange",sync);
   document.addEventListener("site-language-change",() => { render(true); sync(); });
   reduced.addEventListener("change",() => { userPaused = reduced.matches; resize(); sync(); });
