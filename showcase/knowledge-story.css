@@ -90,3 +90,10 @@ html[lang=en] .hero h1{font-size:clamp(38px,4vw,58px)}
 
 /* Align navigation, hero copy and animation to one desktop content width. */
 @media(min-width:1000px){.hero{padding-left:30px;padding-right:30px}.hero-intro{max-width:1500px}.nav{padding-left:max(30px,calc((100% - 1500px)/2));padding-right:max(30px,calc((100% - 1500px)/2))}}
+
+/* A fresh task arrives above the reusable knowledge source. */
+.ks-query>p{font-size:14px;line-height:1.8;padding:12px 18px;color:#6988bb}
+.ks-query>footer{font-size:9px;line-height:1.6;padding:9px 18px}
+.ks-library-source{position:absolute;left:2240px;top:398px;width:280px;display:flex;align-items:center;justify-content:center;gap:9px;color:#7390bf}
+.ks-library-source>span{font-size:18px}.ks-library-source>strong{font-size:14px;font-weight:700;line-height:1.6}
+.ks-library-pulse{position:absolute;left:0;top:0;width:7px;height:7px;border-radius:50%;background:#839ee0;box-shadow:0 0 0 4px #839ee018;opacity:0;pointer-events:none}

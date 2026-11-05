@@ -140,6 +140,23 @@
       {opacity:0,transform:"translateX(145px)",offset:17.95/24},
       {opacity:0,offset:1},
     ]);
+    // A new task drops into the shared workspace, then retrieves prior experience.
+    add(".ks-query",[
+      {opacity:0,transform:"translateY(-200px)",offset:0},
+      {opacity:0,transform:"translateY(-200px)",offset:12.5/24},
+      {opacity:1,transform:"translateY(-170px)",offset:12.62/24,easing:"cubic-bezier(.22,.8,.25,1)"},
+      {opacity:1,transform:"translateY(0)",offset:13.5/24},
+      {opacity:1,transform:"translateY(0)",offset:1},
+    ]);
+    add(".ks-library-pulse",[
+      {opacity:0,transform:"translate(2300px,439px)",offset:0},
+      {opacity:0,transform:"translate(2300px,439px)",offset:13.65/24},
+      {opacity:1,transform:"translate(2320px,439px)",offset:13.8/24},
+      {opacity:1,transform:"translate(2536px,439px)",offset:14.35/24},
+      {opacity:1,transform:"translate(2536px,267px)",offset:14.75/24},
+      {opacity:0,transform:"translate(2576px,267px)",offset:14.95/24},
+      {opacity:0,offset:1},
+    ]);
     // Keep card contents present. Highlight activity without exposing empty panels.
     selectAll(".ks-search-steps>div").forEach((item,i)=>add(`.ks-search-steps>div:nth-child(${i+1})`,[
       {borderColor:"#e1e8f7",offset:0},{borderColor:"#e1e8f7",offset:(14.2+i*.5)/24},

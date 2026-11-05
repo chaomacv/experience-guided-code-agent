@@ -413,5 +413,6 @@
   "本次用户需求": "Current user request",
   "带来源的历史经验": "Past experience with provenance",
   "每个知识片段的向量表示": "A vector for each knowledge chunk",
-  "RAG架构动画演示": "RAG Architecture Animation"
+  "RAG架构动画演示": "RAG Architecture Animation",
+  "用户提出的新任务。": "A new task from the user."
 }
