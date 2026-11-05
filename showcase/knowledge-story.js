@@ -230,7 +230,7 @@
     render(true);
   }
   function seek(time) {
-    animations.forEach(animation => { animation.currentTime = time * 1000; });
+    animations.forEach(animation => { animation.pause(); animation.currentTime = time * 1000; });
     if (!capable) {
       phase = phases.reduce((found,item,index) => time >= item[0] ? index : found, 0);
       const data = phases[phase];
