@@ -50,7 +50,12 @@
     ]);
   }
   function resize() {
-    const scale = select(".ks-viewport").clientWidth / 1200;
+    const frameWidth = select(".ks-viewport").clientWidth;
+    // A narrower outer frame must not shrink the established desktop scene.
+    const sceneWidth = innerWidth >= 1000
+      ? Math.max(frameWidth, Math.min(1500, Math.min(1560, document.documentElement.clientWidth) - 60) - 2)
+      : frameWidth;
+    const scale = sceneWidth / 1200;
     select(".ks-world").style.transform = `scale(${scale})`;
     // Keep the experience connector centered on both cards after layout or language changes.
     const results = select(".ks-results"), cases = select(".source-cases");

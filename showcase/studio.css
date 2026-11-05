@@ -169,3 +169,11 @@ body { background:#f7f9fd; color:#1c2940; }
 .ks-loop-veil { background:radial-gradient(ellipse at 50% 40%,#e2f3e7,#f3faf5 70%); }
 
 .ks-loop-translation { font-size:13px; line-height:1.8; letter-spacing:1px; color:#668474; margin-top:-8px; }
+
+/* Match the first chapter's outer frame without changing content typography. */
+@media(min-width:1000px) {
+  .hero { max-width:1440px; padding:54px 0 0; margin-top:30px; border:1px solid #c9def4; border-radius:24px; background:#fbfdff; box-shadow:0 12px 35px #4b638608; overflow:hidden; }
+  .hero:before,.hero:after { inset:0; border-radius:inherit; }
+  .hero-intro { padding:0 28px; }
+  .hero .knowledge-story { max-width:none; border-left:0; border-right:0; border-bottom:0; border-radius:0; box-shadow:none; }
+}
