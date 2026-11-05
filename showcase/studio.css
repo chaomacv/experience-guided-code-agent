@@ -40,7 +40,7 @@ a:focus-visible,button:focus-visible,select:focus-visible { outline: 2px solid #
 .next-links span {  font-size: 10px; letter-spacing: 1px; }
 .next-links strong {  font-size: 19px; }
 .next-links small {  font-size: 12px; }
-.next-links strong>span,.next-links small>span { font: inherit; letter-spacing: 0;  }
+.next-links strong>span,.next-links small>span { font: inherit; letter-spacing: 0; color: inherit; }
 .end-note {  margin-top: 70px; }
 .end-mark {   border: 1px solid #dce4f0; }
 body>footer { max-width: 1500px;   }
