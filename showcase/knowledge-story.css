@@ -97,3 +97,5 @@ html[lang=en] .hero h1{font-size:clamp(38px,4vw,58px)}
 .ks-library-source{position:absolute;left:2240px;top:398px;width:280px;display:flex;align-items:center;justify-content:center;gap:9px;color:#7390bf}
 .ks-library-source>span{font-size:18px}.ks-library-source>strong{font-size:14px;font-weight:700;line-height:1.6}
 .ks-library-pulse{position:absolute;left:0;top:0;width:7px;height:7px;border-radius:50%;background:#839ee0;box-shadow:0 0 0 4px #839ee018;opacity:0;pointer-events:none}
+
+.ks-enriched-summary{min-height:248px;padding:30px 24px;display:flex;flex-direction:column;justify-content:center;gap:15px}.ks-enriched-summary label{font:600 14px/1.6 Consolas,monospace;color:#c4b5e5}.ks-enriched-summary p{font-size:15px;line-height:1.9;margin:0;color:#c1cee5}
