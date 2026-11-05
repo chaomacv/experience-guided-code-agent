@@ -167,26 +167,27 @@
       {opacity:0,transform:"translate(2576px,267px)",offset:14.95/24},
       {opacity:0,offset:1},
     ]);
-    // Clear, sustained focus states: both a bright edge and a filled interior.
+    // Finish Retrieve → Match → Rank → Select before highlighting any result.
+    // Both groups fit within the same 4.5-second camera hold (story units 15.1–15.7).
     selectAll(".ks-search-steps>div").forEach((item,i)=>{
-      const at = 15.05 + i*.15;
+      const at = 15.1 + i*.07;
       const rest = {borderColor:"#dbe4f6",backgroundColor:"#f8faff",boxShadow:"none"};
       const active = {borderColor:"#9c7add",backgroundColor:"#e8e0fc",boxShadow:"0 0 0 2px #a784ef55,0 0 22px #9c77ff33"};
       add(`.ks-search-steps>div:nth-child(${i+1})`,[
-        {...rest,offset:0},{...rest,offset:at/24},{...active,offset:(at+.025)/24},
-        {...active,offset:(at+.11)/24},{...rest,offset:(at+.16)/24},{...rest,offset:1},
+        {...rest,offset:0},{...rest,offset:at/24},{...active,offset:(at+.012)/24},
+        {...active,offset:(at+.045)/24},{...rest,offset:(at+.06)/24},{...rest,offset:1},
       ]);
     });
     add(".ks-index-grid i.relevant", [{boxShadow:"none",offset:0},{boxShadow:"none",offset:.57},
       {boxShadow:"0 0 0 2px #9ab9ff,0 0 12px #6c9aff66",backgroundColor:"#779de4",offset:.61},
       {boxShadow:"0 0 0 1px #8baaff",backgroundColor:"#527bc2",offset:1}]);
     selectAll(".ks-result").forEach((item,i)=>{
-      const at = 15.16 + i*.15;
+      const at = 15.43 + i*.08;
       const rest = {backgroundColor:"#ffffff",boxShadow:"inset 0 0 0 0 #74a8ed"};
       const active = {backgroundColor:"#e4efff",boxShadow:"inset 4px 0 0 #7ba9ec,inset 0 0 0 1px #8db1e680,0 0 24px #71abfa22"};
       add(`.ks-result:nth-of-type(${i+1})`,[
-        {...rest,offset:0},{...rest,offset:at/24},{...active,offset:(at+.025)/24},
-        {...active,offset:(at+.12)/24},{...rest,offset:(at+.18)/24},{...rest,offset:1},
+        {...rest,offset:0},{...rest,offset:at/24},{...active,offset:(at+.012)/24},
+        {...active,offset:(at+.055)/24},{...rest,offset:(at+.07)/24},{...rest,offset:1},
       ]);
     });
     [91,20,-51,-99].forEach((dy,i) => {
