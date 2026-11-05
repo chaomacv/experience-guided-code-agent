@@ -11,7 +11,7 @@
 <link href="guide.css" rel="stylesheet"/>
 <link href="theme.css" rel="stylesheet"/>
 <link href="knowledge-story.css?v=23af3fac9855" rel="stylesheet"/>
-<link href="studio.css?v=31c46d0d44fe" rel="stylesheet"/>
+<link href="studio.css?v=56e3b751e2d8" rel="stylesheet"/>
 </head>
 <body>
 <a class="skip" href="#main"><span data-i18n="跳到内容">跳到内容</span></a>
@@ -36,7 +36,7 @@
     ...</code></pre><time>09:41 <i></i></time></div></div><div class="ks-chat-entry human"><div class="ks-message engineer ks-highlight"><small>USER</small><p><span data-i18n="为什么 loss 变成向量了？">为什么 loss 变成向量了？</span></p><time>09:42 <i>✓✓</i></time></div></div><div class="ks-chat-entry assistant"><div class="ks-message agent ks-highlight"><small>AI ASSISTANT</small><p><span data-i18n="这里用了 reduction=&quot;none&quot;，没有汇总成标量。先保留 per-sample loss，最后做 mean；再对齐参数顺序和默认值。">这里用了 reduction="none"，没有汇总成标量。先保留 per-sample loss，最后做 mean；再对齐参数顺序和默认值。</span></p><pre><code>loss = focal_loss(
     logits, targets, reduction="none"
 )
-return loss.mean()</code></pre><time>09:42 <i></i></time></div></div><div class="ks-chat-entry human"><div class="ks-message engineer "><small>USER</small><p><span data-i18n="旧的调用方式也要能用。">旧的调用方式也要能用。</span></p><time>09:43 <i>✓✓</i></time></div></div><div class="ks-chat-entry assistant"><div class="ks-message agent "><small>AI ASSISTANT</small><p><span data-i18n="会检查 scalar output 和 backward()，并保留 legacy loss 的 fallback。">会检查 scalar output 和 backward()，并保留 legacy loss 的 fallback。</span></p><time>09:43 <i></i></time></div></div></div></div><footer><span data-i18n="短问题、长回复、代码与修改建议">短问题、长回复、代码与修改建议</span></footer></article>
+return loss.mean()</code></pre><time>09:42 <i></i></time></div></div><div class="ks-chat-entry human"><div class="ks-message engineer "><small>USER</small><p><span data-i18n="旧的调用方式也要能用。">旧的调用方式也要能用。</span></p><time>09:43 <i>✓✓</i></time></div></div><div class="ks-chat-entry assistant"><div class="ks-message agent "><small>AI ASSISTANT</small><p><span data-i18n="会检查 scalar output 和 backward()，并保留 legacy loss 的 fallback。">会检查 scalar output 和 backward()，并保留 legacy loss 的 fallback。</span></p><time>09:43 <i></i></time></div></div></div></div></article>
       <div class="ks-extractor ks-engine" style="left:422px;top:166px;width:150px"><span class="ks-ai-icon">✧</span><div class="ks-card-title"><strong>LLM</strong><small data-i18n="语义理解与知识抽取">语义理解与知识抽取</small></div></div>
       <span class="ks-fragment ks-fragment-one">mean reduction</span><span class="ks-fragment ks-fragment-two">function signature</span>
       <div class="ks-station-label" style="left:650px">02 / STRUCTURED KNOWLEDGE</div>
