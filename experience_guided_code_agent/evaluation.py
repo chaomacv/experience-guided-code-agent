@@ -12,7 +12,7 @@ import numpy as np
 
 from experience_guided_code_agent.rag.index_builder import build_index_from_cases, load_cases
 from experience_guided_code_agent.rag.retriever import Retriever
-from experience_guided_code_agent.utils.jsonio import read_json, write_json
+from experience_guided_code_agent.utils.jsonio import write_json
 
 
 def ranking_metrics(case_ids, relevance, k):

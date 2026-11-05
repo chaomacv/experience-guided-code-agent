@@ -7,7 +7,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_DIRS = {'experience_guided_code_agent', 'benchmarks', 'configs', 'docs', 'examples',
                'scripts', 'tests', 'showcase', '.github'}
-SOURCE_FILES = {'README.md', 'LICENSE', 'CONTRIBUTING.md', 'CODE_OF_CONDUCT.md',
+SOURCE_FILES = {'README.md', 'README.en.md', 'LICENSE', 'CONTRIBUTING.md', 'CODE_OF_CONDUCT.md',
                 'SECURITY.md', '.env.example', '.gitignore', '.gitattributes',
                 'pytest.ini', 'requirements.txt', 'requirements-core.txt'}
 

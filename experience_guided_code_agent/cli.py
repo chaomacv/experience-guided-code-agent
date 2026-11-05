@@ -11,9 +11,7 @@ from experience_guided_code_agent.agent.executor import build_project_adapter
 from experience_guided_code_agent.agent.workflow import run_agent
 from experience_guided_code_agent.case_pipeline.parser import LLMCaseExtractor, extract_case_directory
 from experience_guided_code_agent.config import CASE_DIR, DEFAULT_CONFIG, INDEX_DIR, KNOWLEDGE_DIR, RUNS_DIR
-from experience_guided_code_agent.rag.index_builder import build_index_from_cases
 from experience_guided_code_agent.rag.prompt_builder import build_prompt
-from experience_guided_code_agent.rag.retriever import Retriever
 from experience_guided_code_agent.utils.jsonio import read_json, write_json
 from experience_guided_code_agent import plugins
 

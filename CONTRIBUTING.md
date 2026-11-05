@@ -12,7 +12,10 @@
 ```bash
 python -m pip install -r requirements-core.txt "scikit-learn>=1.4,<1.8"
 python -m pytest -q
+python scripts/check_docs.py
 python scripts/package_showcase.py
 ```
 
 若修改模型、工具或验收接口，请更新对应文档，并描述实际检查结果与范围。
+
+根目录 README 提供中英文两份入口，内容修改请同步 `README.md` 和 `README.en.md`。展示素材放在 `docs/media/`；网页维护说明集中在 `showcase/README.md`，不追加重复的改版记录。

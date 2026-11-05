@@ -1,6 +1,6 @@
 # 文档导航
 
-新读者先按 [根目录 Quick start](../README.md#quick-start复现当前-demo) 跑通当前 demo，再按目标阅读下面的指南。
+新读者先按 [中文 Quick start](../README.md#quick-start) / [English Quick start](../README.en.md#quick-start) 跑通当前 demo，再按目标阅读下面的指南。
 
 | 目标 | 文档 |
 | --- | --- |
