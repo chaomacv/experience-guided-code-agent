@@ -16,7 +16,7 @@ def stamp_assets():
     """Keep deployed HTML, motion styles, scripts and locale data in sync."""
     page = ROOT / 'showcase/index.html'
     content = page.read_text(encoding='utf-8')
-    for attr, name in [('href', 'knowledge-story.css'), ('src', 'knowledge-story.js'),
+    for attr, name in [('href', 'knowledge-story.css'), ('src', 'knowledge-story.js'), ('href', 'studio.css'), ('src', 'studio.js'),
                        ('src', 'i18n.js')]:
         payload = (ROOT / 'showcase' / name).read_bytes().replace(b'\r\n', b'\n')
         if name == 'i18n.js':

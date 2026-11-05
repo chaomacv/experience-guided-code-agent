@@ -415,5 +415,6 @@
   "每个知识片段的向量表示": "A vector for each knowledge chunk",
   "RAG架构动画演示": "RAG Architecture Animation",
   "用户提出的新任务。": "A new task from the user.",
-  "融合历史经验，补充当前约束。": "Combine past experience with current constraints."
+  "融合历史经验，补充当前约束。": "Combine past experience with current constraints.",
+  "悬停暂停 · 移开继续": "Hover to pause · move away to resume"
 }

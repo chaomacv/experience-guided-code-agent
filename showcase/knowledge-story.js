@@ -1,9 +1,20 @@
-/* A shared 24-second Web Animations timeline. No network dependency or DOM polling loop. */
+/* One shared timeline: 24 story units mapped onto a 38-second reading-paced loop. */
 (() => {
   "use strict";
   const root = document.querySelector("#knowledge-story");
   if (!root) return;
-  const DURATION = 24000;
+  const DURATION = 38000;
+  // Longer scene holds keep motion continuous while giving readers time to inspect it.
+  const timing = [[0,0],[1.8,2.7],[6.7,9.5],[11.1,14],[11.7,17],[15.1,21],[15.7,25.5],[19.8,30],[20.4,33],[21.3,34],[23,37],[24,38]];
+  function mapTime(value, inverse = false) {
+    const a = inverse ? 1 : 0, b = inverse ? 0 : 1;
+    for (let i = 1; i < timing.length; i++) {
+      if (value > timing[i][a]) continue;
+      const before = timing[i-1], after = timing[i];
+      return before[b] + (value-before[a]) / (after[a]-before[a]) * (after[b]-before[b]);
+    }
+    return timing[timing.length-1][b];
+  }
   const phases = [
     [0, "经验进入工作区", "Experience enters the workspace", "从历史人机对话出发，追踪知识如何成为行动依据。", "Follow how historical human–agent dialogue becomes actionable context."],
     [2, "LLM 整理结构化知识", "An LLM organizes structured knowledge", "先将 task、constraint、solution 整理在一张完整卡片中，保留经验来源。", "First organize task, constraint and solution into a single card, keeping the source of the experience."],
@@ -17,13 +28,14 @@
   const select = value => root.querySelector(value);
   const selectAll = value => [...root.querySelectorAll(value)];
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-  let userPaused = reduced.matches, onScreen = true, frame = 0, phase = -1;
+  let userPaused = reduced.matches, onScreen = true, hoverPaused = false, frame = 0, phase = -1;
   let lastClock = -1;
   const capable = typeof Element.prototype.animate === "function";
   const mobile = matchMedia("(max-width: 760px)");
   function add(selector, keyframes, options = {}) {
     for (const element of selectAll(selector)) {
-      const animation = element.animate(keyframes, {duration: DURATION, iterations: Infinity, fill: "both", ...options});
+      const paced = keyframes.map(keyframe => keyframe.offset == null ? keyframe : {...keyframe, offset:mapTime(keyframe.offset * 24) / 38});
+      const animation = element.animate(paced, {duration: DURATION, iterations: Infinity, fill: "both", ...options});
       animation.pause();
       animation.currentTime = 0;
       animations.push(animation);
@@ -65,8 +77,6 @@
       {opacity:0,offset:.958},{opacity:1,offset:.986},{opacity:1,offset:1}]);
     add(".ks-chat-scroll", [{transform:"translateY(0px)",offset:0},{transform:"translateY(0px)",offset:.065},
       {transform:"translateY(-380px)",offset:.265},{transform:"translateY(-380px)",offset:1}]);
-    add(".ks-highlight", [{boxShadow:"none",offset:0},{boxShadow:"none",offset:.13},
-      {boxShadow:"0 0 0 2px #dfe8fa",offset:.17},{boxShadow:"0 0 0 2px #dfe8fa",offset:1}]);
     add(".ks-fragment-one", [{opacity:0,transform:"translate(0,0)",offset:0},{opacity:0,transform:"translate(0,0)",offset:.14},
       {opacity:1,transform:"translate(50px,-8px)",offset:.17},{opacity:0,transform:"translate(180px,28px) scale(.75)",offset:.225},{opacity:0,offset:1}]);
     add(".ks-fragment-two", [{opacity:0,transform:"translate(0,0)",offset:0},{opacity:0,transform:"translate(0,0)",offset:.18},
@@ -89,7 +99,7 @@
     ]);
     add(".ks-chunk-shell",[{opacity:1,offset:0},{opacity:1,offset:7.5/24},{opacity:0,offset:9/24},{opacity:0,offset:1}]);
     [".chunk-task",".chunk-constraint",".chunk-solution"].forEach((selector,i)=>{
-      const split={opacity:1,transform:`translateY(${i*15}px)`,borderRadius:"8px",borderColor:["#d9e4f7","#e1d7f2","#d0e8e3"][i],backgroundColor:"#ffffff",boxShadow:"0 3px 8px #2f4d8708"};
+      const split={opacity:1,transform:`translateY(${i*15}px)`,borderRadius:"8px",borderColor:["#394e6e","#584674","#35695e"][i],backgroundColor:"#182335",boxShadow:"0 4px 12px #0002"};
       const joined={opacity:0,transform:"translateY(0)",borderRadius:"0px",borderColor:"transparent",backgroundColor:"transparent",boxShadow:"none"};
       add(selector,[{...joined,offset:0},{...joined,offset:(4.65+i*.22)/24},
         {...joined,opacity:1,offset:(5.05+i*.22)/24},
@@ -121,10 +131,10 @@
         {opacity:1,offset:(10.4+delay)/24},{opacity:1,offset:1},
       ]);
       add(`.ks-index-grid i:nth-child(${i+1})`,[
-        {backgroundColor:"#e8edf7",borderColor:"#dce5f5",offset:0},
-        {backgroundColor:"#e8edf7",borderColor:"#dce5f5",offset:(11.2+delay)/24},
-        {backgroundColor:"#b6cafa",borderColor:"#96b4ed",offset:(11.7+delay)/24},
-        {backgroundColor:"#cedafb",borderColor:"#b4c8f1",offset:1},
+        {backgroundColor:"#283e5c",borderColor:"#405c80",offset:0},
+        {backgroundColor:"#283e5c",borderColor:"#405c80",offset:(11.2+delay)/24},
+        {backgroundColor:"#8fa9ff",borderColor:"#aab8ff",offset:(11.7+delay)/24},
+        {backgroundColor:"#4566a3",borderColor:"#6b89c3",offset:1},
       ]);
     });
     add(".ks-embedding",[
@@ -157,21 +167,29 @@
       {opacity:0,transform:"translate(2576px,267px)",offset:14.95/24},
       {opacity:0,offset:1},
     ]);
-    // Keep card contents present. Highlight activity without exposing empty panels.
-    selectAll(".ks-search-steps>div").forEach((item,i)=>add(`.ks-search-steps>div:nth-child(${i+1})`,[
-      {borderColor:"#e1e8f7",offset:0},{borderColor:"#e1e8f7",offset:(14.2+i*.5)/24},
-      {borderColor:"#95b2e9",offset:(14.45+i*.5)/24},{borderColor:"#e1e8f7",offset:(14.9+i*.5)/24},
-      {borderColor:"#e1e8f7",offset:1},
-    ]));
+    // Clear, sustained focus states: both a bright edge and a filled interior.
+    selectAll(".ks-search-steps>div").forEach((item,i)=>{
+      const at = 15.05 + i*.15;
+      const rest = {borderColor:"#384d6f",backgroundColor:"#172238",boxShadow:"none"};
+      const active = {borderColor:"#b194ff",backgroundColor:"#34335e",boxShadow:"0 0 0 2px #ac86ff66,0 0 22px #9c77ff55"};
+      add(`.ks-search-steps>div:nth-child(${i+1})`,[
+        {...rest,offset:0},{...rest,offset:at/24},{...active,offset:(at+.025)/24},
+        {...active,offset:(at+.11)/24},{...rest,offset:(at+.16)/24},{...rest,offset:1},
+      ]);
+    });
     add(".ks-index-grid i.relevant", [{boxShadow:"none",offset:0},{boxShadow:"none",offset:.57},
-      {boxShadow:"0 0 0 3px #a0b8f4",backgroundColor:"#9db9f6",offset:.61},
-      {boxShadow:"0 0 0 1px #a0b8f4",backgroundColor:"#b4caf8",offset:1}]);
-    selectAll(".ks-result").forEach((item,i)=>add(`.ks-result:nth-of-type(${i+1})`,[
-      {backgroundColor:"#ffffff",offset:0},{backgroundColor:"#ffffff",offset:(15.9+i*.25)/24},
-      {backgroundColor:"#f0f5ff",offset:(16.15+i*.25)/24},{backgroundColor:"#ffffff",offset:(16.7+i*.25)/24},
-      {backgroundColor:"#ffffff",offset:1},
-    ]));
-    [35,-5,-59,-78].forEach((dy,i) => {
+      {boxShadow:"0 0 0 2px #9ab9ff,0 0 12px #6c9aff66",backgroundColor:"#779de4",offset:.61},
+      {boxShadow:"0 0 0 1px #8baaff",backgroundColor:"#527bc2",offset:1}]);
+    selectAll(".ks-result").forEach((item,i)=>{
+      const at = 15.16 + i*.15;
+      const rest = {backgroundColor:"#182335",boxShadow:"inset 0 0 0 0 #78b7ff"};
+      const active = {backgroundColor:"#263f5f",boxShadow:"inset 4px 0 0 #8bc5ff,inset 0 0 0 1px #8bc5ff66,0 0 24px #71abfa33"};
+      add(`.ks-result:nth-of-type(${i+1})`,[
+        {...rest,offset:0},{...rest,offset:at/24},{...active,offset:(at+.025)/24},
+        {...active,offset:(at+.12)/24},{...rest,offset:(at+.18)/24},{...rest,offset:1},
+      ]);
+    });
+    [70,5,-55,-85].forEach((dy,i) => {
       const at = 18.35 + i*.32;
       add(`.ks-context-packet.packet-${i}`, [
         {opacity:0,transform:"translate(0,0)",offset:0},
@@ -194,7 +212,7 @@
     add(".ks-moving-line", [{strokeDashoffset:0},{strokeDashoffset:-1600}]);
     add("#ks-progress-fill", [{transform:"scaleX(0)"},{transform:"scaleX(1)"}]);
   }
-  function seconds() { return ((animations[0]?.currentTime || 0) % DURATION) / 1000; }
+  function seconds() { return mapTime(((animations[0]?.currentTime || 0) % DURATION) / 1000,true); }
   function render(force = false) {
     const time = seconds();
     const next = phases.reduce((found,item,index) => time >= item[0] ? index : found, 0);
@@ -207,12 +225,12 @@
       selectAll("[data-ks-phase]").forEach(button => button.setAttribute("aria-pressed",String(Number(button.dataset.ksPhase) === phase)));
       selectAll("[data-mobile-phase]").forEach(item => item.classList.toggle("is-current",Number(item.dataset.mobilePhase) === phase));
     }
-    const clock = Math.floor(time);
+    const clock = Math.floor(((animations[0]?.currentTime || 0) % DURATION) / 1000);
     if (clock !== lastClock || force) { select("#ks-time").textContent = String(clock).padStart(2,"0"); lastClock = clock; }
   }
   function tick() { render(); frame = requestAnimationFrame(tick); }
   function sync() {
-    const running = capable && !userPaused && onScreen && !document.hidden && !reduced.matches;
+    const running = capable && !userPaused && !hoverPaused && onScreen && !document.hidden && !reduced.matches;
     cancelAnimationFrame(frame);
     const commonStart = document.timeline.currentTime - (animations[0]?.currentTime || 0);
     if (running !== (animations[0]?.playState === "running")) {
@@ -225,12 +243,14 @@
     select("#ks-play-label").textContent = userPaused || reduced.matches ? text("播放","Play") : text("暂停","Pause");
     select("#ks-play").setAttribute("aria-label",userPaused || reduced.matches ? text("播放动画","Play animation") : text("暂停动画","Pause animation"));
     select("#ks-replay").setAttribute("aria-label",text("重新播放动画","Replay animation"));
+    root.classList.toggle("ks-hovering",hoverPaused);
+    if (select(".ks-hover-hint")) select(".ks-hover-hint").textContent = hoverPaused ? text("已暂停 · 移开继续","Paused · move away to resume") : text("悬停暂停 · 移开继续","Hover to pause · move away to resume");
     root.classList.toggle("ks-static",reduced.matches || !capable);
     if (running) frame = requestAnimationFrame(tick);
     render(true);
   }
   function seek(time) {
-    animations.forEach(animation => { animation.pause(); animation.currentTime = time * 1000; });
+    animations.forEach(animation => { animation.pause(); animation.currentTime = mapTime(time) * 1000; });
     if (!capable) {
       phase = phases.reduce((found,item,index) => time >= item[0] ? index : found, 0);
       const data = phases[phase];
@@ -250,6 +270,11 @@
     // Seek to a readable settled view, rather than the beginning of a camera move.
     seek([1.8,6.4,11.4,15.4,20.1,22.6][Number(button.dataset.ksPhase)]);
   }));
+  root.addEventListener("pointerenter",event => {
+    if (event.pointerType === "touch" || !matchMedia("(hover:hover)").matches) return;
+    hoverPaused = true; sync();
+  });
+  root.addEventListener("pointerleave",() => { hoverPaused = false; sync(); });
   document.addEventListener("visibilitychange",sync);
   document.addEventListener("site-language-change",() => { render(true); sync(); });
   reduced.addEventListener("change",() => { userPaused = reduced.matches; resize(); sync(); });
