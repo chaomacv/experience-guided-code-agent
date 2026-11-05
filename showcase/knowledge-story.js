@@ -56,6 +56,8 @@
       ? Math.max(frameWidth, Math.min(1500, Math.min(1560, document.documentElement.clientWidth) - 60) - 2)
       : frameWidth;
     const scale = sceneWidth / 1200;
+    const retrievalInset = sceneWidth > frameWidth ? (sceneWidth - frameWidth) / scale / 2 + 10 : 0;
+    root.style.setProperty("--ks-retrieval-inset", `${retrievalInset}px`);
     select(".ks-world").style.transform = `scale(${scale})`;
     // Keep the experience connector centered on both cards after layout or language changes.
     const results = select(".ks-results"), cases = select(".source-cases");
@@ -75,8 +77,8 @@
       {offset:6.7/24,transform:"translateX(0)",easing:"cubic-bezier(.25,0,.75,1)"},
       {offset:11.1/24,transform:"translateX(-1010px)"},
       {offset:11.7/24,transform:"translateX(-1010px)",easing:"cubic-bezier(.25,0,.75,1)"},
-      {offset:15.1/24,transform:"translateX(-2180px)"},
-      {offset:15.7/24,transform:"translateX(-2180px)",easing:"cubic-bezier(.25,0,.75,1)"},
+      {offset:15.1/24,transform:"translateX(calc(-2180px - var(--ks-retrieval-inset,0px)))"},
+      {offset:15.7/24,transform:"translateX(calc(-2180px - var(--ks-retrieval-inset,0px)))",easing:"cubic-bezier(.25,0,.75,1)"},
       {offset:19.8/24,transform:"translateX(-3280px)"},
       {offset:20.4/24,transform:"translateX(-3280px)",easing:"cubic-bezier(.25,0,.75,1)"},
       {offset:21.3/24,transform:"translateX(-3450px)"},
