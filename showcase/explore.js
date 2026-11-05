@@ -116,12 +116,20 @@
   root.addEventListener("click",event => {
     const moduleButton = event.target.closest("[data-explore-module]");
     if (moduleButton) {
+      if (moduleButton.tagName === "A" && (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey)) return;
+      event.preventDefault();
       open(moduleButton.dataset.exploreModule,{focus:moduleButton.closest("#mapping-overview") !== null});
       return;
     }
     const viewButton = event.target.closest("[data-explore-view]");
     if (viewButton?.dataset.exploreView === "resources") open(returningTo);
     else if (viewButton || event.target.closest("[data-explore-back]")) overview({focus:true});
+  });
+  root.addEventListener("explore-auto-select",event => {
+    const id = event.detail;
+    if (!modules.some(module => module.id === id)) return;
+    history.replaceState(null,"", "#explore-" + id);
+    open(id,{scroll:false,focus:false,historyEntry:false});
   });
   function restoreFromHash(scroll = true) {
     const id = location.hash.match(/^#explore-([a-z-]+)$/)?.[1];

@@ -44,9 +44,9 @@
     guide.modules.filter(row => filter === "all" || row[3] === filter).forEach(([name, role, implementation, status, boundary, path]) => {
       const row = document.createElement("tr");
       const label = element("th");
-      const explore = element("button", name + " ↗", "mapping-module-link");
-      explore.type = "button";
+      const explore = element("a", name + " ↗", "mapping-module-link");
       explore.dataset.exploreModule = name.toLowerCase().replace(/\s+/g, "-");
+      explore.href = "#explore-" + explore.dataset.exploreModule;
       explore.setAttribute("aria-controls", "module-explorer-panel");
       explore.setAttribute("aria-label", tr("探索 {module} 的扩展资源", {module:name}));
       label.append(explore);

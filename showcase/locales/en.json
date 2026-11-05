@@ -489,5 +489,21 @@
   "输出校验": "Output validation",
   "对话与工具规则": "Conversation and tool rules",
   "执行隔离": "Execution isolation",
-  "轻量推理": "Lightweight inference"
+  "轻量推理": "Lightweight inference",
+  "12 项 Agent 能力": "12 Agent capabilities",
+  "读懂实现，": "Understand the code, ",
+  "探索扩展。": "explore what comes next.",
+  "已暂停": "Paused",
+  "悬停暂停": "Hover paused",
+  "阅读中暂停": "Reading paused",
+  "等待进入视口": "Waiting for view",
+  "等待内容加载": "Waiting for content",
+  "自动轮播": "Auto tour",
+  "播放": "Play",
+  "播放本板块轮播": "Play this section tour",
+  "暂停本板块轮播": "Pause this section tour",
+  "上一项": "Previous item",
+  "下一项": "Next item",
+  "本板块自动轮播控制": "Section tour controls",
+  "每 {n} 秒切换；悬停暂停，手动选择后暂停。": "Changes every {n} seconds. Hover or manually select an item to pause."
 }
