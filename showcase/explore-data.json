@@ -1,0 +1,1333 @@
+{
+  "modules": [
+    {
+      "id": "llm",
+      "name": "LLM",
+      "intro": {
+        "zh": "换一个模型，保留经验驱动的执行闭环。",
+        "en": "Change the model while keeping the experience-guided execution loop."
+      },
+      "start": {
+        "zh": "兼容 Chat Completions 的服务可配置 base_url、model 与 api_key_env；原生协议可通过 llm.factory 实现 ChatProvider.complete。先验证结构化 Plan，再运行独立验收。",
+        "en": "Configure base_url, model and api_key_env for compatible Chat Completions services. Use llm.factory and ChatProvider.complete for native protocols. Validate a structured Plan before running the independent checks."
+      },
+      "source": "experience_guided_code_agent/agent/llm_provider.py",
+      "guide": "docs/llm_providers.md",
+      "groups": [
+        {
+          "title": {
+            "zh": "官方 API · 先连接服务",
+            "en": "Official APIs · connect a service"
+          },
+          "items": [
+            {
+              "name": "OpenAI · GPT",
+              "tag": "API",
+              "description": {
+                "zh": "文本、推理与工具接口；从官方 API 文档开始。",
+                "en": "Text, reasoning and tool interfaces; start with the API documentation."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://developers.openai.com/api/reference/overview"
+                }
+              ]
+            },
+            {
+              "name": "Google · Gemini",
+              "tag": "API",
+              "description": {
+                "zh": "多模态与文本生成，查看 Gemini API 接入方式。",
+                "en": "Text and multimodal generation through the Gemini API."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://ai.google.dev/gemini-api/docs"
+                }
+              ]
+            },
+            {
+              "name": "Anthropic · Claude",
+              "tag": "API",
+              "description": {
+                "zh": "Messages API、工具调用与上下文组织。",
+                "en": "Messages API, tool use and context construction."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://platform.claude.com/docs/en/api/overview"
+                }
+              ]
+            },
+            {
+              "name": "DeepSeek",
+              "tag": "API",
+              "description": {
+                "zh": "本项目使用的 API 路线，可从现有配置开始替换。",
+                "en": "The API route used in this project; start with the existing provider."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://api-docs.deepseek.com/"
+                }
+              ]
+            },
+            {
+              "name": "阿里云 · 百炼 / Qwen",
+              "tag": "API",
+              "description": {
+                "zh": "托管 Qwen 等模型，学习兼容接口与模型配置。",
+                "en": "Hosted Qwen models, compatible endpoints and model configuration."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://www.alibabacloud.com/help/en/model-studio/"
+                }
+              ],
+              "name_en": "Alibaba Cloud · Model Studio / Qwen"
+            },
+            {
+              "name": "Moonshot · Kimi",
+              "tag": "API",
+              "description": {
+                "zh": "查看模型调用、上下文与输出协议。",
+                "en": "Model calls, context handling and response formats."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://platform.moonshot.cn/docs/"
+                }
+              ]
+            },
+            {
+              "name": "智谱 · GLM",
+              "tag": "API",
+              "description": {
+                "zh": "模型 API、工具调用及结构化任务接入。",
+                "en": "Model APIs, tool use and structured task integration."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://docs.bigmodel.cn/"
+                }
+              ],
+              "name_en": "Zhipu · GLM"
+            },
+            {
+              "name": "MiniMax",
+              "tag": "API",
+              "description": {
+                "zh": "文本模型 API 与推理服务的接入说明。",
+                "en": "Text model APIs and inference service integration."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://platform.minimax.io/docs/"
+                }
+              ]
+            },
+            {
+              "name": "字节跳动 · 火山方舟",
+              "tag": "API",
+              "description": {
+                "zh": "托管模型服务与应用 API 接入。",
+                "en": "Hosted model services and application API integration."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://www.volcengine.com/docs/82379"
+                }
+              ],
+              "name_en": "ByteDance · Volcano Ark"
+            },
+            {
+              "name": "Mistral AI",
+              "tag": "API",
+              "description": {
+                "zh": "文本、代码模型与工具调用接口。",
+                "en": "Text and code models with tool interfaces."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://docs.mistral.ai/"
+                }
+              ]
+            },
+            {
+              "name": "Cohere",
+              "tag": "API",
+              "description": {
+                "zh": "生成、Embedding 与 Rerank 服务。",
+                "en": "Generation, embedding and reranking services."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://docs.cohere.com/"
+                }
+              ]
+            },
+            {
+              "name": "Groq",
+              "tag": "API",
+              "description": {
+                "zh": "托管推理服务，学习兼容客户端接入。",
+                "en": "Hosted inference with compatible client integration."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://console.groq.com/docs/overview"
+                }
+              ]
+            },
+            {
+              "name": "Together AI",
+              "tag": "API",
+              "description": {
+                "zh": "开放模型的托管推理与 API 服务。",
+                "en": "Hosted inference and APIs for open models."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://docs.together.ai/"
+                }
+              ]
+            },
+            {
+              "name": "Fireworks AI",
+              "tag": "API",
+              "description": {
+                "zh": "模型推理、部署与 API 调用。",
+                "en": "Model inference, deployment and API calls."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://docs.fireworks.ai/"
+                }
+              ]
+            },
+            {
+              "name": "SiliconFlow · 硅基流动",
+              "tag": "API",
+              "description": {
+                "zh": "多种开放模型的托管 API 服务。",
+                "en": "Hosted APIs for multiple open model families."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://docs.siliconflow.cn/"
+                }
+              ],
+              "name_en": "SiliconFlow"
+            },
+            {
+              "name": "OpenRouter",
+              "tag": "API",
+              "description": {
+                "zh": "统一 API 网关，探索多提供商模型路由。",
+                "en": "A unified API gateway for routing across model providers."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://openrouter.ai/docs/quickstart"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": {
+            "zh": "开放权重模型 · 选择本地模型",
+            "en": "Open-weight models · choose a local model"
+          },
+          "items": [
+            {
+              "name": "Qwen",
+              "tag": "Model",
+              "description": {
+                "zh": "Qwen 系列：从官方推理与部署说明开始。",
+                "en": "Qwen models with official inference and deployment guides."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/QwenLM/Qwen3"
+                }
+              ]
+            },
+            {
+              "name": "DeepSeek",
+              "tag": "Model",
+              "description": {
+                "zh": "从官方模型仓库选择权重与推理示例。",
+                "en": "Choose weights and inference examples from official repositories."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/deepseek-ai"
+                }
+              ]
+            },
+            {
+              "name": "Llama",
+              "tag": "Model",
+              "description": {
+                "zh": "Meta 模型系列与官方模型使用说明。",
+                "en": "Meta model families and official usage documentation."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/meta-llama/llama-models"
+                }
+              ]
+            },
+            {
+              "name": "Gemma",
+              "tag": "Model",
+              "description": {
+                "zh": "Google 开放权重模型与部署资料。",
+                "en": "Google open-weight models and deployment resources."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://ai.google.dev/gemma/docs"
+                }
+              ]
+            },
+            {
+              "name": "Mistral",
+              "tag": "Model",
+              "description": {
+                "zh": "官方推理代码与模型使用示例。",
+                "en": "Official inference code and model usage examples."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/mistralai/mistral-inference"
+                }
+              ]
+            },
+            {
+              "name": "Phi",
+              "tag": "Model",
+              "description": {
+                "zh": "微软小型语言模型与模型集合。",
+                "en": "Microsoft small language models and model collections."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://huggingface.co/microsoft"
+                }
+              ]
+            },
+            {
+              "name": "InternLM · 书生",
+              "tag": "Model",
+              "description": {
+                "zh": "中文模型、推理与应用实践资料。",
+                "en": "Chinese language models, inference and application examples."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/InternLM/InternLM"
+                }
+              ],
+              "name_en": "InternLM"
+            },
+            {
+              "name": "OLMo",
+              "tag": "Model",
+              "description": {
+                "zh": "开放模型、训练与推理研究代码。",
+                "en": "Open models with training and inference research code."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/allenai/OLMo"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": {
+            "zh": "部署工具 · 再启动推理服务",
+            "en": "Serving tools · run an inference endpoint"
+          },
+          "items": [
+            {
+              "name": "Ollama",
+              "tag": "本地入门",
+              "description": {
+                "zh": "先在自己的电脑启动模型服务，再接入项目。",
+                "en": "Run a local model service first, then connect it to this project."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/ollama/ollama"
+                }
+              ]
+            },
+            {
+              "name": "vLLM",
+              "tag": "GPU 服务",
+              "description": {
+                "zh": "学习高吞吐推理与 OpenAI-compatible 服务。",
+                "en": "High-throughput inference and OpenAI-compatible serving."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/vllm-project/vllm"
+                }
+              ]
+            },
+            {
+              "name": "SGLang",
+              "tag": "GPU 服务",
+              "description": {
+                "zh": "学习模型服务、调度与兼容 API 部署。",
+                "en": "Model serving, scheduling and compatible API deployment."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/sgl-project/sglang"
+                }
+              ]
+            },
+            {
+              "name": "llama.cpp",
+              "tag": "轻量推理",
+              "description": {
+                "zh": "学习量化模型与本地 CPU / GPU 推理。",
+                "en": "Quantized models and local CPU or GPU inference."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/ggml-org/llama.cpp"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prompt",
+      "name": "Prompt",
+      "intro": {
+        "zh": "让任务、证据与输出要求更清楚。",
+        "en": "Make tasks, evidence and output requirements explicit."
+      },
+      "start": {
+        "zh": "从 prompt_builder.py 开始，比较不同的任务说明、Few-shot 与 JSON 输出约定；使用同一组任务做回归对照。",
+        "en": "Start in prompt_builder.py. Compare instructions, few-shot examples and JSON contracts against the same regression tasks."
+      },
+      "source": "experience_guided_code_agent/rag/prompt_builder.py",
+      "guide": "docs/architecture.md",
+      "groups": [
+        {
+          "title": {
+            "zh": "精选起点 · 学习、管理与评测",
+            "en": "Selected starting points · learn, manage and evaluate"
+          },
+          "items": [
+            {
+              "name": "Prompt Engineering Guide",
+              "tag": "基础学习",
+              "description": {
+                "zh": "Few-shot、ReAct 与提示词设计基础。",
+                "en": "Few-shot prompting, ReAct and prompt design foundations."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/dair-ai/Prompt-Engineering-Guide"
+                },
+                {
+                  "label": "文档",
+                  "url": "https://www.promptingguide.ai/"
+                }
+              ]
+            },
+            {
+              "name": "OpenAI Prompt Engineering",
+              "tag": "官方教程",
+              "description": {
+                "zh": "任务指令、上下文组织与输出要求。",
+                "en": "Instructions, context construction and output requirements."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://developers.openai.com/api/docs/guides/prompt-engineering"
+                }
+              ]
+            },
+            {
+              "name": "Langfuse",
+              "tag": "版本管理",
+              "description": {
+                "zh": "管理 Prompt 模板、版本与运行追踪。",
+                "en": "Manage prompt templates, versions and runtime traces."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/langfuse/langfuse"
+                },
+                {
+                  "label": "文档",
+                  "url": "https://langfuse.com/docs/prompt-management/overview"
+                }
+              ]
+            },
+            {
+              "name": "Promptfoo",
+              "tag": "对比评测",
+              "description": {
+                "zh": "为 Prompt 建立对照测试与回归检查。",
+                "en": "Build comparison tests and regression checks for prompts."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/promptfoo/promptfoo"
+                },
+                {
+                  "label": "文档",
+                  "url": "https://www.promptfoo.dev/docs/intro/"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rag",
+      "name": "RAG",
+      "intro": {
+        "zh": "替换检索组件，让经验更容易被找到。",
+        "en": "Swap retrieval components to make experience easier to find."
+      },
+      "start": {
+        "zh": "先保留 RetrievalResult 的来源与评分字段，再替换 Embedding、索引或 Retriever。用现有消融查询比较效果。",
+        "en": "Preserve RetrievalResult provenance and scores, then replace embeddings, the index or the retriever. Compare results with the existing ablation queries."
+      },
+      "source": "experience_guided_code_agent/rag/retriever.py",
+      "guide": "docs/retriever_extensions.md",
+      "groups": [
+        {
+          "title": {
+            "zh": "精选起点 · 流水线、编码与图检索",
+            "en": "Selected starting points · pipelines, encoding and graph retrieval"
+          },
+          "items": [
+            {
+              "name": "LlamaIndex",
+              "tag": "RAG 框架",
+              "description": {
+                "zh": "学习数据接入、Chunk、索引与检索流水线。",
+                "en": "Data connectors, chunks, indexes and retrieval pipelines."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/run-llama/llama_index"
+                }
+              ]
+            },
+            {
+              "name": "Haystack",
+              "tag": "组件化 Pipeline",
+              "description": {
+                "zh": "将文档处理、检索与生成组织成组件。",
+                "en": "Compose document processing, retrieval and generation components."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/deepset-ai/haystack"
+                }
+              ]
+            },
+            {
+              "name": "FlagEmbedding",
+              "tag": "Embedding / Rerank",
+              "description": {
+                "zh": "探索 BGE 编码器和 Reranker，先做单组件替换。",
+                "en": "Explore BGE encoders and rerankers, replacing one component at a time."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/FlagOpen/FlagEmbedding"
+                }
+              ]
+            },
+            {
+              "name": "LightRAG",
+              "tag": "图检索探索",
+              "description": {
+                "zh": "了解图结构与向量检索结合，再适配来源字段。",
+                "en": "Explore graph and vector retrieval, then adapt provenance fields."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/HKUDS/LightRAG"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "planning",
+      "name": "Planning",
+      "intro": {
+        "zh": "从自由文本走向可校验的计划。",
+        "en": "Move from free text to validated plans."
+      },
+      "start": {
+        "zh": "保持 Plan / Actions 输出契约，尝试任务拆解、分步规划或更多工具；让同一个 Validator 判断结果。",
+        "en": "Keep the Plan / Actions contract. Try decomposition, stepwise planning or more tools, using the same validator to judge outcomes."
+      },
+      "source": "experience_guided_code_agent/agent/planner.py",
+      "guide": "docs/architecture.md",
+      "groups": [
+        {
+          "title": {
+            "zh": "精选起点 · 规划与结构化动作",
+            "en": "Selected starting points · planning and structured actions"
+          },
+          "items": [
+            {
+              "name": "LangGraph",
+              "tag": "状态图",
+              "description": {
+                "zh": "把规划、执行与重试写成显式状态转换。",
+                "en": "Express planning, execution and retries as state transitions."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/langchain-ai/langgraph"
+                }
+              ]
+            },
+            {
+              "name": "smolagents",
+              "tag": "轻量 Agent",
+              "description": {
+                "zh": "用较少代码理解模型如何选择并调用工具。",
+                "en": "Understand model-driven tool selection with a small code surface."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/huggingface/smolagents"
+                }
+              ]
+            },
+            {
+              "name": "PydanticAI",
+              "tag": "结构化输出",
+              "description": {
+                "zh": "用类型约束组织模型输出、工具与计划。",
+                "en": "Typed model outputs, tools and plans."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/pydantic/pydantic-ai"
+                }
+              ]
+            },
+            {
+              "name": "SWE-agent",
+              "tag": "代码任务参考",
+              "description": {
+                "zh": "观察软件工程任务中的计划、动作和反馈。",
+                "en": "Study plans, actions and feedback in software engineering tasks."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/SWE-agent/SWE-agent"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "memory",
+      "name": "Memory",
+      "intro": {
+        "zh": "让一次运行的经验可以再次被利用。",
+        "en": "Make experience from one run reusable in later tasks."
+      },
+      "start": {
+        "zh": "先尝试把成功运行人工审核后写回 EngineeringCase；再探索跨轮次状态和长期记忆，保留来源与版本。",
+        "en": "Start with reviewed successful runs written back as EngineeringCase records. Then explore cross-turn state and long-term memory with provenance and versions."
+      },
+      "source": "experience_guided_code_agent/case_pipeline/schema.py",
+      "guide": "docs/knowledge_preparation.md",
+      "groups": [
+        {
+          "title": {
+            "zh": "精选起点 · 状态与长期经验",
+            "en": "Selected starting points · state and long-term experience"
+          },
+          "items": [
+            {
+              "name": "LangGraph Persistence",
+              "tag": "轮次状态",
+              "description": {
+                "zh": "学习检查点、会话状态与中断恢复。",
+                "en": "Checkpoints, conversation state and resumable execution."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://docs.langchain.com/oss/python/langgraph/persistence"
+                }
+              ]
+            },
+            {
+              "name": "Mem0",
+              "tag": "长期记忆",
+              "description": {
+                "zh": "探索记忆抽取、保存和按任务取回。",
+                "en": "Memory extraction, storage and task-based recall."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/mem0ai/mem0"
+                }
+              ]
+            },
+            {
+              "name": "Letta",
+              "tag": "有状态 Agent",
+              "description": {
+                "zh": "学习长期交互中的记忆与上下文管理。",
+                "en": "Memory and context management in persistent interactions."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/letta-ai/letta"
+                }
+              ]
+            },
+            {
+              "name": "Graphiti",
+              "tag": "关系记忆",
+              "description": {
+                "zh": "探索带时间与实体关系的经验组织方式。",
+                "en": "Organize experience with temporal and entity relationships."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/getzep/graphiti"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tool-use",
+      "name": "Tool Use",
+      "intro": {
+        "zh": "从一个文件动作，扩展到受控工具集。",
+        "en": "Extend a file action into a controlled toolset."
+      },
+      "start": {
+        "zh": "在动作 Schema、白名单和整批校验之外增加工具适配器；工具返回结构化观察，让失败仍可进入下一轮。",
+        "en": "Add tool adapters while retaining action schemas, allowlists and whole-batch validation. Return structured observations so failures can inform the next attempt."
+      },
+      "source": "experience_guided_code_agent/agent/executor.py",
+      "guide": "docs/project_adapter.md",
+      "groups": [
+        {
+          "title": {
+            "zh": "精选起点 · 工具协议与适配",
+            "en": "Selected starting points · tool protocols and adapters"
+          },
+          "items": [
+            {
+              "name": "MCP Python SDK",
+              "tag": "工具协议",
+              "description": {
+                "zh": "用标准协议封装文件、检索或业务工具。",
+                "en": "Expose file, retrieval or business tools through a standard protocol."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/modelcontextprotocol/python-sdk"
+                }
+              ]
+            },
+            {
+              "name": "smolagents",
+              "tag": "工具定义",
+              "description": {
+                "zh": "从小型工具函数理解参数、执行和返回值。",
+                "en": "Learn tool arguments, execution and return values through small functions."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/huggingface/smolagents"
+                }
+              ]
+            },
+            {
+              "name": "LangChain Tools",
+              "tag": "工具集成",
+              "description": {
+                "zh": "学习工具 Schema、上下文与集成方式。",
+                "en": "Tool schemas, context and integration patterns."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://docs.langchain.com/oss/python/langchain/tools"
+                }
+              ]
+            },
+            {
+              "name": "PydanticAI Tools",
+              "tag": "类型约束",
+              "description": {
+                "zh": "用类型约束工具参数与结构化结果。",
+                "en": "Typed tool arguments and structured results."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://ai.pydantic.dev/tools/"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "execution",
+      "name": "Execution",
+      "intro": {
+        "zh": "把计划真正落到隔离的工程副本。",
+        "en": "Apply plans to an isolated project copy."
+      },
+      "start": {
+        "zh": "实现 ProjectAdapter：检查点、动作执行、验证与恢复。先接文件或 Git 工作区，再考虑容器执行。",
+        "en": "Implement ProjectAdapter checkpoints, actions, validation and recovery. Start with files or a Git workspace before adding container execution."
+      },
+      "source": "experience_guided_code_agent/agent/executor.py",
+      "guide": "docs/project_adapter.md",
+      "groups": [
+        {
+          "title": {
+            "zh": "精选起点 · 代码编辑与运行环境",
+            "en": "Selected starting points · code edits and runtime environments"
+          },
+          "items": [
+            {
+              "name": "Aider",
+              "tag": "代码修改",
+              "description": {
+                "zh": "学习 Git 工作区、代码编辑与变更审阅。",
+                "en": "Git workspaces, code edits and change review."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/Aider-AI/aider"
+                }
+              ]
+            },
+            {
+              "name": "OpenHands",
+              "tag": "工程执行",
+              "description": {
+                "zh": "参考代码任务中的工作区与执行工具。",
+                "en": "Workspace and execution tools for coding tasks."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/OpenHands/OpenHands"
+                }
+              ]
+            },
+            {
+              "name": "Docker SDK for Python",
+              "tag": "容器运行",
+              "description": {
+                "zh": "从 Python 启停容器并收集运行结果。",
+                "en": "Control containers from Python and collect execution results."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/docker/docker-py"
+                }
+              ]
+            },
+            {
+              "name": "E2B",
+              "tag": "沙箱接口",
+              "description": {
+                "zh": "探索通过 SDK 调用隔离的代码运行环境。",
+                "en": "Use an SDK to run code in isolated environments."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/e2b-dev/E2B"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "observation",
+      "name": "Observation",
+      "intro": {
+        "zh": "让每个动作都有可追溯的结果。",
+        "en": "Make every action produce traceable evidence."
+      },
+      "start": {
+        "zh": "在 RunTrace 的阶段事件和 stdout / stderr 之上增加调用链追踪；把同一轮的检索、模型和测试串起来。",
+        "en": "Extend RunTrace events and stdout / stderr with traces connecting retrieval, model calls and tests within each attempt."
+      },
+      "source": "experience_guided_code_agent/agent/trace.py",
+      "guide": "docs/execution_validation.md",
+      "groups": [
+        {
+          "title": {
+            "zh": "精选起点 · 追踪与可观测性",
+            "en": "Selected starting points · tracing and observability"
+          },
+          "items": [
+            {
+              "name": "Langfuse",
+              "tag": "LLM 追踪",
+              "description": {
+                "zh": "观察模型调用、Prompt、耗时与运行链。",
+                "en": "Trace model calls, prompts, latency and execution chains."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/langfuse/langfuse"
+                }
+              ]
+            },
+            {
+              "name": "Phoenix",
+              "tag": "追踪与分析",
+              "description": {
+                "zh": "探索 LLM 调用链和检索结果分析。",
+                "en": "Analyze LLM traces and retrieval results."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/Arize-ai/phoenix"
+                }
+              ]
+            },
+            {
+              "name": "OpenTelemetry Python",
+              "tag": "通用追踪",
+              "description": {
+                "zh": "用 Span 与 Trace 关联跨模块执行。",
+                "en": "Connect execution across modules using spans and traces."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/open-telemetry/opentelemetry-python"
+                }
+              ]
+            },
+            {
+              "name": "LangSmith",
+              "tag": "Agent 调试",
+              "description": {
+                "zh": "查看 Agent 运行轨迹与评测记录。",
+                "en": "Inspect agent runs, traces and evaluation records."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://docs.langchain.com/langsmith/home"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reflection",
+      "name": "Reflection",
+      "intro": {
+        "zh": "用失败证据，改变下一次尝试。",
+        "en": "Use failure evidence to change the next attempt."
+      },
+      "start": {
+        "zh": "从 workflow.py 的失败上下文开始，提取原因、形成下一轮约束，并比较是否减少相同错误；不要仅重复生成。",
+        "en": "Start with failure context in workflow.py. Extract causes and next-attempt constraints, then measure repeated errors."
+      },
+      "source": "experience_guided_code_agent/agent/workflow.py",
+      "guide": "docs/architecture.md",
+      "groups": [
+        {
+          "title": {
+            "zh": "精选起点 · 反馈与改进",
+            "en": "Selected starting points · feedback and improvement"
+          },
+          "items": [
+            {
+              "name": "Reflexion",
+              "tag": "思想与实验",
+              "description": {
+                "zh": "理解语言反馈如何参与后续任务尝试。",
+                "en": "Study how language feedback informs subsequent task attempts."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/noahshinn/reflexion"
+                }
+              ]
+            },
+            {
+              "name": "LangGraph",
+              "tag": "反馈循环",
+              "description": {
+                "zh": "把检查、错误分析和重试显式串联。",
+                "en": "Connect checks, error analysis and retries explicitly."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/langchain-ai/langgraph"
+                }
+              ]
+            },
+            {
+              "name": "DSPy",
+              "tag": "评估驱动优化",
+              "description": {
+                "zh": "探索基于指标优化提示与程序；区别于运行时反思。",
+                "en": "Metric-driven prompt and program optimization, distinct from runtime reflection."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/stanfordnlp/dspy"
+                }
+              ]
+            },
+            {
+              "name": "OpenHands",
+              "tag": "执行反馈参考",
+              "description": {
+                "zh": "参考编程 Agent 如何获取执行反馈并继续修改。",
+                "en": "Study how coding agents collect execution feedback and continue editing."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/OpenHands/OpenHands"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "orchestration",
+      "name": "Orchestration",
+      "intro": {
+        "zh": "显式管理状态、分支与终止条件。",
+        "en": "Manage state, branches and termination explicitly."
+      },
+      "start": {
+        "zh": "先保留 run_agent() 的 PASS / Retry / Rollback 语义，再尝试状态图、任务调度与持久化。",
+        "en": "Preserve the PASS / Retry / Rollback semantics of run_agent() before adding state graphs, scheduling or persistence."
+      },
+      "source": "experience_guided_code_agent/agent/workflow.py",
+      "guide": "docs/architecture.md",
+      "groups": [
+        {
+          "title": {
+            "zh": "精选起点 · 编排与状态",
+            "en": "Selected starting points · orchestration and state"
+          },
+          "items": [
+            {
+              "name": "LangGraph",
+              "tag": "状态编排",
+              "description": {
+                "zh": "显式控制节点、条件分支和恢复状态。",
+                "en": "Control nodes, conditional branches and resumable state."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/langchain-ai/langgraph"
+                }
+              ]
+            },
+            {
+              "name": "PydanticAI",
+              "tag": "Agent 编排",
+              "description": {
+                "zh": "从类型化 Agent 和工作流开始。",
+                "en": "Start with typed agents and workflows."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/pydantic/pydantic-ai"
+                }
+              ]
+            },
+            {
+              "name": "AutoGen",
+              "tag": "多 Agent 探索",
+              "description": {
+                "zh": "了解多个角色之间的消息与任务协调。",
+                "en": "Explore messaging and task coordination across agent roles."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/microsoft/autogen"
+                }
+              ]
+            },
+            {
+              "name": "Prefect",
+              "tag": "任务工作流",
+              "description": {
+                "zh": "学习重试、任务状态与运行调度。",
+                "en": "Task retries, execution states and workflow scheduling."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/PrefectHQ/prefect"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evaluation",
+      "name": "Evaluation",
+      "intro": {
+        "zh": "用固定任务与指标判断改进是否有效。",
+        "en": "Judge improvements with fixed tasks and metrics."
+      },
+      "start": {
+        "zh": "扩充独立业务任务，固定验收阈值，再比较检索指标和代码任务成功率；两者分别统计。",
+        "en": "Add independent business tasks and fix acceptance thresholds. Measure retrieval quality and coding-task success separately."
+      },
+      "source": "experience_guided_code_agent/evaluation.py",
+      "guide": "docs/evaluation.md",
+      "groups": [
+        {
+          "title": {
+            "zh": "精选起点 · 检索与任务评测",
+            "en": "Selected starting points · retrieval and task evaluation"
+          },
+          "items": [
+            {
+              "name": "Ragas",
+              "tag": "RAG 评测",
+              "description": {
+                "zh": "探索检索、忠实度与回答相关性指标。",
+                "en": "Retrieval, faithfulness and answer relevance metrics."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/explodinggradients/ragas"
+                }
+              ]
+            },
+            {
+              "name": "DeepEval",
+              "tag": "端到端评测",
+              "description": {
+                "zh": "为 RAG 与 Agent 建立自动化质量检查。",
+                "en": "Automated quality checks for RAG and agents."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/confident-ai/deepeval"
+                }
+              ]
+            },
+            {
+              "name": "Promptfoo",
+              "tag": "模型与 Prompt 对照",
+              "description": {
+                "zh": "同一批任务比较模型、Prompt 与回归结果。",
+                "en": "Compare models, prompts and regressions on the same tasks."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/promptfoo/promptfoo"
+                }
+              ]
+            },
+            {
+              "name": "pytest",
+              "tag": "独立验收",
+              "description": {
+                "zh": "先把接口、运行与回退要求写成可执行测试。",
+                "en": "Turn interface, runtime and fallback requirements into executable tests."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/pytest-dev/pytest"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "guardrails",
+      "name": "Guardrails",
+      "intro": {
+        "zh": "在动作发生前，明确可执行的边界。",
+        "en": "Define enforceable boundaries before actions execute."
+      },
+      "start": {
+        "zh": "保留文件白名单和固定验证命令，扩展参数校验、权限与隔离。当前项目尚无操作系统级沙箱。",
+        "en": "Keep file allowlists and fixed validation commands while extending argument validation, permissions and isolation. This project has no OS-level sandbox today."
+      },
+      "source": "experience_guided_code_agent/agent/executor.py",
+      "guide": "docs/execution_validation.md",
+      "groups": [
+        {
+          "title": {
+            "zh": "精选起点 · 校验与执行边界",
+            "en": "Selected starting points · validation and execution boundaries"
+          },
+          "items": [
+            {
+              "name": "Pydantic",
+              "tag": "输入校验",
+              "description": {
+                "zh": "先为任务、Plan 和工具参数建立 Schema。",
+                "en": "Define schemas for tasks, plans and tool arguments."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/pydantic/pydantic"
+                }
+              ]
+            },
+            {
+              "name": "Guardrails AI",
+              "tag": "输出校验",
+              "description": {
+                "zh": "探索结构化输出验证与规则检查。",
+                "en": "Structured output validation and rule-based checks."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/guardrails-ai/guardrails"
+                }
+              ]
+            },
+            {
+              "name": "NeMo Guardrails",
+              "tag": "对话与工具规则",
+              "description": {
+                "zh": "了解可配置的交互与工具调用约束。",
+                "en": "Configurable conversation and tool-use constraints."
+              },
+              "links": [
+                {
+                  "label": "GitHub",
+                  "url": "https://github.com/NVIDIA/NeMo-Guardrails"
+                }
+              ]
+            },
+            {
+              "name": "Docker",
+              "tag": "执行隔离",
+              "description": {
+                "zh": "探索容器隔离；仍需配置权限、挂载和网络边界。",
+                "en": "Explore container isolation with explicit permissions, mounts and network boundaries."
+              },
+              "links": [
+                {
+                  "label": "官方文档",
+                  "url": "https://docs.docker.com/engine/security/"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
