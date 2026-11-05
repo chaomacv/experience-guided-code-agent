@@ -177,3 +177,54 @@ body { background:#f7f9fd; color:#1c2940; }
   .hero-intro { padding:0 28px; }
   .hero .knowledge-story { max-width:none; border:1px solid #c9def4; border-radius:24px; box-shadow:0 12px 35px #4b638608; }
 }
+
+/* Reading sizes for chapters 01–03; headings and the animated workspace are unchanged. */
+:is(#agent-framework,#workflow,#retrieval) .section-heading>p { font-size:15px; line-height:1.9; }
+#agent-framework .concept-node small { font-size:13px; line-height:1.75; }
+#agent-framework .concept-detail>p { font-size:15px; line-height:1.95; }
+#agent-framework .concept-detail li { font-size:14px; line-height:1.9; }
+#agent-framework .implementation-chip { font-size:13px; }
+:is(#agent-framework,#workflow) .source-link { font-size:12px; line-height:1.9; }
+#agent-framework .detail-bottom { font-size:13px; }
+#agent-framework .map-caption span { font-size:11px; }
+#agent-framework .theory-grid p { font-size:14px; line-height:1.95; }
+#agent-framework .theory-grid a { font-size:12px; }
+#agent-framework .scope-note { font-size:13px; }
+#workflow .flow-context small,#workflow .flow-outcomes small,#workflow .rollback-node small { font-size:12px; line-height:1.8; }
+#workflow .process-node small { font-size:13px; line-height:1.8; }
+#workflow .flow-context button>span,#workflow .flow-outcomes button>span,#workflow .rollback-node>span { font-size:11px; }
+#workflow .flow-join,#workflow .flow-connector { font-size:11px; }
+#workflow .return-rail { font-size:13px; line-height:1.8; }
+#workflow .return-rail>span:not([aria-hidden]) { font:inherit; }
+#workflow .step-detail dd { font-size:15px; line-height:1.95; }
+#workflow .step-detail dt,#workflow .artifact-label { font-size:12px; }
+#workflow .step-detail li { font-size:12px; line-height:1.9; }
+#workflow .workflow-owner p { font-size:14px; line-height:1.9; }
+#workflow .workflow-owner>a { font-size:13px; }
+#workflow .workflow-owner strong>span,#workflow .workflow-owner p>span,#workflow .workflow-owner a>span { display:inline; font:inherit; letter-spacing:inherit; margin:0; }
+#workflow .mapping-heading p { font-size:14px; }
+#workflow .mapping-filters button { font-size:12px; }
+#workflow .mapping-table th,#workflow .mapping-table td { font-size:13px; line-height:1.85; }
+#workflow .mapping-table caption { font-size:12px; }
+#workflow .implementation-status { font-size:11px; }
+#retrieval .research-strip p { font-size:13px; }
+#retrieval .experiment label,#retrieval .mode-controls button { font-size:12px; }
+#retrieval #query-select { font-size:14px; }
+#retrieval .query-card p { font-size:14px; line-height:1.9; height:auto; max-height:none; overflow:visible; }
+#retrieval .query-card h4 { font-size:12px; }
+#retrieval .result-top,#retrieval .result-scores { font-size:11px; }
+#retrieval .experiment-foot { font-size:12px; line-height:1.9; }
+#retrieval .table-wrap th,#retrieval .table-wrap td { font-size:14px; line-height:1.85; }
+#retrieval .table-wrap caption { font-size:12px; }
+#retrieval .results-head a { font-size:12px; }
+#retrieval .finding p { font-size:15px; line-height:1.95; }
+#retrieval .scope { font-size:14px; line-height:1.9; }
+#retrieval .scope pre { font-size:12px; }
+@media(max-width:760px) {
+  :is(#agent-framework,#workflow,#retrieval) .section-heading>p { font-size:14px; }
+  #agent-framework .concept-node small { font-size:12px; }
+  #agent-framework .concept-detail>p,#workflow .step-detail dd,#retrieval .finding p { font-size:14px; }
+  #workflow .process-node small { font-size:12px; }
+  #workflow .mapping-table th,#workflow .mapping-table td { font-size:12px; }
+  #retrieval .query-card p { font-size:13px; }
+}
