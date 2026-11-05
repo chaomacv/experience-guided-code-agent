@@ -8,10 +8,7 @@
 
 让历史工程经验，成为 Agent 的行动依据。
 
-[![Project Page](https://img.shields.io/badge/Project-Page-76b900?style=flat-square)](https://chaomacv.github.io/experience-guided-code-agent/)
-[![Core tests](https://github.com/chaomacv/experience-guided-code-agent/actions/workflows/tests.yml/badge.svg)](https://github.com/chaomacv/experience-guided-code-agent/actions/workflows/tests.yml)
-[![Python](https://img.shields.io/badge/Python-3.10%E2%80%933.12-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/downloads/)
-[![MIT](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
+[![Project Page](https://img.shields.io/badge/Project-Page-76b900?style=flat-square)](https://chaomacv.github.io/experience-guided-code-agent/) [![Core tests](https://github.com/chaomacv/experience-guided-code-agent/actions/workflows/tests.yml/badge.svg)](https://github.com/chaomacv/experience-guided-code-agent/actions/workflows/tests.yml) [![Python](https://img.shields.io/badge/Python-3.10%E2%80%933.12-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/downloads/) [![MIT](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
 
 [![RAG 架构动画：历史对话经过抽取、拆分、编码和入库，新任务检索相关经验并汇聚为增强任务。](docs/media/rag-architecture.gif)](https://chaomacv.github.io/experience-guided-code-agent/#knowledge-story)
 

@@ -8,10 +8,7 @@
 
 Retrieve experience. Plan changes. Execute, validate, retry and recover.
 
-[![Project Page](https://img.shields.io/badge/Project-Page-76b900?style=flat-square)](https://chaomacv.github.io/experience-guided-code-agent/)
-[![Core tests](https://github.com/chaomacv/experience-guided-code-agent/actions/workflows/tests.yml/badge.svg)](https://github.com/chaomacv/experience-guided-code-agent/actions/workflows/tests.yml)
-[![Python](https://img.shields.io/badge/Python-3.10%E2%80%933.12-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/downloads/)
-[![MIT](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
+[![Project Page](https://img.shields.io/badge/Project-Page-76b900?style=flat-square)](https://chaomacv.github.io/experience-guided-code-agent/) [![Core tests](https://github.com/chaomacv/experience-guided-code-agent/actions/workflows/tests.yml/badge.svg)](https://github.com/chaomacv/experience-guided-code-agent/actions/workflows/tests.yml) [![Python](https://img.shields.io/badge/Python-3.10%E2%80%933.12-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/downloads/) [![MIT](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
 
 [![RAG architecture: dialogue is extracted, split, encoded and indexed; a new task retrieves relevant experience to build enriched context.](docs/media/rag-architecture.gif)](https://chaomacv.github.io/experience-guided-code-agent/#knowledge-story)
 
