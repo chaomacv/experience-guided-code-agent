@@ -163,3 +163,7 @@ body { background:#f7f9fd; color:#1c2940; }
 .live-practice:after,.adapt-project:after { animation-delay:-17s; }
 @keyframes chapter-light { from{background-position:0% 0%;opacity:.65} to{background-position:100% 100%;opacity:1} }
 @media(prefers-reduced-motion:reduce) { .section:after { animation:none; opacity:.75; } }
+
+/* A pale green canvas for the RAG architecture story. */
+.ks-viewport { background-color:#f0f8f2; background-image:radial-gradient(#b9d7c380 .7px,transparent .7px),radial-gradient(ellipse at 40% 35%,#d9f0df90,transparent 65%); }
+.ks-loop-veil { background:radial-gradient(ellipse at 50% 40%,#e2f3e7,#f3faf5 70%); }
