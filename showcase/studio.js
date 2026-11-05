@@ -3,6 +3,11 @@
   "use strict";
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   if (reduced.matches || !("IntersectionObserver" in window)) return;
+  const chapters = [...document.querySelectorAll("main > .section")];
+  const chapterObserver = new IntersectionObserver(entries => {
+    entries.forEach(({target,isIntersecting}) => target.classList.toggle("chapter-is-visible",isIntersecting));
+  }, {rootMargin:"80px"});
+  chapters.forEach(chapter => chapterObserver.observe(chapter));
   const groups = [
     ".section > .section-label", ".section > .section-heading", ".framework-layout", ".mapping-section",
     ".theory-grid > article", ".implementation-flow", ".live-evidence-card", ".research-strip",
@@ -39,5 +44,6 @@
     if (!event.matches) return;
     targets.forEach(element => element.classList.add("is-revealed"));
     observer.disconnect();
+    chapterObserver.disconnect();
   });
 })();

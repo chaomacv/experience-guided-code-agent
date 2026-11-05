@@ -99,7 +99,7 @@
     ]);
     add(".ks-chunk-shell",[{opacity:1,offset:0},{opacity:1,offset:7.5/24},{opacity:0,offset:9/24},{opacity:0,offset:1}]);
     [".chunk-task",".chunk-constraint",".chunk-solution"].forEach((selector,i)=>{
-      const split={opacity:1,transform:`translateY(${i*15}px)`,borderRadius:"8px",borderColor:["#394e6e","#584674","#35695e"][i],backgroundColor:"#182335",boxShadow:"0 4px 12px #0002"};
+      const split={opacity:1,transform:`translateY(${i*15}px)`,borderRadius:"8px",borderColor:["#d9e4f7","#e1d7f2","#d0e8e3"][i],backgroundColor:"#ffffff",boxShadow:"0 4px 12px #2f4d8710"};
       const joined={opacity:0,transform:"translateY(0)",borderRadius:"0px",borderColor:"transparent",backgroundColor:"transparent",boxShadow:"none"};
       add(selector,[{...joined,offset:0},{...joined,offset:(4.65+i*.22)/24},
         {...joined,opacity:1,offset:(5.05+i*.22)/24},
@@ -131,10 +131,10 @@
         {opacity:1,offset:(10.4+delay)/24},{opacity:1,offset:1},
       ]);
       add(`.ks-index-grid i:nth-child(${i+1})`,[
-        {backgroundColor:"#283e5c",borderColor:"#405c80",offset:0},
-        {backgroundColor:"#283e5c",borderColor:"#405c80",offset:(11.2+delay)/24},
+        {backgroundColor:"#e8edf7",borderColor:"#dce5f5",offset:0},
+        {backgroundColor:"#e8edf7",borderColor:"#dce5f5",offset:(11.2+delay)/24},
         {backgroundColor:"#8fa9ff",borderColor:"#aab8ff",offset:(11.7+delay)/24},
-        {backgroundColor:"#4566a3",borderColor:"#6b89c3",offset:1},
+        {backgroundColor:"#cedafb",borderColor:"#b4c8f1",offset:1},
       ]);
     });
     add(".ks-embedding",[
@@ -170,8 +170,8 @@
     // Clear, sustained focus states: both a bright edge and a filled interior.
     selectAll(".ks-search-steps>div").forEach((item,i)=>{
       const at = 15.05 + i*.15;
-      const rest = {borderColor:"#384d6f",backgroundColor:"#172238",boxShadow:"none"};
-      const active = {borderColor:"#b194ff",backgroundColor:"#34335e",boxShadow:"0 0 0 2px #ac86ff66,0 0 22px #9c77ff55"};
+      const rest = {borderColor:"#dbe4f6",backgroundColor:"#f8faff",boxShadow:"none"};
+      const active = {borderColor:"#9c7add",backgroundColor:"#e8e0fc",boxShadow:"0 0 0 2px #a784ef55,0 0 22px #9c77ff33"};
       add(`.ks-search-steps>div:nth-child(${i+1})`,[
         {...rest,offset:0},{...rest,offset:at/24},{...active,offset:(at+.025)/24},
         {...active,offset:(at+.11)/24},{...rest,offset:(at+.16)/24},{...rest,offset:1},
@@ -182,14 +182,14 @@
       {boxShadow:"0 0 0 1px #8baaff",backgroundColor:"#527bc2",offset:1}]);
     selectAll(".ks-result").forEach((item,i)=>{
       const at = 15.16 + i*.15;
-      const rest = {backgroundColor:"#182335",boxShadow:"inset 0 0 0 0 #78b7ff"};
-      const active = {backgroundColor:"#263f5f",boxShadow:"inset 4px 0 0 #8bc5ff,inset 0 0 0 1px #8bc5ff66,0 0 24px #71abfa33"};
+      const rest = {backgroundColor:"#ffffff",boxShadow:"inset 0 0 0 0 #74a8ed"};
+      const active = {backgroundColor:"#e4efff",boxShadow:"inset 4px 0 0 #7ba9ec,inset 0 0 0 1px #8db1e680,0 0 24px #71abfa22"};
       add(`.ks-result:nth-of-type(${i+1})`,[
         {...rest,offset:0},{...rest,offset:at/24},{...active,offset:(at+.025)/24},
         {...active,offset:(at+.12)/24},{...rest,offset:(at+.18)/24},{...rest,offset:1},
       ]);
     });
-    [70,5,-55,-85].forEach((dy,i) => {
+    [91,20,-51,-99].forEach((dy,i) => {
       const at = 18.35 + i*.32;
       add(`.ks-context-packet.packet-${i}`, [
         {opacity:0,transform:"translate(0,0)",offset:0},
