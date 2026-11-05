@@ -417,5 +417,12 @@
   "用户提出的新任务。": "A new task from the user.",
   "融合历史经验，补充当前约束。": "Combine past experience with current constraints.",
   "悬停暂停 · 移开继续": "Hover to pause · move away to resume",
-  "历史经验 → 任务上下文 → 执行动作": "Historical experience → Task context → Actions"
+  "历史经验 → 任务上下文 → 执行动作": "Historical experience → Task context → Actions",
+  "Top-5 对照：保留 {kept} 条，补入 {added} 条，移出 {removed} 条。": "Top-5 comparison: {kept} retained, {added} added, {removed} removed.",
+  "本查询两种方案的 Top-5 一致。": "Both methods return the same Top-5 for this query.",
+  "本查询前 {n} 条一致，差异从第 {next} 条开始。": "The first {n} results match; differences start at rank {next}.",
+  "去重后移出：": "Removed after diversification: ",
+  "新增案例 · 去重后补入": "New case · added after diversification",
+  "保留 · 原 RRF #{rank}": "Retained · original RRF #{rank}",
+  "同 Case 的多个片段": "Multiple chunks from the same case"
 }

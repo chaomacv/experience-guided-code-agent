@@ -85,7 +85,22 @@ function renderQuery() {
     $("#query-results").append(node("p", tr("此方案没有返回匹配结果。")));
     return;
   }
-  row.results.slice(0, 3).forEach((item, i) => {
+  const baseline = data.evaluation.queries.hybrid.find(item => item.id === state.query).results.slice(0, 5);
+  const diverse = data.evaluation.queries.hybrid_diverse.find(item => item.id === state.query).results.slice(0, 5);
+  const identity = item => item.chunk_id;
+  if (state.mode === "hybrid" || state.mode === "hybrid_diverse") {
+    const kept = diverse.filter(item => baseline.some(old => identity(old) === identity(item))).length;
+    const removed = baseline.filter(item => !diverse.some(next => identity(next) === identity(item)));
+    let shared = 0;
+    while (shared < Math.min(baseline.length, diverse.length) && identity(baseline[shared]) === identity(diverse[shared])) shared++;
+    const comparison = node("div", undefined, "retrieval-comparison");
+    comparison.append(node("p", tr("Top-5 对照：保留 {kept} 条，补入 {added} 条，移出 {removed} 条。", {kept, added:diverse.length-kept, removed:removed.length})));
+    if (shared === 5) comparison.append(node("p", tr("本查询两种方案的 Top-5 一致。")));
+    else if (shared) comparison.append(node("p", tr("本查询前 {n} 条一致，差异从第 {next} 条开始。", {n:shared,next:shared+1})));
+    if (removed.length) comparison.append(node("p", tr("去重后移出：") + removed.map(item => `${item.case_id} / ${item.chunk_type} (RRF #${baseline.indexOf(item)+1})`).join(" · ")));
+    $("#query-results").append(comparison);
+  }
+  row.results.slice(0, 5).forEach((item, i) => {
     const card = node("article", undefined, "query-card");
     const top = node("div", undefined, "result-top");
     top.append(node("span", "TOP "+String(i+1).padStart(2, "0")));
@@ -93,7 +108,13 @@ function renderQuery() {
     if (grade) top.append(node("span", tr("相关性 {grade}/3", {grade}), "relevance"));
     else top.append(node("span", tr("未标注相关")));
     card.append(top, node("h4", item.case_id+" / "+item.chunk_type));
-    appendEvidence(card, item);
+    if (state.mode === "hybrid_diverse") {
+      const rank = baseline.findIndex(old => identity(old) === identity(item));
+      card.append(node("div", rank < 0 ? tr("新增案例 · 去重后补入") : tr("保留 · 原 RRF #{rank}", {rank:rank+1}), "retrieval-change " + (rank < 0 ? "added" : "kept")));
+    } else if (state.mode === "hybrid" && baseline.filter(old => old.case_id === item.case_id).length > 1) {
+      card.append(node("div", tr("同 Case 的多个片段"), "retrieval-change repeated"));
+    }
+    appendEvidence(card, item, undefined, true);
     const scores = node("div", undefined, "result-scores");
     scores.append(node("div", "score "+item.score.toFixed(4)));
     scores.append(node("div", "Dense #"+(item.dense_rank ?? "—")+" · BM25 #"+(item.lexical_rank ?? "—")));
@@ -103,10 +124,22 @@ function renderQuery() {
 }
 
 
-function appendEvidence(container, item, limit) {
+// Collapse only adjacent identical prose sentences; evidence files stay untouched.
+function compactEvidence(text) {
+  let previous = "";
+  return (text.match(/[^。！？\n]+[。！？]?|\n+/gu) || []).filter(part => {
+    const key = part.trim().replace(/\s+/gu, " ");
+    if (!key) return true;
+    if (key === previous) return false;
+    previous = key;
+    return true;
+  }).join("").trim();
+}
+function appendEvidence(container, item, limit, clean = false) {
   const original = limit ? item.text.slice(0, limit)+(item.text.length>limit ? "…" : "") : item.text;
-  if (window.siteI18n.language !== "en") { container.append(node("p", original)); return; }
-  container.append(node("p", window.siteI18n.caseSummary(item.case_id), "translated-summary"));
+  const english = window.siteI18n.language === "en";
+  if (!english && !clean) { container.append(node("p", original)); return; }
+  container.append(node("p", english ? window.siteI18n.caseSummary(item.case_id) : compactEvidence(original), "translated-summary"));
   const details = node("details", undefined, "original-evidence");
   details.append(node("summary", tr("查看原文")), node("p", original));
   container.append(details);

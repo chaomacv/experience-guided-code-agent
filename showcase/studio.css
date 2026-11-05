@@ -228,3 +228,13 @@ body { background:#f7f9fd; color:#1c2940; }
   #workflow .mapping-table th,#workflow .mapping-table td { font-size:12px; }
   #retrieval .query-card p { font-size:13px; }
 }
+
+/* Full Top-5 and an explicit comparison, including on narrow screens. */
+#retrieval .query-card { display:block; }
+#retrieval .retrieval-comparison { grid-column:1/-1; padding:14px 18px; border:1px solid #d8e2f0; background:#edf3fc; border-radius:9px; }
+#retrieval .retrieval-comparison p { font-size:13px; line-height:1.9; overflow-wrap:anywhere; }
+#retrieval .retrieval-change { font-size:12px; line-height:1.8; padding:5px 8px; margin:0 0 10px; border-radius:5px; background:#edf3ff; color:#49688e; }
+#retrieval .retrieval-change.added { background:#e6f4ec; color:#367653; }
+#retrieval .retrieval-change.repeated { background:#fff1dc; color:#8c692f; }
+#retrieval .original-evidence { margin-top:10px; font-size:12px; }
+#retrieval .original-evidence summary { cursor:pointer; color:#49688e; }
