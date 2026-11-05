@@ -167,3 +167,5 @@ body { background:#f7f9fd; color:#1c2940; }
 /* A pale green canvas for the RAG architecture story. */
 .ks-viewport { background-color:#f0f8f2; background-image:radial-gradient(#b9d7c380 .7px,transparent .7px),radial-gradient(ellipse at 40% 35%,#d9f0df90,transparent 65%); }
 .ks-loop-veil { background:radial-gradient(ellipse at 50% 40%,#e2f3e7,#f3faf5 70%); }
+
+.ks-loop-translation { font-size:13px; line-height:1.8; letter-spacing:1px; color:#668474; margin-top:-8px; }

@@ -52,6 +52,13 @@
   function resize() {
     const scale = select(".ks-viewport").clientWidth / 1200;
     select(".ks-world").style.transform = `scale(${scale})`;
+    // Keep the experience connector centered on both cards after layout or language changes.
+    const results = select(".ks-results"), cases = select(".source-cases");
+    const fromY = results.offsetTop + results.offsetHeight / 2;
+    const toY = cases.offsetTop + cases.offsetHeight / 2;
+    select("#ks-results-bridge").setAttribute("d", `M3360 ${fromY}C3412 ${fromY} 3433 ${toY} 3485 ${toY}`);
+    select(".ks-retrieved-packet").style.top = `${fromY - 14}px`;
+    select(".ks-retrieved-packet").style.setProperty("--ks-result-rise", `${toY - fromY}px`);
     if (!mobile.matches && !reduced.matches && capable) {
       select(".ks-viewport").style.height = `${470 * scale}px`;
     } else select(".ks-viewport").style.height = "";
@@ -146,8 +153,8 @@
       {opacity:0,transform:"translateX(0)",offset:0},
       {opacity:0,transform:"translateX(0)",offset:17/24},
       {opacity:1,transform:"translateX(15px)",offset:17.15/24},
-      {opacity:1,transform:"translateX(100px)",offset:17.65/24},
-      {opacity:0,transform:"translateX(145px)",offset:17.95/24},
+      {opacity:1,transform:"translate(100px,var(--ks-result-rise))",offset:17.65/24},
+      {opacity:0,transform:"translate(145px,var(--ks-result-rise))",offset:17.95/24},
       {opacity:0,offset:1},
     ]);
     // A new task drops into the shared workspace, then retrieves prior experience.
@@ -277,7 +284,7 @@
   });
   root.addEventListener("pointerleave",() => { hoverPaused = false; sync(); });
   document.addEventListener("visibilitychange",sync);
-  document.addEventListener("site-language-change",() => { render(true); sync(); });
+  document.addEventListener("site-language-change",() => { resize(); render(true); sync(); });
   reduced.addEventListener("change",() => { userPaused = reduced.matches; resize(); sync(); });
   new ResizeObserver(resize).observe(select(".ks-viewport"));
   new IntersectionObserver(entries => { onScreen = entries[0].isIntersecting; sync(); },{threshold:.08}).observe(root);

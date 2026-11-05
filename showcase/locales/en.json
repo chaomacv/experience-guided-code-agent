@@ -416,5 +416,6 @@
   "RAG架构动画演示": "RAG Architecture Animation",
   "用户提出的新任务。": "A new task from the user.",
   "融合历史经验，补充当前约束。": "Combine past experience with current constraints.",
-  "悬停暂停 · 移开继续": "Hover to pause · move away to resume"
+  "悬停暂停 · 移开继续": "Hover to pause · move away to resume",
+  "历史经验 → 任务上下文 → 执行动作": "Historical experience → Task context → Actions"
 }
