@@ -9,11 +9,11 @@
     return element;
   };
   const definitions = [
-    {id:"architecture",root:".framework-layout",items:"[data-concept]",detail:".concept-detail",seconds:10},
-    {id:"workflow",root:".implementation-flow",items:"[data-step]",detail:".step-detail",seconds:10},
-    {id:"extensions",root:"#module-explorer-panel",items:".explore-module-button",detail:".explore-content",seconds:12},
-    {id:"retrieval",root:"#retrieval .experiment",items:"[data-mode]",detail:"#query-results",seconds:10},
-    {id:"reproduce",root:"#start",items:"[data-track]",detail:".start-grid",seconds:12,mount:"#start .reproduce-controls"},
+    {id:"architecture",root:".framework-layout",items:"[data-concept]",detail:".concept-detail",seconds:5},
+    {id:"workflow",root:".implementation-flow",items:"[data-step]",detail:".step-detail",seconds:5},
+    {id:"extensions",root:"#module-explorer-panel",items:".explore-module-button",detail:".explore-content",seconds:6},
+    {id:"retrieval",root:"#retrieval .experiment",items:"[data-mode]",detail:"#query-results",seconds:5},
+    {id:"reproduce",root:"#start",items:"[data-track]",detail:".start-grid",seconds:6,mount:"#start .reproduce-controls"},
   ];
   const tours = definitions.map(definition => {
     const root = document.querySelector(definition.root);
