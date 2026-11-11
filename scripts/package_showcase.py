@@ -17,7 +17,7 @@ def stamp_assets():
     page = ROOT / 'showcase/index.html'
     content = page.read_text(encoding='utf-8')
     for attr, name in [('href', 'knowledge-story.css'), ('src', 'knowledge-story.js'), ('href', 'studio.css'), ('src', 'studio.js'),
-                       ('src', 'i18n.js'), ('src', 'app.js'), ('src', 'guide.js'), ('src', 'explore.js'), ('href', 'explore.css'), ('src', 'chapter-tour.js')]:
+                       ('src', 'i18n.js'), ('src', 'app.js'), ('src', 'guide.js'), ('src', 'explore.js'), ('href', 'explore.css'), ('href', 'editorial.css'), ('src', 'chapter-tour.js')]:
         payload = (ROOT / 'showcase' / name).read_bytes().replace(b'\r\n', b'\n')
         if name == 'explore.js':
             payload += (ROOT / 'showcase/explore-data.json').read_bytes().replace(b'\r\n', b'\n')

@@ -24,7 +24,8 @@ GitHub Pages 由 [pages.yml](../.github/workflows/pages.yml) 自动生成源码�
 | --- | --- |
 | `index.html` | 页面章节与 RAG 动画的真实 HTML 元素 |
 | `style.css` · `guide.css` · `theme.css` | 基础布局、交互组件与历史报告样式 |
-| `studio.css` · `studio.js` | 当前浅色章节外观、渐变光晕、首次滚动显现 |
+| `studio.css` · `studio.js` | 章节基础外观、渐变光晕、首次滚动显现 |
+| `editorial.css` · `fonts/` | 整页色彩与字体层级；本地 Inter Tight 字体及 OFL 许可 |
 | `knowledge-story.css` · `knowledge-story.js` | RAG 连续横向动画、阶段跳转与暂停 |
 | `guide-data.json` · `guide.js` | 架构职责、源码映射、业务步骤与复现命令 |
 | `explore-data.json` · `explore.js` · `explore.css` | 12 项能力的扩展资源、深链接与返回清单 |
@@ -43,6 +44,8 @@ GitHub Pages 由 [pages.yml](../.github/workflows/pages.yml) 自动生成源码�
 - 宽屏外框对齐，动画内部保持既有比例；移动端使用简化分镜。修改外框时不要同时改变内部镜头坐标。
 
 ## 更新内容
+
+当前视觉采用暖白页面底色，紫、钴蓝、橙、黄绿色区分章节，信息密集区域保留浅色阅读面。标题使用本地加载的 Inter Tight 搭配系统中文黑体，正文使用系统无衬线字体；代码与文件名使用等宽字体。标题、关键结论、正文、辅助标注分别设置字号、字重与对比度，颜色不作为表达选中、通过或失败的唯一方式。`editorial.css` 集中维护视觉变量，不改变原始证据、内容或轮播时间。
 
 1. 改实现映射或流程：同步 `guide-data.json` 与 `locales/guide.en.json`。
 2. 改可见文字：同步对应英文语言包；切换语言后确认当前模块与筛选仍保留。
