@@ -505,5 +505,6 @@
   "上一项": "Previous item",
   "下一项": "Next item",
   "本板块自动轮播控制": "Section tour controls",
-  "每 {n} 秒切换；悬停暂停，手动选择后暂停。": "Changes every {n} seconds. Hover or manually select an item to pause."
+  "每 {n} 秒切换；悬停暂停，手动选择后暂停。": "Changes every {n} seconds. Hover or manually select an item to pause.",
+  "色彩参考": "Color inspiration"
 }

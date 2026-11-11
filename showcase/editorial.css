@@ -312,3 +312,10 @@ footer>span,footer>a:last-child { color:#686e5d; font-size:12px; }
   .ks-mobile-case,.ks-mobile-task,.ks-mobile-index>div,.ks-mobile-chunks>span,.ks-mobile-path { background:#fffdf7; border-color:#cbd1bc; color:#4d613c; }
   .ks-mobile-prompt { background:#2c3825; border-color:#4c5e3b; }.ks-mobile-prompt p { color:#e0e7cf; }
 }
+
+/* A quiet, bilingual color-design credit at the bottom of the page. */
+body>footer { flex-wrap:wrap; }
+body>footer>a:not(.brand) { color:#686e5d; font-size:12px; }
+.design-credit { flex-basis:100%; order:4; margin:4px 0 0; padding-top:18px; border-top:1px solid #daddce; color:#686e5d; font-size:12px; text-align:center; }
+.design-credit a { color:#4c577d; text-decoration:underline; text-underline-offset:4px; }
+.design-credit a:hover { color:#334cd5; }
